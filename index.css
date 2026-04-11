@@ -411,6 +411,23 @@ h3,
     color: var(--primary);
 }
 
+.contact-notice {
+    margin-top: 1.5rem;
+    color: var(--text-secondary);
+    font-size: 1rem;
+    opacity: 0.8;
+}
+
+.contact-notice strong {
+    color: #25D366;
+    /* WhatsApp Green */
+}
+
+.contact-notice.small {
+    font-size: 0.85rem;
+    margin-top: 0.5rem;
+}
+
 /* Goal Section */
 .goal-section {
     padding: 100px 10%;
