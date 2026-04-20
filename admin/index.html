@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard | Hustle House</title>
+    <link rel="icon"
+        href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🛡️</text></svg>">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="../index.css">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <style>
+        .admin-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 2rem;
+            color: white;
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        .admin-table th,
+        .admin-table td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .admin-table th {
+            background: rgba(255, 255, 255, 0.05);
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .status-badge {
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        .status-pending {
+            background: rgba(251, 191, 36, 0.1);
+            color: #fbbf24;
+            border: 1px solid rgba(251, 191, 36, 0.2);
+        }
+
+        .status-accepted {
+            background: rgba(34, 197, 94, 0.1);
+            color: #22c55e;
+            border: 1px solid rgba(34, 197, 94, 0.2);
+        }
+
+        .status-rejected {
+            background: rgba(239, 68, 68, 0.1);
+            color: #ef4444;
+            border: 1px solid rgba(239, 68, 68, 0.2);
+        }
+
+        .action-btn {
+            background: none;
+            border: 1px solid var(--glass-border);
+            color: white;
+            padding: 6px 10px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .action-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .btn-accept:hover {
+            border-color: #22c55e;
+            color: #22c55e;
+        }
+
+        .btn-reject:hover {
+            border-color: #ef4444;
+            color: #ef4444;
+        }
+
+        .login-box {
+            max-width: 400px;
+            margin: 100px auto;
+            text-align: center;
+        }
+
+        #admin-panel {
+            display: none;
+        }
+
+        .exp-badge {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 0.7rem;
+            margin: 2px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="cursor-glow"></div>
+    <div id="header-container"></div>
+
+    <main style="padding-top: 150px; padding-bottom: 100px;">
+        <div class="container" style="max-width: 1400px;">
+            <!-- Login View -->
+            <div id="login-view" class="login-box glass">
+                <h2 style="margin-bottom: 1.5rem;">Admin Access</h2>
+                <input type="password" id="admin-pass" placeholder="Enter Password"
+                    style="width: 100%; padding: 1rem; border-radius: 12px; border: 1px solid var(--glass-border); background: rgba(5,5,5,0.5); color: white; margin-bottom: 1.5rem; outline: none;">
+                <button onclick="checkAdmin()" class="glow-button"
+                    style="width: 100%; border: none; cursor: pointer; justify-content: center;">Authorize</button>
+            </div>
+
+            <!-- Admin Panel View -->
+            <div id="admin-panel">
+                <div class="section-header"
+                    style="text-align: left; margin-bottom: 3rem; display: flex; justify-content: space-between; align-items: flex-end;">
+                    <div>
+                        <h1 class="section-title">Hustle <span class="gradient-text">Network</span></h1>
+                        <p class="section-subtitle" style="margin: 0;">Manage applications and talent onboarding.</p>
+                    </div>
+                    <button onclick="fetchApplications()" class="action-btn">🔄 Refresh</button>
+                </div>
+
+                <div id="loading" style="text-align: center; padding: 2rem; color: var(--text-secondary);">Fetching
+                    data...</div>
+
+                <div style="overflow-x: auto;">
+                    <table class="admin-table">
+                        <thead>
+                            <tr>
+                                <th>Name / Roll</th>
+                                <th>Status</th>
+                                <th>Expertise</th>
+                                <th>Grad / Address</th>
+                                <th>Links</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="applications-body">
+                            <!-- Data injected here -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <div id="footer-container"></div>
+
+    <script src="../components.js"></script>
+    <script src="../supabase.js"></script>
+    <script>
+        const ADMIN_PWD = "HH@KGP#123";
+
+        function checkAdmin() {
+            const pass = document.getElementById('admin-pass').value;
+            if (pass.trim() === ADMIN_PWD) {
+                document.getElementById('login-view').style.display = 'none';
+                document.getElementById('admin-panel').style.display = 'block';
+                fetchApplications();
+            } else {
+                alert("Unauthorized access denied.");
+            }
+        }
+
+        async function updateStatus(id, newStatus) {
+            console.log('Updating ID:', id, 'to:', newStatus);
+            if (!id) return alert("Invalid Application ID");
+
+            try {
+                // IMPORTANT: Ensure you have run the UPDATE policy in Supabase SQL editor
+                const { data, error } = await db
+                    .from('hh_onboarding')
+                    .update({ status: newStatus })
+                    .eq('id', id)
+                    .select(); // Calling .select() ensures we get feedback
+
+                if (error) {
+                    console.error('Supabase Error:', error);
+                    throw error;
+                }
+
+                console.log('Update Successful:', data);
+                fetchApplications(); // Refresh list
+            } catch (err) {
+                console.error('System Update Error:', err);
+                alert("Update failed. Make sure the 'Enable update for all users' policy is active in Supabase.");
+            }
+        }
+
+        async function fetchApplications() {
+            const body = document.getElementById('applications-body');
+            const loading = document.getElementById('loading');
+            loading.style.display = 'block';
+
+            try {
+                const { data, error } = await db
+                    .from('hh_onboarding')
+                    .select('*')
+                    .order('created_at', { ascending: false });
+
+                if (error) throw error;
+
+                loading.style.display = 'none';
+
+                if (data.length === 0) {
+                    body.innerHTML = `<tr><td colspan="6" style="text-align:center; padding: 3rem;">No applications found yet.</td></tr>`;
+                    return;
+                }
+
+                body.innerHTML = data.map(app => {
+                    const expertiseBadges = (app.expertise || '').split(',').map(ex => `<span class="exp-badge">${ex}</span>`).join('');
+
+                    return `
+                    <tr>
+                        <td>
+                            <div style="font-weight: 700;">${app.full_name}</div>
+                            <div style="font-size: 0.8rem; color: var(--text-secondary);">${app.roll_number || 'N/A'}</div>
+                        </td>
+                        <td>
+                            <span class="status-badge status-${app.status}">${app.status || 'pending'}</span>
+                        </td>
+                        <td>
+                            <div style="display: flex; flex-wrap: wrap; max-width: 250px;">
+                                ${expertiseBadges || '<span class="exp-badge">N/A</span>'}
+                            </div>
+                        </td>
+                        <td style="font-size: 0.85rem;">
+                             <div style="color: var(--accent);">Class of ${app.grad_year || '?'}</div>
+                             <div style="color: var(--text-secondary);">${app.address || '?'}</div>
+                        </td>
+                        <td style="display: flex; gap: 0.8rem;">
+                            <a href="https://wa.me/91${app.whatsapp ? app.whatsapp.replace(/\+/g, '') : ''}" target="_blank" style="color: #25d366; text-decoration: none; font-size: 1.1rem;">💬</a>
+                            <a href="${app.portfolio}" target="_blank" style="color: var(--primary); text-decoration: none; font-size: 1.1rem;">🌐</a>
+                            <a href="${app.linkedin_url}" target="_blank" style="color: #0077b5; text-decoration: none; font-size: 1.1rem;">🔗</a>
+                        </td>
+                        <td>
+                            <div style="display: flex; gap: 0.5rem;">
+                                <button onclick="updateStatus('${app.id}', 'accepted')" class="action-btn btn-accept" title="Accept">✅</button>
+                                <button onclick="updateStatus('${app.id}', 'rejected')" class="action-btn btn-reject" title="Reject">❌</button>
+                            </div>
+                        </td>
+                    </tr>
+                `}).join('');
+
+            } catch (error) {
+                console.error('Fetch error:', error);
+                loading.innerText = 'Error loading data from orbit.';
+            }
+        }
+    </script>
+</body>
+
+</html>

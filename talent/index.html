@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Find Talent | Vetted IIT KGP Specialists | Hustle House</title>
+    <link rel="icon"
+        href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>👨‍💻</text></svg>">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="../index.css">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+
+<body>
+    <div class="cursor-glow"></div>
+    <div id="header-container"></div>
+
+    <main style="padding-top: 150px; padding-bottom: 100px;">
+        <section class="section">
+            <div class="container">
+                <div class="section-header">
+                    <div class="badge fade-in">1% KGP Merit</div>
+                    <h1 class="section-title">The <span class="gradient-text">Hustle Network.</span></h1>
+                    <p class="section-subtitle">Vetted specialists ready to anchor your 14-day sprints. No middlemen,
+                        just direct talent.</p>
+                </div>
+
+                <!-- Portfolio Filters -->
+                <div class="filters"
+                    style="display: flex; justify-content: center; gap: 1rem; margin-bottom: 60px; flex-wrap: wrap;">
+                    <button class="filter-pill active" data-filter="all">All Specialties</button>
+                    <button class="filter-pill" data-filter="web-dev">Web Development</button>
+                    <button class="filter-pill" data-filter="seo">SEO & Growth</button>
+                    <button class="filter-pill" data-filter="ai-automation">AI Automation</button>
+                    <button class="filter-pill" data-filter="design">Design</button>
+                    <button class="filter-pill" data-filter="video">Video Editing</button>
+                </div>
+
+                <div id="loading-state" style="text-align: center; padding: 4rem; color: var(--text-secondary);">
+                    Searching the house for talent...
+                </div>
+
+                <div id="talent-grid" class="talent-grid"
+                    style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 2.5rem;">
+                    <!-- Dynamic Talent Cards Injected Here -->
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <div id="footer-container"></div>
+
+    <script src="../components.js"></script>
+    <script src="../supabase.js"></script>
+    <script src="../main.js"></script>
+</body>
+
+</html>

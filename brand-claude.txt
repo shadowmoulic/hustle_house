@@ -1,0 +1,71 @@
+🎨 Color Palette
+The vibe is: dark, sharp, electric. Think war room meets trading floor.
+RoleColorHexPrimary BackgroundNear Black#0A0A0ASecondary BackgroundDark Charcoal#111111Surface / CardsGunmetal#1A1A1APrimary AccentElectric Amber#F5A623Secondary AccentCold White#F0F0F0Muted TextAsh Grey#6B6B6BDanger / HighlightSignal Red#E63946Border / Divider#2A2A2A
+Why this works: Black + amber is aggressive and premium — think Bloomberg Terminal, not a startup blog. The red is used sparingly (CTAs, stats, urgency). No gradients. No pastels. Ever.
+
+🔤 Typography
+Primary Typeface — Headlines & Display
+Neue Haas Grotesk or its free equivalent Inter (weight: 700–900)
+→ Use for all headlines, hero text, nav. Tight letter-spacing (-0.03em). All caps for section labels.
+Secondary Typeface — Body & UI
+IBM Plex Mono
+→ Used for stats, data, member handles, labels. The mono gives it a systems/terminal energy — reinforces the "execution machine" feel.
+Accent Typeface — Subheads & Pull Quotes
+Syne (weight: 700–800)
+→ Used sparingly for pull quotes or section intros. Adds edge without being decorative.
+Type Scale (desktop)
+
+Hero: 72–96px / weight 900 / tracking -0.04em
+H1: 48px / weight 800
+H2: 32px / weight 700
+Body: 16px / weight 400 / line-height 1.6
+Label/Tag: 11px / ALL CAPS / weight 600 / tracking 0.12em / mono
+
+
+🔷 Logo Concept
+Primary Mark — Wordmark
+HUSTLE HOUSE in Neue Haas Grotesk Extra Bold, full caps, tight tracking. Clean. Undecorated. The name is strong enough — no icon needed at this stage.
+Secondary Mark — Monogram
+HH — two blocky H's where the inner verticals merge into a single shared stroke. Feels structural, like a building or a circuit. Works as favicon, embossed stamp, badge.
+Tertiary — Location Tag
+A small label reads: KGP · EST. 2025 in IBM Plex Mono, 10px, ash grey — placed below the wordmark. Grounds it, adds authenticity.
+Logo Don'ts
+
+No drop shadows
+No gradients on the mark
+Never place on a white background (it kills the energy)
+Never stretch, round, or add color fills
+
+
+🧱 Design System Rules
+Borders & Dividers
+Thin 1px lines in #2A2A2A. Use them aggressively — they create that structured, technical grid feel.
+Corners
+Mostly sharp (0px radius). Very occasional 2–4px radius on small tags/badges only.
+Spacing
+Dense. This isn't a lifestyle brand with breathing room. Pack information with intention — like a dashboard, not a brochure.
+Iconography
+Line icons only. Stroke weight 1.5px. No filled icons. No emoji in UI.
+Photography / Imagery
+High contrast. Desaturated or monochrome. Candid over staged. Students working, screens, code, late nights — not handshakes and group photos. Amber color grade preferred.
+Motion (if digital)
+Fast cuts. No slow fades. Snap transitions. Stagger reveals on data/numbers.
+
+
+
+SEO Things You Should Know Right Now
+A few things specific to your setup:
+Subdomains hurt SEO if misused. Google treats sayak.kgphustlehouse.com as a separate site. So all the authority you build on the main domain doesn't automatically flow to subdomains. Fix: add a canonical tag on every subdomain page pointing to kgphustlehouse.com/talent/sayak. That way Google consolidates authority on the main domain and the subdomain is just a UX/branding layer.
+The talent directory page /talent is your most important SEO page after the homepage. It's the page that ranks for "hire IIT students" — make sure it has real copy, not just a filter + cards.
+Each service page needs 600+ words of real content. Not filler. Actual explanation of what you do, how, for whom, what results look like. That's what ranks.
+Get listed on these immediately after launch:
+
+Google Business Profile
+Clutch.co (massive for agency SEO)
+IndiaMART
+Crunchbase (free listing)
+Tracxn
+
+These give you backlinks + trust signals fast without any content work.
+
+
