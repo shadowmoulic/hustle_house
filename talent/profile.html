@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sayak K. | SEO STRATEGIST · IIT KGP | Hustle House</title>
+    <title>Member Profile | Hustle House · KGP</title>
     <link rel="icon"
         href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🏠</text></svg>">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -12,7 +12,7 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap"
         rel="stylesheet">
-    <link rel="stylesheet" href="../../index.css">
+    <link rel="stylesheet" href="../index.css">
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 
@@ -23,25 +23,23 @@
     <main class="profile-container">
         <!-- Top Section -->
         <div class="profile-header">
-            <div class="avatar-circle">SK</div>
-            <div class="status-indicator status-available">
+            <div class="avatar-circle" id="member-initials">--</div>
+            <div class="status-indicator status-available" id="member-status">
                 <div class="status-dot"></div>
                 <span>Available</span>
             </div>
         </div>
 
         <div class="profile-intro">
-            <h1 class="profile-name">Sayak K.</h1>
-            <div class="profile-role-line">SEO STRATEGIST · IIT KHARAGPUR</div>
-            <p class="profile-bio-line">I help startups rank on Google. No fluff.</p>
+            <h1 class="profile-name" id="member-name">Loading...</h1>
+            <div class="profile-role-line" id="member-role-line">ROLE · IIT KHARAGPUR</div>
+            <p class="profile-bio-line" id="member-one-liner">One line bio loading...</p>
 
-            <div class="tags-group">
-                <span class="mono-tag">Technical SEO</span>
-                <span class="mono-tag">Content</span>
-                <span class="mono-tag">Link Building</span>
+            <div class="tags-group" id="member-tags">
+                <!-- Tags added here -->
             </div>
 
-            <div class="projects-delivered">3 projects delivered</div>
+            <div class="projects-delivered" id="member-projects-count">0 projects delivered</div>
         </div>
 
         <div class="section-divider"></div>
@@ -49,10 +47,8 @@
         <!-- What I Do -->
         <div class="profile-section">
             <span class="profile-section-label">// WHAT I DO</span>
-            <p class="what-i-do-text">
-                I handle technical SEO and content strategy for early-stage startups. I've taken sites from zero traffic
-                to consistent monthly organic growth. I work through KGP Hustle House — all projects are managed and
-                invoiced through them.
+            <p class="what-i-do-text" id="member-full-bio">
+                Bio loading content here...
             </p>
         </div>
 
@@ -61,38 +57,8 @@
         <!-- Proof Section -->
         <div class="profile-section">
             <span class="profile-section-label">// PROOF</span>
-            <div class="proof-grid">
-                <!-- Project 1 -->
-                <div class="proof-card">
-                    <span class="proof-client">B2B SaaS / FinTech</span>
-                    <h3 class="proof-title">Organic Growth Engine</h3>
-
-                    <span class="proof-label">What I did:</span>
-                    <p class="proof-content">Built a semantic content hub and fixed core technical debt on a legacy
-                        domain.</p>
-
-                    <span class="proof-label">Result:</span>
-                    <div class="proof-result">0 → 4,200</div>
-                    <p class="proof-result-desc">monthly visits in 4 months</p>
-
-                    <a href="#" class="proof-link">View proof ↗</a>
-                </div>
-
-                <!-- Project 2 -->
-                <div class="proof-card">
-                    <span class="proof-client">Marketplace / E-commerce</span>
-                    <h3 class="proof-title">Technical Audit & Recovery</h3>
-
-                    <span class="proof-label">What I did:</span>
-                    <p class="proof-content">Resolved canonical conflicts and improved page speed for 500+ product
-                        pages.</p>
-
-                    <span class="proof-label">Result:</span>
-                    <div class="proof-result">25% Uplift</div>
-                    <p class="proof-result-desc">in indexed pages within 3 weeks</p>
-
-                    <a href="#" class="proof-link">View proof ↗</a>
-                </div>
+            <div class="proof-grid" id="member-proof">
+                <!-- Proof cards added here -->
             </div>
         </div>
 
@@ -101,12 +67,8 @@
         <!-- Tools Section -->
         <div class="profile-section">
             <span class="profile-section-label">// TOOLS I USE</span>
-            <div class="tags-group">
-                <span class="mono-tag">Search Console</span>
-                <span class="mono-tag">Ahrefs</span>
-                <span class="mono-tag">Screaming Frog</span>
-                <span class="mono-tag">Zapier</span>
-                <span class="mono-tag">Notion</span>
+            <div class="tags-group" id="member-tools">
+                <!-- Tool tags added here -->
             </div>
         </div>
 
@@ -140,12 +102,12 @@
         <!-- Book A Call -->
         <div class="profile-section">
             <div class="cta-box">
-                <h2>Free 20-min scoping call with Sayak</h2>
-                <p>SEO Strategist · IIT Kharagpur</p>
-                <div class="cta-price">Typical projects from $300</div>
+                <h2 id="member-cta-title">Free 20-min scoping call with NAME</h2>
+                <p id="member-cta-subtitle">ROLE · IIT Kharagpur</p>
+                <div class="cta-price" id="member-price">Typical projects from $X</div>
                 <p style="font-size: 0.85rem; margin-bottom: 2rem; opacity: 0.7;">Managed and invoiced through KGP
                     Hustle House</p>
-                <a href="https://cal.com/kgphustlehouse/seo" class="glow-button">Book Your Call →</a>
+                <a href="#" class="glow-button" id="member-cta-button">Book Your Call →</a>
             </div>
         </div>
 
@@ -157,9 +119,9 @@
 
     <div id="footer-container"></div>
 
-    <script src="../../components.js"></script>
-    <script src="../../supabase.js"></script>
-    <script src="../../main.js"></script>
+    <script src="../components.js"></script>
+    <script src="../supabase.js"></script>
+    <script src="../profile-logic.js"></script>
 </body>
 
 </html>

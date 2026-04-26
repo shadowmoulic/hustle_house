@@ -1297,6 +1297,7 @@ footer p {
         font-size: 2.5rem;
     }
 }
+
 /* Filter Pills */
 .filter-pill {
     padding: 0.75rem 1.75rem;
@@ -1326,4 +1327,335 @@ footer p {
 
 .talent-card {
     transition: transform 0.4s ease, opacity 0.4s ease;
+}
+
+/* Ticker Bar */
+.ticker-wrap {
+    width: 100%;
+    overflow: hidden;
+    background: rgba(255, 255, 255, 0.02);
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    padding: 1.5rem 0;
+    margin-top: 6rem;
+}
+
+.ticker {
+    display: flex;
+    white-space: nowrap;
+    animation: ticker 40s linear infinite;
+}
+
+.ticker-item {
+    display: inline-block;
+    padding: 0 4rem;
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: var(--text-secondary);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}
+
+@keyframes ticker {
+    0% {
+        transform: translateX(0);
+    }
+
+    100% {
+        transform: translateX(-50%);
+    }
+}
+
+/* Comparison Table */
+.comparison-table th {
+    font-family: 'Outfit', sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-size: 0.8rem;
+}
+
+.comparison-table td {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 1.05rem;
+}
+
+.comparison-table tr:hover td {
+    background: rgba(255, 255, 255, 0.02);
+}
+
+/* Search Bar */
+.search-container input:focus {
+    outline: none;
+    border-color: var(--primary);
+    background: rgba(255, 255, 255, 0.05);
+    box-shadow: 0 0 20px rgba(99, 102, 241, 0.2);
+}
+
+/* Responsive Stats */
+@media (max-width: 768px) {
+    .stats-row .container {
+        grid-template-columns: 1fr 1fr !important;
+        gap: 1.5rem !important;
+    }
+
+    .process-grid {
+        grid-template-columns: 1fr !important;
+        gap: 2rem !important;
+    }
+
+    .ticker-item {
+        padding: 0 2rem;
+        font-size: 0.75rem;
+    }
+}
+
+/* Member Profile Styles */
+.profile-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 120px 5% 80px;
+}
+
+.profile-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 3rem;
+}
+
+.avatar-circle {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #1a1a1a, #333);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: white;
+    border: 1px solid var(--glass-border);
+}
+
+.status-indicator {
+    font-size: 0.85rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.status-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+}
+
+.status-available {
+    color: #4ade80;
+}
+
+.status-available .status-dot {
+    background: #4ade80;
+    box-shadow: 0 0 10px #4ade80;
+}
+
+.status-busy {
+    color: #f87171;
+}
+
+.status-busy .status-dot {
+    background: #f87171;
+}
+
+.profile-name {
+    font-size: 2.5rem;
+    margin-bottom: 0.5rem;
+    letter-spacing: -1px;
+}
+
+.profile-role-line {
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: var(--primary);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 1.5rem;
+}
+
+.profile-bio-line {
+    font-size: 1.1rem;
+    color: var(--text-secondary);
+    margin-bottom: 2rem;
+    max-width: 500px;
+    line-height: 1.5;
+}
+
+.mono-tag {
+    font-family: 'JetBrains Mono', 'Fira Code', monospace;
+    font-size: 0.75rem;
+    background: rgba(255, 255, 255, 0.05);
+    padding: 0.4rem 0.8rem;
+    border-radius: 4px;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.tags-group {
+    display: flex;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+    margin-bottom: 1.5rem;
+}
+
+.projects-delivered {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    opacity: 0.8;
+}
+
+.section-divider {
+    height: 1px;
+    background: rgba(255, 255, 255, 0.05);
+    margin: 4rem 0;
+}
+
+.profile-section-label {
+    font-family: 'Outfit', sans-serif;
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 3px;
+    color: white;
+    margin-bottom: 2.5rem;
+    display: block;
+}
+
+.what-i-do-text {
+    font-size: 1.1rem;
+    line-height: 1.8;
+    color: var(--text-secondary);
+}
+
+.proof-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+}
+
+.proof-card {
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    padding: 2rem;
+    border-radius: 12px;
+    transition: var(--transition);
+}
+
+.proof-card:hover {
+    background: rgba(255, 255, 255, 0.04);
+    border-color: rgba(255, 255, 255, 0.1);
+}
+
+.proof-client {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    margin-bottom: 1.5rem;
+    display: block;
+}
+
+.proof-title {
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+}
+
+.proof-label {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--text-secondary);
+    margin-bottom: 0.5rem;
+    display: block;
+}
+
+.proof-content {
+    font-size: 0.95rem;
+    margin-bottom: 1.5rem;
+    color: white;
+}
+
+.proof-result {
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: var(--accent);
+    margin-bottom: 0.5rem;
+}
+
+.proof-result-desc {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    margin-bottom: 1.5rem;
+}
+
+.proof-link {
+    color: white;
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+.expectation-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.expectation-item {
+    display: flex;
+    gap: 2rem;
+    align-items: center;
+}
+
+.expectation-num {
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: rgba(255, 255, 255, 0.1);
+}
+
+.expectation-text {
+    font-size: 1rem;
+    color: var(--text-secondary);
+}
+
+.cta-box {
+    background: linear-gradient(145deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0.01));
+    border: 1px solid var(--glass-border);
+    padding: 4rem 2rem;
+    border-radius: 20px;
+    text-align: center;
+}
+
+.cta-box h2 {
+    font-size: 1.8rem;
+    margin-bottom: 0.5rem;
+}
+
+.cta-box p {
+    color: var(--text-secondary);
+    margin-bottom: 2rem;
+}
+
+.cta-price {
+    font-size: 0.9rem;
+    color: white;
+    margin-bottom: 2rem;
+    display: block;
+}
+
+.fine-print {
+    text-align: center;
+    color: var(--text-secondary);
+    font-size: 0.8rem;
+    margin-top: 4rem;
+    opacity: 0.5;
 }

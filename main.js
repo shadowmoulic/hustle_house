@@ -43,29 +43,31 @@ async function fetchTalent() {
             const specialties = (member.expertise || '').split(',');
             const mainSpecialty = specialties[0] || 'hacker';
             const slug = generateSlug(member.full_name);
+            const initials = member.full_name.split(' ').map(n => n[0]).join('').toUpperCase();
 
             return `
-            <div class="talent-card glass fade-in" data-expertise="${member.expertise}">
+            <div class="talent-card glass fade-in" data-expertise="${member.expertise}" style="padding: 0; overflow: hidden;">
                 <a href="/talent/${slug}" style="text-decoration: none; color: inherit; display: block;">
-                    <div class="talent-image-placeholder" style="height: 250px; background: linear-gradient(135deg, rgba(99,102,241,0.1), rgba(168,85,247,0.1)); display: flex; align-items: center; justify-content: center; font-size: 4rem; border-bottom: 1px solid var(--glass-border);">
-                        ${getExpertiseEmoji(mainSpecialty)}
+                    <div class="card-header-visual" style="height: 120px; background: linear-gradient(135deg, #1a1a1a, #333); display: flex; align-items: center; justify-content: center; font-size: 2.5rem; font-weight: 700; color: rgba(255,255,255,0.05); border-bottom: 1px solid var(--glass-border);">
+                        ${initials}
                     </div>
                 </a>
                 <div class="talent-info" style="padding: 2rem;">
                     <div style="display: flex; gap: 5px; flex-wrap: wrap; margin-bottom: 0.5rem;">
-                        ${specialties.map(s => `<span style="color: var(--primary); font-weight: 800; font-size: 0.65rem; text-transform: uppercase; letter-spacing: 1px;">#${s.replace('-', '')}</span>`).join(' ')}
+                        ${specialties.map(s => `<span style="color: var(--primary); font-weight: 800; font-size: 0.65rem; text-transform: uppercase; letter-spacing: 1px;">#${s.trim().replace('-', '')}</span>`).join(' ')}
                     </div>
                     <a href="/talent/${slug}" style="text-decoration: none; color: inherit;">
-                        <h3 style="font-size: 1.8rem; margin: 0.5rem 0; color: white;">${member.full_name}</h3>
+                        <h3 style="font-size: 1.5rem; margin: 0.5rem 0; color: white;">${member.full_name}</h3>
                     </a>
-                    <p style="color: var(--text-secondary); font-size: 0.95rem; line-height: 1.6; margin-bottom: 1.5rem; height: 3.2em; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;">${member.bio}</p>
+                    <div class="talent-role" style="font-size: 0.75rem; color: var(--primary); letter-spacing: 1px; font-weight: 700; margin-bottom: 1rem; text-transform: uppercase;">Technical Specialist · IIT KGP</div>
+                    <p style="color: var(--text-secondary); font-size: 0.9rem; line-height: 1.6; margin-bottom: 1.5rem; height: 3.2em; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;">${member.bio}</p>
                     
                     <div style="display: flex; justify-content: space-between; align-items: center; padding-top: 1.5rem; border-top: 1px solid rgba(255,255,255,0.05);">
                          <div style="display: flex; gap: 1rem;">
                             <a href="${member.portfolio}" target="_blank" style="color: white; opacity: 0.6; transition: 0.3s;" onmouseover="this.style.opacity=1" onmouseout="this.style.opacity=0.6" title="Portfolio">🌐</a>
                             <a href="${member.linkedin_url}" target="_blank" style="color: white; opacity: 0.6; transition: 0.3s;" onmouseover="this.style.opacity=1" onmouseout="this.style.opacity=0.6" title="LinkedIn">🔗</a>
                         </div>
-                        <a href="/talent/${slug}" class="secondary-btn" style="padding: 0.5rem 1rem; font-size: 0.8rem; margin: 0;">Start Sprint</a>
+                        <a href="/talent/${slug}" style="color: white; text-decoration: none; font-weight: 600; font-size: 0.9rem;">View Profile →</a>
                     </div>
                 </div>
             </div>
@@ -79,18 +81,6 @@ async function fetchTalent() {
         console.error('Fetch error:', err);
         loading.innerHTML = `<p style="color: #ef4444;">HH connection lost. Check back shortly.</p>`;
     }
-}
-
-function getExpertiseEmoji(expertise) {
-    const emojis = {
-        'web-dev': '💻',
-        'seo': '🚀',
-        'ai-automation': '🧠',
-        'design': '🎨',
-        'video': '🎬',
-        'marketing': '📈'
-    };
-    return emojis[expertise] || '✨';
 }
 
 // 2. Portfolio/Talent Filtering Logic (Supports Multi-Specialty)
@@ -135,7 +125,7 @@ async function initContactForm() {
     const talentName = urlParams.get('talent');
     if (talentName) {
         const msgField = contactForm.querySelector('textarea');
-        if (msgField) msgField.value = `I want to start a sprint with ${talentName}. My project goal is...`;
+        if (msgField) msgField.value = `I'm interested in working with ${talentName}. My project goal is...`;
     }
 
     contactForm.addEventListener('submit', async (e) => {
@@ -151,7 +141,7 @@ async function initContactForm() {
         try {
             const { error } = await db.from('hh_leads').insert([data]);
             if (error) throw error;
-            alert('Signal received. The founder will contact you on WhatsApp shortly.');
+            alert('Signal received. We will contact you on WhatsApp shortly.');
             contactForm.reset();
         } catch (err) {
             console.error('Submission error:', err);
@@ -162,6 +152,7 @@ async function initContactForm() {
         }
     });
 }
+
 
 // 4. Cursor Glow
 document.addEventListener('mousemove', (e) => {

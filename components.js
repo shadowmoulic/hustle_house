@@ -7,11 +7,11 @@ const headerHTML = `
     <nav class="navbar">
         <div class="logo">
             <a href="/" style="text-decoration: none;">
-                <span class="logo-hustle">HUSTLE</span><span class="logo-house">HOUSE</span>
+                <span class="logo-hustle">HUSTLE HOUSE</span><span class="logo-house"> · KGP</span>
             </a>
         </div>
         <div class="nav-links">
-            <a href="/talent">Find Talent</a>
+            <a href="/talent">Talent</a>
             <div class="nav-item">
                 <a href="/services">Services ▾</a>
                 <div class="dropdown-menu">
@@ -23,8 +23,9 @@ const headerHTML = `
                     <a href="/services/digital-marketing">Digital Marketing</a>
                 </div>
             </div>
-            <a href="/how-it-works">How it Works</a>
-            <a href="/contact" class="join-btn">Hire Us</a>
+            <a href="/how-it-works">How It Works</a>
+            <a href="/onboarding">Join Network</a>
+            <a href="/contact" class="join-btn">Hire Us →</a>
         </div>
         <button class="hamburger" id="hamburger-btn">
             <span></span>
@@ -33,11 +34,11 @@ const headerHTML = `
         </button>
     </nav>
     <div class="mobile-menu" id="mobile-menu">
-        <a href="/talent">Find Talent</a>
+        <a href="/talent">Talent</a>
         <a href="/services">Services</a>
-        <a href="/how-it-works">How it Works</a>
-        <a href="/onboarding" class="join-btn">Join Network</a>
-        <a href="/contact" class="join-btn" style="background: white; color: black !important; margin-top: 1rem;">Hire Us</a>
+        <a href="/how-it-works">How It Works</a>
+        <a href="/onboarding">Join Network</a>
+        <a href="/contact" class="join-btn">Hire Us →</a>
     </div>
 `;
 
@@ -47,9 +48,9 @@ const footerHTML = `
             <div class="footer-grid">
                 <div class="footer-brand">
                     <div class="logo small">
-                        <span class="logo-hustle">HUSTLE</span><span class="logo-house">HOUSE</span>
+                        <span class="logo-hustle">HUSTLE HOUSE</span><span class="logo-house"> · KGP</span>
                     </div>
-                    <p>The elite IIT Kharagpur creator community. We build, grow, and automate for global businesses.</p>
+                    <p>Built by IIT Kharagpur students. Delivering for global clients.</p>
                 </div>
                 <div class="footer-column">
                     <h4>Services</h4>
@@ -64,23 +65,21 @@ const footerHTML = `
                     <h4>Talent</h4>
                     <ul>
                         <li><a href="/talent">Browse Talent</a></li>
-                        <li><a href="/talent/sayak">SEO Expert</a></li>
-                        <li><a href="/talent/rahul">Web Dev Expert</a></li>
                         <li><a href="/onboarding">Join Network</a></li>
                     </ul>
                 </div>
                 <div class="footer-column">
                     <h4>Company</h4>
                     <ul>
-                        <li><a href="/about">About Us</a></li>
-                        <li><a href="/how-it-works">How it Works</a></li>
+                        <li><a href="/about">About</a></li>
+                        <li><a href="/how-it-works">How It Works</a></li>
                         <li><a href="/pricing">Pricing</a></li>
-                        <li><a href="/privacy">Privacy</a> | <a href="/terms">Terms</a></li>
+                        <li><a href="/privacy">Privacy · Terms</a></li>
                     </ul>
                 </div>
             </div>
             <div class="footer-bottom">
-                <p>&copy; 2026 Hustle House. Built for the ambitious students of IIT Kharagpur.</p>
+                <p>&copy; 2026 KGP Hustle House</p>
                 <div class="footer-links">
                     <a href="/contact" style="margin-left: 20px;">Support</a>
                 </div>
@@ -88,6 +87,7 @@ const footerHTML = `
         </div>
     </footer>
 `;
+
 
 function injectComponents() {
     const headerContainer = document.getElementById('header-container');
