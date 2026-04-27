@@ -12,6 +12,7 @@ export default function middleware(req) {
     // Check if we are on a subdomain
     const isSubdomain = hostname.includes(`.${rootDomain}`) || (hostname.includes(`.localhost`) && hostname.split('.').length > 1);
 
+    // 1. Handle Subdomain Routing (sayak.kgphustlehouse.com)
     if (isSubdomain) {
         const subdomain = hostname.split('.')[0];
 
@@ -20,9 +21,22 @@ export default function middleware(req) {
             return;
         }
 
-        // Rewrite to the talent profile page
-        // sayak.kgphustlehouse.com/ -> kgphustlehouse.com/talent/sayak
-        // sayak.kgphustlehouse.com/portfolio -> kgphustlehouse.com/talent/sayak/portfolio
-        return Response.rewrite(new URL(`/talent/${subdomain}${url.pathname}`, req.url));
+        // Bypass rewrites for files/assets
+        if (url.pathname.includes('.')) {
+            return;
+        }
+
+        // Rewrite to the dynamic talent profile page
+        return Response.rewrite(new URL(`/talent/profile.html`, req.url));
+    }
+
+    // 2. Handle Path-based Routing (kgphustlehouse.com/talent/sayak)
+    if (url.pathname.startsWith("/talent/")) {
+        const pathParts = url.pathname.split('/').filter(p => p !== "");
+
+        // If it's exactly /talent/slug and not an asset
+        if (pathParts.length === 2 && !pathParts[1].includes('.')) {
+            return Response.rewrite(new URL(`/talent/profile.html`, req.url));
+        }
     }
 }

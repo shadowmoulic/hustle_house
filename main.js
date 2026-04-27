@@ -22,10 +22,9 @@ async function fetchTalent() {
 
     try {
         const { data, error } = await db
-            .from('hh_onboarding')
+            .from('HH_profiles')
             .select('*')
-            .eq('status', 'accepted')
-            .order('created_at', { ascending: false });
+            .order('rating', { ascending: false });
 
         if (error) throw error;
 
@@ -40,37 +39,37 @@ async function fetchTalent() {
         }
 
         grid.innerHTML = data.map(member => {
-            const specialties = (member.expertise || '').split(',');
-            const mainSpecialty = specialties[0] || 'hacker';
-            const slug = generateSlug(member.full_name);
+            const specialties = (member.skills || member.role || '').split(',');
             const initials = member.full_name.split(' ').map(n => n[0]).join('').toUpperCase();
+            const accentColor = member.primary_color || '#F5A623';
+            const slug = member.slug;
 
             return `
-            <div class="talent-card glass fade-in" data-expertise="${member.expertise}" style="padding: 0; overflow: hidden;">
-                <a href="/talent/${slug}" style="text-decoration: none; color: inherit; display: block;">
-                    <div class="card-header-visual" style="height: 120px; background: linear-gradient(135deg, #1a1a1a, #333); display: flex; align-items: center; justify-content: center; font-size: 2.5rem; font-weight: 700; color: rgba(255,255,255,0.05); border-bottom: 1px solid var(--glass-border);">
+            <a href="/talent/${slug}" class="talent-card-link" style="text-decoration: none; color: inherit; display: block; margin-bottom: 2.5rem;">
+                <div class="talent-card fade-in" data-expertise="${member.skills || member.role}" 
+                     style="background: #111; border: 1px solid #2A2A2A; padding: 0; overflow: hidden; transition: all 0.3s ease; position: relative; height: 100%;">
+                    <div class="card-header-visual" style="height: 140px; background: #0A0A0A; display: flex; align-items: center; justify-content: center; font-size: 3rem; font-weight: 900; color: rgba(255,255,255,0.03); border-bottom: 1px solid #2A2A2A; position: relative;">
                         ${initials}
+                        <div style="position: absolute; bottom: 10px; right: 15px; font-family: 'JetBrains Mono', monospace; font-size: 0.65rem; color: #444;">ID/HH-${member.id.substring(0, 4)}</div>
                     </div>
-                </a>
-                <div class="talent-info" style="padding: 2rem;">
-                    <div style="display: flex; gap: 5px; flex-wrap: wrap; margin-bottom: 0.5rem;">
-                        ${specialties.map(s => `<span style="color: var(--primary); font-weight: 800; font-size: 0.65rem; text-transform: uppercase; letter-spacing: 1px;">#${s.trim().replace('-', '')}</span>`).join(' ')}
-                    </div>
-                    <a href="/talent/${slug}" style="text-decoration: none; color: inherit;">
-                        <h3 style="font-size: 1.5rem; margin: 0.5rem 0; color: white;">${member.full_name}</h3>
-                    </a>
-                    <div class="talent-role" style="font-size: 0.75rem; color: var(--primary); letter-spacing: 1px; font-weight: 700; margin-bottom: 1rem; text-transform: uppercase;">Technical Specialist · IIT KGP</div>
-                    <p style="color: var(--text-secondary); font-size: 0.9rem; line-height: 1.6; margin-bottom: 1.5rem; height: 3.2em; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;">${member.bio}</p>
-                    
-                    <div style="display: flex; justify-content: space-between; align-items: center; padding-top: 1.5rem; border-top: 1px solid rgba(255,255,255,0.05);">
-                         <div style="display: flex; gap: 1rem;">
-                            <a href="${member.portfolio}" target="_blank" style="color: white; opacity: 0.6; transition: 0.3s;" onmouseover="this.style.opacity=1" onmouseout="this.style.opacity=0.6" title="Portfolio">🌐</a>
-                            <a href="${member.linkedin_url}" target="_blank" style="color: white; opacity: 0.6; transition: 0.3s;" onmouseover="this.style.opacity=1" onmouseout="this.style.opacity=0.6" title="LinkedIn">🔗</a>
+                    <div class="talent-info" style="padding: 2rem;">
+                        <div style="display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 1rem;">
+                            ${specialties.slice(0, 3).map(s => `<span style="font-family: 'JetBrains Mono', monospace; color: ${accentColor}; font-weight: 700; font-size: 0.6rem; text-transform: uppercase; letter-spacing: 1px; border: 1px solid ${accentColor}33; padding: 2px 6px; background: ${accentColor}0D;">${s.trim()}</span>`).join('')}
                         </div>
-                        <a href="/talent/${slug}" style="color: white; text-decoration: none; font-weight: 600; font-size: 0.9rem;">View Profile →</a>
+                        <h3 style="font-size: 1.6rem; margin: 0.5rem 0; color: white; font-weight: 900; letter-spacing: -0.02em;">${member.full_name}</h3>
+                        <div class="talent-role" style="font-family: 'JetBrains Mono', monospace; font-size: 0.7rem; color: #666; letter-spacing: 1px; font-weight: 600; margin-bottom: 1.5rem; text-transform: uppercase;">// ${member.role}</div>
+                        <p style="color: var(--text-secondary); font-size: 0.9rem; line-height: 1.6; margin-bottom: 2rem; opacity: 0.8;">${member.bio || 'Vetted specialist ready for execution.'}</p>
+                        
+                        <div style="display: flex; justify-content: space-between; align-items: center; padding-top: 1.5rem; border-top: 1px solid #2A2A2A;">
+                            <div style="display: flex; flex-direction: column;">
+                                <span style="font-family: 'JetBrains Mono', monospace; font-size: 0.6rem; color: #444;">MIN PROJECT</span>
+                                <span style="font-family: 'JetBrains Mono', monospace; font-size: 0.9rem; color: white; font-weight: 700;">$${member.min_project_price || 200}</span>
+                            </div>
+                            <span style="color: ${accentColor}; font-weight: 800; font-size: 0.75rem; font-family: 'JetBrains Mono', monospace; letter-spacing: 1px;">VIEW PROFILE →</span>
+                        </div>
                     </div>
                 </div>
-            </div>
+            </a>
             `;
         }).join('');
 

@@ -121,37 +121,14 @@
                             </div>
                         </div>
 
-                        <div style="display: grid; grid-template-columns: 1.2fr 1fr 1fr; gap: 1.5rem;" class="form-row">
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;" class="form-row">
                             <div style="display: flex; flex-direction: column; gap: 0.5rem;">
                                 <label style="font-weight: 600; color: var(--text-secondary);">Roll Number</label>
                                 <input type="text" name="roll_number" required placeholder="21CS100XX" maxlength="10"
                                     style="padding: 1rem; border-radius: 12px; border: 1px solid var(--glass-border); background: rgba(5, 5, 5, 0.5); color: white; outline: none; transition: all 0.3s;">
                             </div>
                             <div style="display: flex; flex-direction: column; gap: 0.5rem;">
-                                <label style="font-weight: 600; color: var(--text-secondary);">Department</label>
-                                <select name="dept_year" required
-                                    style="padding: 1rem; border-radius: 12px; border: 1px solid var(--glass-border); background: rgba(5, 5, 5, 0.5); color: white; outline: none; appearance: none; transition: all 0.3s;">
-                                    <option value="" disabled selected>Select Dept</option>
-                                    <option value="AE">Aerospace</option>
-                                    <option value="AG">Agricultural</option>
-                                    <option value="AR">Architecture</option>
-                                    <option value="BT">Biotech</option>
-                                    <option value="CH">Chemical</option>
-                                    <option value="CE">Civil</option>
-                                    <option value="CS">Computer Science</option>
-                                    <option value="EE">Electrical</option>
-                                    <option value="EC">Electronics</option>
-                                    <option value="GG">Geology</option>
-                                    <option value="MA">Mathematics</option>
-                                    <option value="ME">Mechanical</option>
-                                    <option value="MT">Metallurgical</option>
-                                    <option value="MI">Mining</option>
-                                    <option value="NA">Ocean/Naval</option>
-                                    <option value="PH">Physics</option>
-                                </select>
-                            </div>
-                            <div style="display: flex; flex-direction: column; gap: 0.5rem;">
-                                <label style="font-weight: 600; color: var(--text-secondary);">Grad Year</label>
+                                <label style="font-weight: 600; color: var(--text-secondary);">Graduation Year</label>
                                 <select name="grad_year" required
                                     style="padding: 1rem; border-radius: 12px; border: 1px solid var(--glass-border); background: rgba(5, 5, 5, 0.5); color: white; outline: none; transition: all 0.3s;">
                                     <option value="" disabled selected>Select</option>
@@ -173,10 +150,11 @@
                                     style="padding: 1rem; border-radius: 12px; border: 1px solid var(--glass-border); background: rgba(5, 5, 5, 0.5); color: white; outline: none;">
                             </div>
                             <div style="display: flex; flex-direction: column; gap: 0.5rem;">
-                                <label style="font-weight: 600; color: var(--text-secondary);">Current Address
-                                    (Home)</label>
-                                <input type="text" name="address" required placeholder="Kolkata..."
-                                    style="padding: 1rem; border-radius: 12px; border: 1px solid var(--glass-border); background: rgba(5, 5, 5, 0.5); color: white; outline: none;">
+                                <label style="font-weight: 600; color: var(--text-secondary);">Requested
+                                    Subdomain</label>
+                                <input type="text" name="custom_subdomain" required
+                                    placeholder="john (for john.hustlehouse.io)"
+                                    style="padding: 1rem; border-radius: 12px; border: 1px solid var(--glass-border); background: rgba(5, 5, 5, 0.5); color: var(--member-accent); font-family: 'JetBrains Mono', monospace; outline: none;">
                             </div>
                         </div>
 
@@ -187,37 +165,58 @@
                                     style="padding: 1rem; border-radius: 12px; border: 1px solid var(--glass-border); background: rgba(5, 5, 5, 0.5); color: white; outline: none;">
                             </div>
                             <div style="display: flex; flex-direction: column; gap: 0.5rem;">
-                                <label style="font-weight: 600; color: var(--text-secondary);">Portfolio /
+                                <label style="font-weight: 600; color: var(--text-secondary);">Primary Portfolio /
                                     GitHub</label>
                                 <input type="url" name="portfolio" required placeholder="https://github.com/..."
                                     style="padding: 1rem; border-radius: 12px; border: 1px solid var(--glass-border); background: rgba(5, 5, 5, 0.5); color: white; outline: none;">
                             </div>
                         </div>
 
-                        <div style="display: flex; flex-direction: column; gap: 0.5rem;">
-                            <label style="font-weight: 600; color: var(--text-secondary);">Your Specialties (Select all
-                                that apply)</label>
-                            <div class="expertise-grid">
-                                <label class="expertise-item"><input type="checkbox" name="expertise" value="web-dev">
-                                    Web Development</label>
-                                <label class="expertise-item"><input type="checkbox" name="expertise" value="seo"> SEO &
-                                    Growth</label>
-                                <label class="expertise-item"><input type="checkbox" name="expertise"
-                                        value="ai-automation"> AI Automation</label>
-                                <label class="expertise-item"><input type="checkbox" name="expertise" value="design">
-                                    UI/UX Design</label>
-                                <label class="expertise-item"><input type="checkbox" name="expertise" value="video">
-                                    Video Editing</label>
-                                <label class="expertise-item"><input type="checkbox" name="expertise" value="marketing">
-                                    Digital Marketing</label>
+                        <div class="form-row">
+                            <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+                                <label style="font-weight: 600; color: var(--text-secondary);">Additional Proof Links
+                                    (Comma separated)</label>
+                                <input type="text" name="additional_proof"
+                                    placeholder="https://link1.com, https://link2.com"
+                                    style="padding: 1rem; border-radius: 12px; border: 1px solid var(--glass-border); background: rgba(5, 5, 5, 0.5); color: white; outline: none;">
+                            </div>
+                            <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+                                <label style="font-weight: 600; color: var(--text-secondary);">Brand Accent
+                                    Color</label>
+                                <div style="display: flex; gap: 1rem; align-items: center;">
+                                    <input type="color" name="primary_color" value="#F5A623"
+                                        style="width: 50px; height: 50px; border: none; background: none; cursor: pointer;">
+                                    <span
+                                        style="font-family: 'JetBrains Mono', monospace; font-size: 0.8rem; color: var(--text-secondary);">Pick
+                                        your representative color</span>
+                                </div>
                             </div>
                         </div>
 
                         <div style="display: flex; flex-direction: column; gap: 0.5rem;">
-                            <label style="font-weight: 600; color: var(--text-secondary);">Describe your best
-                                project</label>
+                            <label style="font-weight: 600; color: var(--text-secondary);">Your Specialties (Categorized
+                                Expertise)</label>
+                            <div class="expertise-grid">
+                                <label class="expertise-item"><input type="checkbox" name="expertise" value="web-dev">
+                                    Web Architecture</label>
+                                <label class="expertise-item"><input type="checkbox" name="expertise" value="seo">
+                                    Technical SEO</label>
+                                <label class="expertise-item"><input type="checkbox" name="expertise"
+                                        value="ai-automation"> AI & Automation</label>
+                                <label class="expertise-item"><input type="checkbox" name="expertise" value="design">
+                                    Brand Design</label>
+                                <label class="expertise-item"><input type="checkbox" name="expertise" value="video">
+                                    Narrative Editing</label>
+                                <label class="expertise-item"><input type="checkbox" name="expertise" value="marketing">
+                                    Growth Systems</label>
+                            </div>
+                        </div>
+
+                        <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+                            <label style="font-weight: 600; color: var(--text-secondary);">The "North Star"
+                                Project</label>
                             <textarea name="bio" rows="3" required
-                                placeholder="The most complex thing you've shipped..."
+                                placeholder="Describe the most complex project you've shipped. Link proof if possible."
                                 style="padding: 1rem; border-radius: 12px; border: 1px solid var(--glass-border); background: rgba(5, 5, 5, 0.5); color: white; outline: none; resize: none;"></textarea>
                         </div>
 

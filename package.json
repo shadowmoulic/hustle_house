@@ -1,0 +1,12 @@
+{
+  "name": "hustle-house",
+  "version": "1.0.0",
+  "description": "Premium IIT KGP Hacker Network",
+  "scripts": {
+    "dev": "npx serve ."
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "serve": "^14.2.4"
+  }
+}
