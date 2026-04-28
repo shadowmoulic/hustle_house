@@ -54,7 +54,7 @@ body.light-mode .navbar {
 
 body.light-mode .section-title,
 body.light-mode .hero h1 {
-    color: #c4c4c4 !important;
+    color: #111 !important;
 }
 
 body.light-mode .badge {
@@ -2311,16 +2311,6 @@ body.light-mode .glass {
     margin-bottom: 30px;
     position: relative;
     display: inline-block;
-}
-
-.footer-silver-header::after {
-    content: "";
-    position: absolute;
-    bottom: -12px;
-    left: 0;
-    width: 40px;
-    height: 1px;
-    background: linear-gradient(90deg, #fff, rgba(255, 255, 255, 0.2), transparent);
 }
 
 .footer-column {
