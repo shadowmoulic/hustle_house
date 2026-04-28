@@ -362,17 +362,15 @@ body.light-mode .aura-blob {
     margin-bottom: 60px;
 }
 
+.footer-brand {
+    text-align: left;
+}
+
 .footer-brand p {
     margin-top: 1.5rem;
     color: var(--text-secondary);
     max-width: 300px;
-}
-
-.footer-column h4 {
-    color: white;
-    font-size: 1.1rem;
-    margin-bottom: 1.5rem;
-    font-weight: 700;
+    line-height: 1.6;
 }
 
 .footer-column ul {
@@ -380,9 +378,7 @@ body.light-mode .aura-blob {
 }
 
 .footer-column h4 {
-    color: #fff;
-    margin-bottom: 1.5rem;
-    font-weight: 700;
+    margin: 0;
 }
 
 body.light-mode .footer-column h4 {
@@ -2310,18 +2306,33 @@ body.light-mode .glass {
     color: #e5e7eb !important;
     text-transform: uppercase;
     letter-spacing: 2px;
-    font-size: 0.9rem;
+    font-size: 0.85rem;
     font-weight: 800;
-    margin-bottom: 25px;
+    margin-bottom: 30px;
     position: relative;
+    display: inline-block;
 }
 
 .footer-silver-header::after {
     content: "";
     position: absolute;
-    bottom: -8px;
+    bottom: -12px;
     left: 0;
-    width: 30px;
-    height: 2px;
-    background: linear-gradient(90deg, #fff, transparent);
+    width: 40px;
+    height: 1px;
+    background: linear-gradient(90deg, #fff, rgba(255, 255, 255, 0.2), transparent);
+}
+
+.footer-column {
+    text-align: left;
+}
+
+.footer-column ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.footer-column ul li {
+    margin-bottom: 12px;
 }
