@@ -122,19 +122,19 @@ async function initProfile() {
                     <div class="case-grid">
                         <div class="case-content">
                             <span class="case-tag">// Case Study / ${item.client_type || 'B2B SaaS'}</span>
-                            <h3 style="color: var(--text-primary); font-size: 2.2rem; margin-bottom: 1.5rem; letter-spacing: -1px;">${item.title}</h3>
+                            <h3 class="case-title">${item.title}</h3>
                             
                             <div style="margin-bottom: 2.5rem;">
                                 <span style="font-family: 'JetBrains Mono', monospace; font-size: 0.65rem; color: var(--member-accent); display: block; margin-bottom: 0.5rem; text-transform: uppercase;">The Challenge</span>
                                 <p style="color: var(--text-primary); font-size: 1.05rem; line-height: 1.6; font-weight: 500;">${item.description}</p>
                             </div>
 
-                            <div class="case-result-box" style="background: var(--surface-lite); padding: 2rem; border-left: 4px solid var(--member-accent);">
-                                <div class="case-metric" style="font-size: 3rem; font-weight: 900; color: var(--text-primary); letter-spacing: -2px; line-height: 1;">${item.result_metric || '100%'}</div>
-                                <div class="case-metric-label" style="font-family: 'JetBrains Mono', monospace; font-size: 0.75rem; color: var(--text-secondary); text-transform: uppercase; margin-top: 0.5rem;">${item.result_detail || 'Success Rate'}</div>
+                            <div class="case-result-box">
+                                <div class="case-metric">${item.result_metric || '100%'}</div>
+                                <div class="case-metric-label">${item.result_detail || 'Success Rate'}</div>
                             </div>
                         </div>
-                        <div class="mesh-highlight" style="background: rgba(0,0,0,0.02); min-height: 300px; display: flex; align-items: center; justify-content: center; position: relative; border: 1px solid var(--border);">
+                        <div class="mesh-highlight">
                             ${item.icon ? `<span style="font-size: 6rem; filter: drop-shadow(0 10px 20px rgba(0,0,0,0.1));">${item.icon}</span>` : `<span style="font-family: 'Outfit', sans-serif; font-weight: 900; font-size: 5rem; opacity: 0.05; letter-spacing: -5px;">PROOF//</span>`}
                             <a href="${item.proof_link || '#'}" target="_blank" class="glow-button" style="position: absolute; bottom: 20px; right: 20px; padding: 10px 20px; font-size: 0.7rem; border-radius: 4px;">Verify Proof ↗</a>
                         </div>

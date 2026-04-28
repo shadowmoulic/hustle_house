@@ -2,6 +2,7 @@
 
 document.addEventListener('DOMContentLoaded', () => {
     initFilters();
+    initSearch();
     initContactForm();
 
     const urlParams = new URL(window.location.href).searchParams;
@@ -35,29 +36,36 @@ async function fetchTalent(initialFilter = 'all') {
         }
 
         grid.innerHTML = data.map(member => {
-            const specialties = (member.skills || member.role || '').toLowerCase().split(',');
+            const specialties = (member.skills || member.role || '').toLowerCase().split(',').map(s => s.trim());
             const initials = member.full_name.split(' ').map(n => n[0]).join('').toUpperCase();
-            const accentColor = member.primary_color || '#F5A623';
 
-            // Set display based on initial filter
-            const isVisible = initialFilter === 'all' || specialties.some(s => s.trim() === initialFilter.toLowerCase());
+            // Result-based tagline logic (simplified for now, can be expanded)
+            const tagline = member.bio_tagline || `Scaled products to ${member.delivered_projects || 'global'} benchmarks.`;
+
+            const activeFilter = initialFilter || 'all';
+            const isVisible = activeFilter === 'all' || specialties.includes(activeFilter.toLowerCase());
             const displayStyle = isVisible ? 'block' : 'none';
 
             return `
-            <a href="/talent/${member.slug}" class="talent-card-link" style="text-decoration: none; color: inherit; display: ${displayStyle};">
-                <div class="talent-card" data-expertise="${(member.skills || member.role).toLowerCase()}" 
-                     style="background: #111; border: 1px solid #2A2A2A; padding: 0; overflow: hidden; height: 100%;">
-                    <div class="card-header-visual" style="height: 140px; background: #0A0A0A; display: flex; align-items: center; justify-content: center; font-size: 3rem; font-weight: 900; color: rgba(255,255,255,0.03); border-bottom: 1px solid #2A2A2A;">
-                        ${initials}
+            <a href="/talent/${member.slug}" class="talent-card-link" style="display: ${displayStyle};">
+                <div class="talent-card" data-expertise="${specialties.join(',')}" data-filter="${specialties.join(',')}">
+                    <div class="card-header-visual">
+                        <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=${member.full_name}" alt="${member.full_name}" class="avatar-img">
+                        <div class="availability-status">
+                            <span class="pulse-dot"></span> Available
+                        </div>
                     </div>
-                    <div class="talent-info" style="padding: 2rem;">
-                        <h3 style="font-size: 1.6rem; margin: 0.5rem 0; color: white; font-weight: 900;">${member.full_name}</h3>
-                        <div class="talent-role" style="font-family: 'JetBrains Mono', monospace; font-size: 0.7rem; color: #666; margin-bottom: 1.5rem; text-transform: uppercase;">// ${member.role}</div>
-                        <p style="color: var(--text-secondary); font-size: 0.9rem; line-height: 1.6; margin-bottom: 2rem; opacity: 0.8;">${member.bio || 'Vetted specialist ready for execution.'}</p>
+                    <div class="talent-info">
+                        <h3>${member.full_name}</h3>
+                        <div class="talent-role-tag">IIT KHARAGPUR</div>
+                        <div class="talent-tagline">${tagline}</div>
                         
-                        <div style="display: flex; justify-content: space-between; align-items: center; padding-top: 1.5rem; border-top: 1px solid #2A2A2A;">
-                            <span style="color: white; font-weight: 700;">$${member.min_project_price || 200}</span>
-                            <span style="color: ${accentColor}; font-weight: 800; font-size: 0.75rem;">VIEW PROFILE →</span>
+                        <div class="skill-tags">
+                            ${specialties.slice(0, 3).map(s => `<span class="mini-tag">${s}</span>`).join('')}
+                        </div>
+                        
+                        <div class="card-cta-v2">
+                            <span class="cta-arrow">View Profile →</span>
                         </div>
                     </div>
                 </div>
@@ -166,3 +174,33 @@ document.addEventListener('mousemove', (e) => {
         glow.style.top = e.clientY + 'px';
     }
 });
+
+// 4. Search Filter
+function initSearch() {
+    const searchInput = document.getElementById('talent-search');
+    if (!searchInput) return;
+
+    searchInput.addEventListener('input', (e) => {
+        const query = e.target.value.toLowerCase().trim();
+        const cards = document.querySelectorAll('.talent-card');
+        const activeFilter = document.querySelector('.filter-pill.active')?.getAttribute('data-filter') || 'all';
+
+        cards.forEach(card => {
+            const name = card.querySelector('h3')?.innerText.toLowerCase() || '';
+            const role = card.querySelector('.talent-role')?.innerText.toLowerCase() || '';
+            const bio = card.querySelector('p')?.innerText.toLowerCase() || '';
+            const expertise = (card.getAttribute('data-expertise') || card.getAttribute('data-filter') || '').toLowerCase();
+
+            const matchesSearch = name.includes(query) || role.includes(query) || bio.includes(query);
+
+            // Re-apply skill filter as well
+            const specialties = expertise.split(',').map(s => s.trim());
+            const matchesFilter = activeFilter === 'all' || specialties.includes(activeFilter.toLowerCase());
+
+            const isVisible = matchesSearch && matchesFilter;
+
+            const cardContainer = card.closest('.talent-card-link') || card;
+            cardContainer.style.display = isVisible ? 'block' : 'none';
+        });
+    });
+}

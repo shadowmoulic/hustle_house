@@ -23,7 +23,7 @@ WHERE slug = 'sayak';
 -- Sample Portfolio Update for Sayak
 UPDATE HH_portfolio SET
     client_type = 'B2B SaaS / FinTech',
-    result_metric = '0 → 4,200',
+    result_metric = 'from 0 to 4,200',
     result_detail = 'monthly organic visits in 4 months',
     proof_link = 'https://google.com'
 WHERE profile_id IN (SELECT id FROM HH_profiles WHERE slug = 'sayak');

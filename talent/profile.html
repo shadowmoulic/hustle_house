@@ -51,12 +51,12 @@
         .profile-wrapper {
             max-width: 1200px;
             margin: 0 auto;
-            padding: 160px 2rem 100px;
+            padding: 120px 2rem 100px;
         }
 
         /* Hero */
         .hero-section {
-            padding: 4rem 0 6rem;
+            padding: 2rem 0 4rem;
             text-align: center;
             border-bottom: 1px solid var(--border);
         }
@@ -65,44 +65,34 @@
             display: inline-flex;
             align-items: center;
             gap: 8px;
-            padding: 8px 18px;
+            padding: 6px 14px;
             background: var(--surface-lite);
             border: 1px solid var(--border);
             border-radius: 100px;
             font-family: 'JetBrains Mono', monospace;
-            font-size: 0.75rem;
+            font-size: 0.7rem;
             font-weight: 800;
             color: var(--member-accent);
             text-transform: uppercase;
             letter-spacing: 1px;
-            margin-bottom: 2.5rem;
-        }
-
-        body.light-mode .hero-badge {
-            background: #000;
-            color: #fff;
-            border: none;
+            margin-bottom: 1.5rem;
         }
 
         .hero-headline {
             font-family: 'Outfit', sans-serif;
-            font-size: 6rem;
+            font-size: clamp(2.5rem, 8vw, 4rem);
             font-weight: 900;
-            line-height: 0.9;
+            line-height: 1.1;
             letter-spacing: -0.04em;
-            margin-bottom: 2rem;
+            margin-bottom: 1.5rem;
             color: var(--text-primary);
         }
 
-        body.light-mode .hero-headline {
-            color: #000 !important;
-        }
-
         .hero-sub {
-            font-size: 1.2rem;
+            font-size: 1.1rem;
             color: var(--text-secondary);
-            max-width: 700px;
-            margin: 0 auto 3.5rem;
+            max-width: 600px;
+            margin: 0 auto 2.5rem;
             line-height: 1.6;
             font-weight: 500;
         }
@@ -112,16 +102,9 @@
             align-items: center;
             gap: 10px;
             border: 1px solid var(--border);
-            padding: 10px 20px;
+            padding: 8px 16px;
             border-radius: 100px;
             background: var(--surface-lite);
-        }
-
-        body.light-mode .status-indicator {
-            background: #fff;
-            border-color: #000;
-            color: #000;
-            font-weight: 700;
         }
 
         .status-dot {
@@ -132,17 +115,17 @@
             box-shadow: 0 0 12px #4ade80;
         }
 
-        /* Case Studies */
+        /* Section Styling */
         .section-header {
             display: flex;
             justify-content: space-between;
             align-items: flex-end;
-            margin: 6rem 0 3rem;
+            margin: 4rem 0 2rem;
         }
 
         .section-title {
             font-family: 'Outfit', sans-serif;
-            font-size: 2.5rem;
+            font-size: 2rem;
             font-weight: 800;
             letter-spacing: -0.02em;
         }
@@ -150,122 +133,44 @@
         .case-study-card {
             background: var(--surface);
             border: 1px solid var(--border);
-            padding: 3rem;
-            margin-bottom: 3rem;
+            padding: 2.5rem;
+            margin-bottom: 2rem;
             transition: var(--transition);
             position: relative;
             overflow: hidden;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.02);
-        }
-
-        .case-study-card:hover {
-            border-color: var(--member-accent);
-            transform: translateY(-5px);
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.05);
-        }
-
-        body.light-mode .case-study-card {
-            background: #fff;
-            border-color: rgba(0, 0, 0, 0.05);
-        }
-
-        .case-tag {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 0.65rem;
-            color: var(--member-accent);
-            font-weight: 800;
-            text-transform: uppercase;
-            margin-bottom: 1.5rem;
-            display: block;
+            border-radius: 24px;
         }
 
         .case-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 4rem;
+            gap: 3rem;
         }
 
-        .case-content h3 {
-            font-size: 2rem;
-            margin-bottom: 1.5rem;
+        .case-title {
+            color: var(--text-primary);
+            font-size: clamp(1.5rem, 4vw, 2.2rem);
+            margin-bottom: 1rem;
+            letter-spacing: -1px;
+            font-family: 'Outfit', sans-serif;
+            font-weight: 800;
+        }
+
+        .case-result-box {
+            background: var(--surface-lite);
+            padding: 1.5rem;
+            border-left: 4px solid var(--member-accent);
+            display: inline-block;
+            margin-top: 1rem;
         }
 
         .case-metric {
-            font-size: 4rem;
+            font-size: clamp(2.5rem, 8vw, 3.5rem);
             font-weight: 900;
             font-family: 'Outfit', sans-serif;
             line-height: 1;
             margin-bottom: 0.5rem;
             color: #fff;
-        }
-
-        .case-metric-label {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 0.75rem;
-            color: var(--text-secondary);
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        /* Trust Layer */
-        .trust-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 2rem;
-            margin: 4rem 0;
-        }
-
-        .trust-item {
-            padding: 2rem;
-            background: var(--surface);
-            border: 1px solid var(--border);
-        }
-
-        .trust-item h4 {
-            margin-bottom: 1rem;
-            color: var(--member-accent);
-            font-weight: 800;
-        }
-
-        body.light-mode .trust-item {
-            background: #ffffff;
-            border: 1px solid #000;
-        }
-
-        body.light-mode .trust-item p {
-            color: #000;
-            font-weight: 500;
-        }
-
-        /* Sticky CTA */
-        .sticky-cta {
-            position: fixed;
-            bottom: 40px;
-            right: 40px;
-            z-index: 1000;
-            padding: 18px 36px;
-            background: var(--member-accent);
-            color: #fff;
-            font-weight: 800;
-            border-radius: 100px;
-            text-decoration: none;
-            box-shadow: 0 15px 45px rgba(0, 0, 0, 0.2);
-            transition: var(--transition);
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        body.light-mode .sticky-cta {
-            background: #000;
-            color: #fff;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
-        }
-
-        .sticky-cta:hover {
-            transform: scale(1.05);
-            background: var(--member-accent);
-            color: white;
         }
 
         /* Process */
@@ -276,63 +181,34 @@
         }
 
         .process-col {
-            padding: 2rem;
+            padding: 1.5rem;
             border-left: 1px solid var(--border);
         }
 
-        .process-num {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 0.7rem;
-            color: var(--member-accent);
-            margin-bottom: 1.5rem;
-        }
-
-        @media (max-width: 1024px) {
-            .hero-headline {
-                font-size: 4.5rem;
-            }
+        .mesh-highlight {
+            background: rgba(255, 255, 255, 0.02);
+            min-height: 250px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            overflow: hidden;
         }
 
         @media (max-width: 768px) {
             .profile-wrapper {
-                padding: 80px 1.5rem 80px;
-            }
-
-            .hero-section {
-                padding: 2rem 0 4rem;
+                padding-top: 80px;
             }
 
             .hero-headline {
-                font-size: 3.2rem;
-            }
-
-            .hero-sub {
-                font-size: 1.1rem;
-            }
-
-            .section-header {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 1rem;
-                margin: 4rem 0 2rem;
+                font-size: 2.5rem;
             }
 
             .case-grid {
                 grid-template-columns: 1fr;
                 gap: 2rem;
-            }
-
-            .case-study-card {
-                padding: 1.5rem;
-            }
-
-            .case-metric {
-                font-size: 3rem;
-            }
-
-            .trust-grid {
-                grid-template-columns: 1fr;
-                gap: 1rem;
             }
 
             .process-row {
@@ -346,38 +222,34 @@
                 padding: 1.5rem 0;
             }
 
-            #pricing {
-                padding: 3rem 1.5rem;
+            .section-header {
+                flex-direction: column;
+                align-items: flex-start;
             }
 
-            .sticky-cta {
-                bottom: 20px;
-                right: 20px;
-                left: 20px;
-                justify-content: center;
-                font-size: 0.9rem;
-                padding: 14px;
-            }
-
-            #social-proof {
-                gap: 1.5rem;
-                flex-wrap: wrap;
-                margin-top: 4rem;
-            }
-
-            #social-proof span {
-                font-size: 1rem !important;
+            .case-study-card {
+                padding: 1.5rem;
             }
         }
 
-        @media (max-width: 480px) {
-            .hero-headline {
-                font-size: 2.2rem;
-            }
-
-            .hero-sub {
-                font-size: 1rem;
-            }
+        /* Sticky CTA */
+        .sticky-cta {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            z-index: 1000;
+            padding: 12px 24px;
+            background: var(--member-accent);
+            color: #fff;
+            font-weight: 800;
+            border-radius: 100px;
+            text-decoration: none;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.9rem;
         }
     </style>
 </head>
@@ -397,15 +269,13 @@
             <div class="hero-badge" id="member-id-tag">
                 <span style="opacity: 0.5;">ID//</span> HH-0000
             </div>
-            <h1 class="hero-headline" id="member-hero-headline">
-                Creating impact through technical excellence.
-            </h1>
-            <p class="hero-sub" id="member-one-liner">
-                Vetted Specialist from IIT Kharagpur delivering global project outcomes.
+            <h1 class="hero-headline" id="member-hero-headline">Creating impact through technical excellence.</h1>
+            <p class="hero-sub" id="member-one-liner">Vetted Specialist from IIT Kharagpur delivering global outcomes.
             </p>
-            <div style="display: flex; gap: 1.5rem; justify-content: center; align-items: center;">
+
+            <div style="display: flex; gap: 1rem; justify-content: center; align-items: center; flex-wrap: wrap;">
                 <a href="#" class="glow-button" id="member-cta-button"
-                    style="padding: 1.25rem 2.5rem; font-size: 1.1rem; border-radius: 0;">Book Strategy Call</a>
+                    style="padding: 0.8rem 1.8rem; font-size: 0.95rem; border-radius: 100px;">Book Call</a>
                 <div id="member-status" class="status-indicator">
                     <div class="status-dot"></div>
                     <span
@@ -414,13 +284,12 @@
             </div>
 
             <div id="social-proof"
-                style="margin-top: 6rem; opacity: 0.3; display: flex; justify-content: center; gap: 4rem; filter: grayscale(1);">
-                <!-- Logos placeholder -->
-                <span style="font-family: 'Outfit', sans-serif; font-weight: 800; font-size: 1.5rem;">IIT KGP
+                style="margin-top: 4rem; opacity: 0.3; display: flex; justify-content: center; gap: 2rem; flex-wrap: wrap; filter: grayscale(1);">
+                <span style="font-family: 'Outfit', sans-serif; font-weight: 800; font-size: 1.1rem;">IIT KGP
                     Network</span>
-                <span style="font-family: 'Outfit', sans-serif; font-weight: 800; font-size: 1.5rem;">Vetted
+                <span style="font-family: 'Outfit', sans-serif; font-weight: 800; font-size: 1.1rem;">Vetted
                     Proof</span>
-                <span style="font-family: 'Outfit', sans-serif; font-weight: 800; font-size: 1.5rem;">Global
+                <span style="font-family: 'Outfit', sans-serif; font-weight: 800; font-size: 1.1rem;">Global
                     Delivery</span>
             </div>
         </section>
@@ -430,129 +299,82 @@
             <div class="section-header">
                 <div>
                     <span
-                        style="font-family: 'JetBrains Mono', monospace; font-size: 0.7rem; color: var(--member-accent); text-transform: uppercase; letter-spacing: 2px;">//
+                        style="font-family: 'JetBrains Mono', monospace; font-size: 0.65rem; color: var(--member-accent); text-transform: uppercase; letter-spacing: 2px;">//
                         CASE STUDIES</span>
-                    <h2 class="section-title">Verified Proof of Work</h2>
+                    <h2 class="section-title">Verified Proof</h2>
                 </div>
-                <div class="mono" style="font-size: 0.8rem; opacity: 0.5;">[2026]</div>
+                <div class="mono" style="font-size: 0.75rem; opacity: 0.5;">[2026]</div>
             </div>
-
             <div id="member-proof">
                 <!-- Case Study Cards Dynamic -->
             </div>
         </section>
 
-        <!-- Trust Section -->
-        <section id="trust">
-            <div class="section-header">
-                <div>
-                    <span
-                        style="font-family: 'JetBrains Mono', monospace; font-size: 0.7rem; color: var(--member-accent); text-transform: uppercase; letter-spacing: 2px;">//
-                        SELECTION MODEL</span>
-                    <h2 class="section-title">Why HustleHouse?</h2>
-                </div>
-            </div>
-            <div class="trust-grid">
-                <div class="trust-item">
-                    <h4>01. 1% Acceptance</h4>
-                    <p style="color: var(--text-secondary); font-size: 0.9rem;">We audit 100+ candidates for every
-                        specialist admitted to the network.</p>
-                </div>
-                <div class="trust-item">
-                    <h4>02. Direct Access</h4>
-                    <p style="color: var(--text-secondary); font-size: 0.9rem;">No account managers. You speak directly
-                        to the engineer/designer building your vision.</p>
-                </div>
-                <div class="trust-item">
-                    <h4>03. Managed Quality</h4>
-                    <p style="color: var(--text-secondary); font-size: 0.9rem;">Hustle House acts as the trust layer,
-                        managing invoicing and output standards.</p>
-                </div>
-            </div>
-        </section>
-
         <!-- Process Section -->
-        <section id="process">
+        <section id="process" style="margin-top: 4rem;">
             <div class="section-header">
                 <h2 class="section-title">Engagement Model</h2>
             </div>
             <div class="process-row">
                 <div class="process-col">
                     <div class="process-num">01/</div>
-                    <h3 style="font-size: 1.2rem; margin-bottom: 1rem;">Scope</h3>
-                    <p style="font-size: 0.85rem; color: var(--text-secondary);">15-min strategy call to align on goals
-                        and deliverables.</p>
+                    <h3 style="font-size: 1.1rem; margin-bottom: 0.5rem; font-weight: 700;">Scope</h3>
+                    <p style="font-size: 0.8rem; color: var(--text-secondary); line-height: 1.4;">15-min strategy call
+                        to align on goals.</p>
                 </div>
                 <div class="process-col">
                     <div class="process-num">02/</div>
-                    <h3 style="font-size: 1.2rem; margin-bottom: 1rem;">Propose</h3>
-                    <p style="font-size: 0.85rem; color: var(--text-secondary);">Transparent roadmap and pricing issued
-                        within 24 hours.</p>
+                    <h3 style="font-size: 1.1rem; margin-bottom: 0.5rem; font-weight: 700;">Propose</h3>
+                    <p style="font-size: 0.8rem; color: var(--text-secondary); line-height: 1.4;">Transparent roadmap
+                        issued in 24h.</p>
                 </div>
                 <div class="process-col">
                     <div class="process-num">03/</div>
-                    <h3 style="font-size: 1.2rem; margin-bottom: 1rem;">Execute</h3>
-                    <p style="font-size: 0.85rem; color: var(--text-secondary);">Dedicated specialist begins
-                        high-velocity sprints.</p>
+                    <h3 style="font-size: 1.1rem; margin-bottom: 0.5rem; font-weight: 700;">Execute</h3>
+                    <p style="font-size: 0.8rem; color: var(--text-secondary); line-height: 1.4;">High-velocity sprints
+                        begin immediately.</p>
                 </div>
                 <div class="process-col">
                     <div class="process-num">04/</div>
-                    <h3 style="font-size: 1.2rem; margin-bottom: 1rem;">Deliver</h3>
-                    <p style="font-size: 0.85rem; color: var(--text-secondary);">Final handoff with verified
-                        documentation and support.</p>
+                    <h3 style="font-size: 1.1rem; margin-bottom: 0.5rem; font-weight: 700;">Deliver</h3>
+                    <p style="font-size: 0.8rem; color: var(--text-secondary); line-height: 1.4;">Final handoff with
+                        verified documentation.</p>
                 </div>
             </div>
         </section>
 
-        <!-- Drop a Query -->
+        <!-- Form Section -->
         <section id="query"
-            style="margin-top: 6rem; max-width: 700px; margin-left: auto; margin-right: auto; padding-bottom: 100px;">
-            <div style="text-align: center; margin-bottom: 3rem;">
-                <span
-                    style="font-family: 'JetBrains Mono', monospace; font-size: 0.7rem; color: var(--member-accent); text-transform: uppercase;">//
-                    INQUIRY TRANSMISSION</span>
+            style="margin-top: 5rem; max-width: 600px; margin-left: auto; margin-right: auto; padding-bottom: 80px;">
+            <div style="text-align: center; margin-bottom: 2.5rem;">
                 <h2 class="section-title">Drop a Query</h2>
-                <p style="color: var(--text-secondary); margin-top: 1rem;">Not ready for a call? Send a brief brief
-                    about your project requirements.</p>
+                <p style="color: var(--text-secondary); margin-top: 0.5rem; font-size: 0.9rem;">Send requirements
+                    directly to the specialist.</p>
             </div>
-
-            <form id="profile-query-form" class="glass query-form"
-                style="padding: 3rem; border: 1px solid var(--border); background: var(--surface);">
+            <form id="profile-query-form" class="glass"
+                style="padding: 2rem; border: 1px solid var(--border); background: var(--surface); border-radius: 20px;">
                 <input type="hidden" id="query-specialist-name" name="specialist_name">
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 1.5rem;">
-                    <div>
-                        <label class="query-label">Your Name</label>
-                        <input type="text" name="name" required class="query-input" placeholder="Name">
-                    </div>
-                    <div>
-                        <label class="query-label">Email or WhatsApp</label>
-                        <input type="text" id="query-contact" name="contact" required class="query-input"
-                            placeholder="Contact Details">
-                    </div>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem;">
+                    <input type="text" name="name" required class="query-input" placeholder="Your Name"
+                        style="padding: 1rem; border-radius: 12px; background: rgba(255,255,255,0.03); border: 1px solid var(--border); color: white;">
+                    <input type="text" id="query-contact" name="contact" required class="query-input"
+                        placeholder="Contact Details"
+                        style="padding: 1rem; border-radius: 12px; background: rgba(255,255,255,0.03); border: 1px solid var(--border); color: white;">
                 </div>
-                <div style="margin-bottom: 2rem;">
-                    <label class="query-label">Your Requirement / Goal</label>
-                    <textarea name="message" required class="query-input" placeholder="Project Brief"
-                        style="min-height: 120px; resize: vertical;"></textarea>
-                </div>
+                <textarea name="message" required class="query-input" placeholder="Project Brief"
+                    style="width:100%; min-height: 100px; padding: 1rem; border-radius: 12px; background: rgba(255,255,255,0.03); border: 1px solid var(--border); color: white; margin-bottom: 1.5rem; box-sizing: border-box;"></textarea>
                 <button type="submit" class="glow-button" id="query-submit-btn"
-                    style="width: 100%; padding: 1.25rem; border: none; cursor: pointer; justify-content: center; font-size: 1.1rem; font-weight: 800;">Send
-                    Query to Specialist</button>
+                    style="width: 100%; padding: 1rem; border-radius: 12px; border: none; cursor: pointer; font-size: 1rem; font-weight: 800;">Send
+                    Query</button>
             </form>
         </section>
-
     </main>
 
     <a href="#" class="sticky-cta" id="sticky-engage-btn">
         <span>Engage Specialist</span>
-        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M5 10H15M15 10L10 5M15 10L10 15" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                stroke-linejoin="round" />
-        </svg>
     </a>
 
     <div id="footer-container"></div>
-
     <script src="/components.js"></script>
     <script src="/supabase.js"></script>
     <script src="/talent/profile-logic.js"></script>

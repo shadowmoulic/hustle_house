@@ -22,7 +22,73 @@
 
     <div id="header-container"></div>
 
-    <main style="padding-top: 150px; padding-bottom: 100px;">
+    <style>
+        .contact-wrapper {
+            padding: 120px 0 80px;
+        }
+
+        .contact-form-container {
+            background: var(--surface);
+            border: 1px solid var(--glass-border);
+            padding: 3rem;
+            border-radius: 32px;
+            backdrop-filter: blur(20px);
+        }
+
+        .contact-input {
+            width: 100%;
+            padding: 1rem;
+            border-radius: 12px;
+            border: 1px solid var(--glass-border);
+            background: rgba(5, 5, 5, 0.5);
+            color: white;
+            outline: none;
+            font-family: inherit;
+            transition: var(--transition);
+        }
+
+        .contact-input:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 15px var(--primary-glow);
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        @media (max-width: 768px) {
+            .contact-wrapper {
+                padding: 80px 1.5rem 60px;
+            }
+
+            .contact-form-container {
+                padding: 1.5rem;
+            }
+
+            .section-title {
+                font-size: 2.5rem !important;
+            }
+        }
+
+        .whatsapp-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 1rem 2rem;
+            background: #25d366;
+            color: white;
+            text-decoration: none;
+            border-radius: 100px;
+            font-weight: 800;
+            transition: var(--transition);
+            box-shadow: 0 10px 20px rgba(37, 211, 102, 0.2);
+        }
+
+        .whatsapp-link:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 30px rgba(37, 211, 102, 0.3);
+            background: #1faf58;
+        }
+    </style>
+
+    <main style="padding-top: 3rem; padding-bottom: 2rem;">
         <section class="section">
             <div class="container" style="max-width: 800px;">
                 <div class="section-header">
@@ -32,27 +98,25 @@
                         and high-priority sprints.</p>
                 </div>
 
-                <div class="moving-border-box fade-in">
+                <div class="contact-form-container fade-in">
                     <form id="contact-form" style="display: flex; flex-direction: column; gap: 1.5rem;">
-                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
+                        <div class="form-row">
                             <div style="display: flex; flex-direction: column; gap: 0.5rem;">
                                 <label for="name" style="font-weight: 600; color: var(--text-secondary);">Full
                                     Name</label>
-                                <input type="text" id="name" required placeholder="John Doe"
-                                    style="padding: 1rem; border-radius: 12px; border: 1px solid var(--glass-border); background: rgba(5, 5, 5, 0.5); color: white; outline: none; font-family: inherit;">
+                                <input type="text" id="name" required placeholder="John Doe" class="contact-input">
                             </div>
                             <div style="display: flex; flex-direction: column; gap: 0.5rem;">
                                 <label for="email" style="font-weight: 600; color: var(--text-secondary);">Work
                                     Email</label>
                                 <input type="email" id="email" required placeholder="john@company.com"
-                                    style="padding: 1rem; border-radius: 12px; border: 1px solid var(--glass-border); background: rgba(5, 5, 5, 0.5); color: white; outline: none; font-family: inherit;">
+                                    class="contact-input">
                             </div>
                         </div>
                         <div style="display: flex; flex-direction: column; gap: 0.5rem;">
                             <label for="service" style="font-weight: 600; color: var(--text-secondary);">Service
                                 Needed</label>
-                            <select id="service"
-                                style="padding: 1rem; border-radius: 12px; border: 1px solid var(--glass-border); background: rgba(5, 5, 5, 0.5); color: white; outline: none; font-family: inherit; appearance: none;">
+                            <select id="service" class="contact-input" style="appearance: none;">
                                 <option value="web-dev">Web Development</option>
                                 <option value="seo">SEO & Growth</option>
                                 <option value="ai-automation">AI Automation</option>
@@ -66,10 +130,11 @@
                                 Details</label>
                             <textarea id="message" rows="5" required
                                 placeholder="Tell us about your project goals and timeline..."
-                                style="padding: 1rem; border-radius: 12px; border: 1px solid var(--glass-border); background: rgba(5, 5, 5, 0.5); color: white; outline: none; font-family: inherit; resize: vertical;"></textarea>
+                                class="contact-input"></textarea>
                         </div>
                         <button type="submit" class="glow-button"
-                            style="width: 100%; border: none; cursor: pointer; justify-content: center;">Send Proposal
+                            style="font-size: 0.7rem; width: 100%; border: none; cursor: pointer; justify-content: center;">Send
+                            Proposal
                             Request</button>
                     </form>
                 </div>

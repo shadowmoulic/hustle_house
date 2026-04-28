@@ -4,50 +4,108 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Find Talent | Vetted IIT KGP Specialists | Hustle House</title>
+    <title>Talent Marketplace | Elite IIT KGP Specialists | Hustle House</title>
     <link rel="icon"
-        href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>👨‍💻</text></svg>">
+        href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>⚡</text></svg>">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
         href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap"
         rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="../index.css">
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 
-<body>
+<body class="dark-theme">
+    <!-- Premium Background System -->
+    <div class="bg-mesh-container">
+        <div class="noise"></div>
+        <div class="blur-blobs">
+            <div class="blob blob-1"></div>
+            <div class="blob blob-2"></div>
+            <div class="blob blob-3"></div>
+        </div>
+        <div class="grid-overlay"></div>
+        <div class="glow-nodes"></div>
+    </div>
+    <div class="spotlight"></div>
+
     <div class="cursor-glow"></div>
     <div id="header-container"></div>
 
-    <main style="padding-top: 150px; padding-bottom: 100px;">
+    <main class="marketplace-main">
         <section class="section">
             <div class="container">
-                <div class="section-header">
-                    <div class="badge fade-in">Vetted IIT Kharagpur Specialists</div>
-                    <h1 class="section-title">The <span class="gradient-text">Hustle Network.</span></h1>
-                    <p class="section-subtitle">Vetted specialists ready to deliver. No middlemen, just direct talent.
+                <div class="section-header" style="text-align: center; margin-bottom: 5rem;">
+                    <div class="badge fade-in"
+                        style="background: rgba(99, 102, 241, 0.1); color: var(--primary); border: 1px solid var(--primary-glow); padding: 0.5rem 1.2rem; border-radius: 50px; display: inline-block; font-weight: 700; font-size: 0.8rem; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 1.5rem;">
+                        Elite Network of Specialists
+                    </div>
+                    <h1 class="section-title"
+                        style="font-size: 4rem; font-weight: 900; margin-bottom: 1rem; letter-spacing: -2px;">
+                        The <span class="gradient-text">Talent House.</span>
+                    </h1>
+                    <p class="section-subtitle"
+                        style="font-size: 1.2rem; max-width: 600px; margin: 0 auto; opacity: 0.7;">
+                        Access pre-vetted IIT Kharagpur specialists for critical product deployment.
                     </p>
                 </div>
 
-                <!-- Portfolio Filters -->
-                <div class="filters"
-                    style="display: flex; justify-content: center; gap: 1rem; margin-bottom: 60px; flex-wrap: wrap;">
-                    <button class="filter-pill active" data-filter="all">All</button>
-                    <button class="filter-pill" data-filter="seo">SEO</button>
-                    <button class="filter-pill" data-filter="web-dev">Web Dev</button>
-                    <button class="filter-pill" data-filter="design">Design</button>
-                    <button class="filter-pill" data-filter="video">Video</button>
-                    <button class="filter-pill" data-filter="ai-automation">AI Automation</button>
-                    <button class="filter-pill" data-filter="marketing">Marketing</button>
+                <!-- Search Bar -->
+                <div class="search-container fade-in">
+                    <input type="text" id="talent-search" placeholder="Search by tech, result, or name...">
                 </div>
 
-                <div id="loading-state" style="text-align: center; padding: 4rem; color: var(--text-secondary);">
-                    Searching the house for talent...
+                <!-- Iconic Portfolio Filters -->
+                <div class="filters fade-in">
+                    <button class="filter-pill active" data-filter="all">
+                        <i class="fas fa-th-large"></i> All
+                    </button>
+                    <button class="filter-pill" data-filter="seo">
+                        <i class="fas fa-chart-line"></i> SEO & Growth
+                    </button>
+                    <button class="filter-pill" data-filter="web-dev">
+                        <i class="fas fa-code"></i> Web Dev
+                    </button>
+                    <button class="filter-pill" data-filter="design">
+                        <i class="fas fa-paint-brush"></i> UI/UX Design
+                    </button>
+                    <button class="filter-pill" data-filter="video">
+                        <i class="fas fa-video"></i> Video Editing
+                    </button>
+                    <button class="filter-pill" data-filter="ai-automation">
+                        <i class="fas fa-microchip"></i> AI Automation
+                    </button>
+                    <button class="filter-pill" data-filter="marketing">
+                        <i class="fas fa-bullhorn"></i> Marketing
+                    </button>
                 </div>
 
-                <div id="talent-grid" class="masonry-grid">
+                <div id="loading-state" style="text-align: center; padding: 6rem; color: var(--text-secondary);">
+                    <div class="spinner"
+                        style="width: 30px; height: 30px; border: 3px solid rgba(255,255,255,0.1); border-top-color: var(--primary); border-radius: 50%; animation: spin 1s linear infinite; margin: 0 auto 1.5rem;">
+                    </div>
+                    <span>Assembling the elite...</span>
+                </div>
+
+                <div id="talent-grid" class="talent-grid">
                     <!-- Dynamic Talent Cards Injected Here -->
+                </div>
+
+                <!-- Special Request Section -->
+                <div class="special-request-banner glass-premium"
+                    style="margin-top: 8rem; text-align: center; padding: 4rem; border-radius: 40px; border: 1px solid var(--glass-border); position: relative; overflow: hidden; background: rgba(255,255,255,0.02);">
+                    <div style="position: relative; z-index: 2;">
+                        <h3 style="font-size: 2.5rem; font-weight: 900; margin-bottom: 1rem;">Need a <span
+                                class="gradient-text">Custom Squad?</span></h3>
+                        <p style="max-width: 600px; margin: 0 auto 3rem; opacity: 0.7; font-size: 1.1rem;">
+                            If your project requires a specific stack or a cross-functional team, we'll scout the
+                            internal KGP network for you.
+                        </p>
+                        <a href="https://wa.me/919038315605?text=Hello Sayak! I have a special talent team request for Hustle House."
+                            class="glow-button" style="text-decoration: none;">DM Our Founder</a>
+                    </div>
                 </div>
             </div>
         </section>
@@ -59,5 +117,13 @@
     <script src="../supabase.js"></script>
     <script src="../main.js"></script>
 </body>
+
+<style>
+    @keyframes spin {
+        to {
+            transform: rotate(360deg);
+        }
+    }
+</style>
 
 </html>
