@@ -19,7 +19,12 @@
     <link rel="stylesheet" href="index.css">
 </head>
 
-<body>
+<body class="light-mode">
+    <div class="bg-animation">
+        <div class="aura-blob blob-1"></div>
+        <div class="aura-blob blob-2"></div>
+        <div class="aura-blob blob-3"></div>
+    </div>
     <div class="cursor-glow"></div>
 
     <div id="header-container"></div>
@@ -55,32 +60,23 @@
         </section>
 
         <!-- Stats Row -->
-        <section class="stats-row fade-in-delayed bg-dark">
-            <div class="container"
-                style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 2rem; text-align: center; padding: 3rem 0;">
+        <section class="stats-row dot-grid mesh-highlight">
+            <div class="stats-grid container">
                 <div class="stat-card">
-                    <h4 style="font-size: 2.5rem; color: white;">12+</h4>
-                    <p
-                        style="color: var(--text-secondary); font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px;">
-                        Vetted Members</p>
+                    <h4>12+</h4>
+                    <p>Vetted Members</p>
                 </div>
                 <div class="stat-card">
-                    <h4 style="font-size: 2.5rem; color: white;">6</h4>
-                    <p
-                        style="color: var(--text-secondary); font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px;">
-                        Domains</p>
+                    <h4>6</h4>
+                    <p>Domains</p>
                 </div>
                 <div class="stat-card">
-                    <h4 style="font-size: 2.5rem; color: white;">48h</h4>
-                    <p
-                        style="color: var(--text-secondary); font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px;">
-                        Avg. First Response</p>
+                    <h4>48h</h4>
+                    <p>Avg. First Response</p>
                 </div>
                 <div class="stat-card">
-                    <h4 style="font-size: 2.5rem; color: white;">100%</h4>
-                    <p
-                        style="color: var(--text-secondary); font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px;">
-                        IIT Verified</p>
+                    <h4>100%</h4>
+                    <p>IIT Verified</p>
                 </div>
             </div>
         </section>
@@ -92,41 +88,40 @@
                 <div class="section-label"
                     style="color: var(--primary); font-family: 'Outfit', sans-serif; letter-spacing: 3px; font-weight: 700; margin-bottom: 1rem;">
                     // THE DIFFERENCE</div>
-                <div class="comparison-table-wrapper" style="overflow-x: auto; margin-top: 3rem;">
-                    <table class="comparison-table" style="width: 100%; border-collapse: collapse; text-align: left;">
+                <div class="comparison-table-wrapper" style="margin-top: 3rem;">
+                    <table class="comparison-table">
                         <thead>
-                            <tr style="border-bottom: 1px solid rgba(255,255,255,0.1);">
-                                <th style="padding: 1.5rem; color: var(--text-secondary); font-weight: 500;">Feature
-                                </th>
-                                <th style="padding: 1.5rem; color: var(--text-secondary); font-weight: 500;">Fiverr</th>
-                                <th style="padding: 1.5rem; color: var(--text-secondary); font-weight: 500;">Agency</th>
-                                <th style="padding: 1.5rem; color: var(--primary); font-weight: 700;">Hustle House</th>
+                            <tr>
+                                <th>Feature</th>
+                                <th>Fiverr</th>
+                                <th>Agency</th>
+                                <th class="highlight">Hustle House</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr style="border-bottom: 1px solid rgba(255,255,255,0.05);">
-                                <td style="padding: 1.5rem; font-weight: 600;">Quality signal</td>
-                                <td style="padding: 1.5rem; color: var(--text-secondary);">None</td>
-                                <td style="padding: 1.5rem; color: var(--text-secondary);">Varies</td>
-                                <td style="padding: 1.5rem; color: white;">IIT-verified</td>
+                            <tr>
+                                <td style="font-weight: 600;">Quality signal</td>
+                                <td>None</td>
+                                <td>Varies</td>
+                                <td class="highlight">IIT-verified</td>
                             </tr>
-                            <tr style="border-bottom: 1px solid rgba(255,255,255,0.05);">
-                                <td style="padding: 1.5rem; font-weight: 600;">Price</td>
-                                <td style="padding: 1.5rem; color: var(--text-secondary);">Race to bottom</td>
-                                <td style="padding: 1.5rem; color: var(--text-secondary);">3-5x markup</td>
-                                <td style="padding: 1.5rem; color: white;">Transparent</td>
+                            <tr>
+                                <td style="font-weight: 600;">Price</td>
+                                <td>Race to bottom</td>
+                                <td>3-5x markup</td>
+                                <td class="highlight">Transparent</td>
                             </tr>
-                            <tr style="border-bottom: 1px solid rgba(255,255,255,0.05);">
-                                <td style="padding: 1.5rem; font-weight: 600;">Who you talk to</td>
-                                <td style="padding: 1.5rem; color: var(--text-secondary);">Unknown</td>
-                                <td style="padding: 1.5rem; color: var(--text-secondary);">Account mgr</td>
-                                <td style="padding: 1.5rem; color: white;">The developer/creator</td>
+                            <tr>
+                                <td style="font-weight: 600;">Who you talk to</td>
+                                <td>Unknown</td>
+                                <td>Account mgr</td>
+                                <td class="highlight">The developer/creator</td>
                             </tr>
-                            <tr style="border-bottom: 1px solid rgba(255,255,255,0.05);">
-                                <td style="padding: 1.5rem; font-weight: 600;">Speed</td>
-                                <td style="padding: 1.5rem; color: var(--text-secondary);">Unpredictable</td>
-                                <td style="padding: 1.5rem; color: var(--text-secondary);">Slow</td>
-                                <td style="padding: 1.5rem; color: white;">Direct</td>
+                            <tr>
+                                <td style="font-weight: 600;">Speed</td>
+                                <td>Unpredictable</td>
+                                <td>Slow</td>
+                                <td class="highlight">Direct</td>
                             </tr>
                         </tbody>
                     </table>
@@ -135,36 +130,27 @@
         </section>
 
         <!-- Process Section -->
-        <section id="process" class="section bg-dark">
+        <section id="process" class="section bg-dark dot-grid">
             <div class="container">
                 <div class="section-label"
                     style="color: var(--primary); font-family: 'Outfit', sans-serif; letter-spacing: 3px; font-weight: 700; margin-bottom: 1rem;">
                     // THE PROCESS</div>
                 <div class="process-grid"
-                    style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 3rem; margin-top: 4rem;">
+                    style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 3rem; margin-top: 4rem;">
                     <div class="process-card">
-                        <div
-                            style="font-size: 3rem; font-weight: 800; color: rgba(255,255,255,0.1); margin-bottom: 1rem;">
-                            01</div>
-                        <h3 style="font-size: 1.5rem; margin-bottom: 1rem;">Find your person</h3>
-                        <p style="color: var(--text-secondary); line-height: 1.6;">Browse by skill, domain, or name.
-                            Find the specialist who fits your specific needs.</p>
+                        <div class="process-number">01</div>
+                        <h3>Find your person</h3>
+                        <p>Browse by skill, domain, or name. Find the specialist who fits your specific needs.</p>
                     </div>
                     <div class="process-card">
-                        <div
-                            style="font-size: 3rem; font-weight: 800; color: rgba(255,255,255,0.1); margin-bottom: 1rem;">
-                            02</div>
-                        <h3 style="font-size: 1.5rem; margin-bottom: 1rem;">Book a free call</h3>
-                        <p style="color: var(--text-secondary); line-height: 1.6;">20 minutes. Scope the project. No
-                            commitment needed. Get immediate clarity.</p>
+                        <div class="process-number">02</div>
+                        <h3>Book a free call</h3>
+                        <p>15 minutes. Scope the project. No commitment needed. Get immediate clarity.</p>
                     </div>
                     <div class="process-card">
-                        <div
-                            style="font-size: 3rem; font-weight: 800; color: rgba(255,255,255,0.1); margin-bottom: 1rem;">
-                            03</div>
-                        <h3 style="font-size: 1.5rem; margin-bottom: 1rem;">We handle the rest</h3>
-                        <p style="color: var(--text-secondary); line-height: 1.6;">HH manages invoicing, delivery, and
-                            quality. You own the output. Pure execution.</p>
+                        <div class="process-number">03</div>
+                        <h3>We handle the rest</h3>
+                        <p>HH manages invoicing, delivery, and quality. You own the output. Pure execution.</p>
                     </div>
                 </div>
             </div>

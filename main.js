@@ -22,7 +22,7 @@ async function fetchTalent() {
 
     try {
         const { data, error } = await db
-            .from('HH_profiles')
+            .from('hh_profiles')
             .select('*')
             .order('rating', { ascending: false });
 

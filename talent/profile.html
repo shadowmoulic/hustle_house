@@ -4,282 +4,516 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Member Profile | Hustle House · KGP</title>
+    <title>Talent Profile | HUSTLEHOUSE</title>
     <link rel="icon"
-        href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🏠</text></svg>">
+        href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>⚡</text></svg>">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
-        href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;800;900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap"
         rel="stylesheet">
     <link rel="stylesheet" href="/index.css">
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <style id="custom-theme-styles">
-        /* Dynamic and Base Premium Styles */
         :root {
-            --member-accent: #F5A623;
+            --member-accent: #6366f1;
+            --surface: var(--card-bg);
+            --surface-lite: rgba(255, 255, 255, 0.03);
+            --border: var(--glass-border);
+        }
+
+        body.light-mode {
+            --surface: #ffffff;
+            --surface-lite: #f9f9f9;
+            --border: rgba(0, 0, 0, 0.06);
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-primary);
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            overflow-x: hidden;
+            transition: background-color 0.5s ease, color 0.5s ease;
         }
 
         .premium-profile-theme {
-            background-color: #0A0A0A;
-            font-family: 'Inter', sans-serif;
-            color: #F0F0F0;
+            background: radial-gradient(circle at 0% 0%, var(--member-accent)0D, transparent 40%),
+                radial-gradient(circle at 100% 100%, var(--member-accent)0D, transparent 40%);
         }
 
-        .profile-container {
-            max-width: 900px;
+        .profile-wrapper {
+            max-width: 1200px;
             margin: 0 auto;
-            padding: 120px 2rem 80px;
+            padding: 180px 2rem 100px;
         }
 
-        .mono {
-            font-family: 'JetBrains Mono', 'IBM Plex Mono', monospace;
+        /* Hero */
+        .hero-section {
+            padding: 4rem 0 6rem;
+            text-align: center;
+            border-bottom: 1px solid var(--border);
         }
 
-        .accent-text {
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 6px 14px;
+            background: var(--surface-lite);
+            border: 1px solid var(--border);
+            border-radius: 100px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.7rem;
+            font-weight: 700;
             color: var(--member-accent);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 2rem;
         }
 
-        .member-meta-line {
+        .hero-headline {
+            font-family: 'Outfit', sans-serif;
+            font-size: 5rem;
+            font-weight: 900;
+            line-height: 0.95;
+            letter-spacing: -0.05em;
+            margin-bottom: 2rem;
+        }
+
+        .hero-sub {
+            font-size: 1.15rem;
+            color: var(--text-secondary);
+            max-width: 650px;
+            margin: 0 auto 3rem;
+            line-height: 1.6;
+        }
+
+        .status-indicator {
             display: flex;
-            gap: 1.5rem;
-            margin-bottom: 1rem;
+            align-items: center;
+            gap: 10px;
+            border: 1px solid var(--border);
+            padding: 8px 16px;
+            border-radius: 100px;
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            background: #4ade80;
+            border-radius: 50%;
+            box-shadow: 0 0 12px #4ade80;
+        }
+
+        /* Case Studies */
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            margin: 6rem 0 3rem;
+        }
+
+        .section-title {
+            font-family: 'Outfit', sans-serif;
+            font-size: 2.5rem;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+        }
+
+        .case-study-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            padding: 3rem;
+            margin-bottom: 3rem;
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.02);
+        }
+
+        .case-study-card:hover {
+            border-color: var(--member-accent);
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.05);
+        }
+
+        body.light-mode .case-study-card {
+            background: #fff;
+            border-color: rgba(0, 0, 0, 0.05);
+        }
+
+        .case-tag {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.65rem;
+            color: var(--member-accent);
+            font-weight: 800;
+            text-transform: uppercase;
+            margin-bottom: 1.5rem;
+            display: block;
+        }
+
+        .case-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+        }
+
+        .case-content h3 {
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .case-metric {
+            font-size: 4rem;
+            font-weight: 900;
+            font-family: 'Outfit', sans-serif;
+            line-height: 1;
+            margin-bottom: 0.5rem;
+            color: #fff;
+        }
+
+        .case-metric-label {
             font-family: 'JetBrains Mono', monospace;
             font-size: 0.75rem;
-            color: #6B6B6B;
+            color: var(--text-secondary);
+            text-transform: uppercase;
             letter-spacing: 1px;
         }
 
-        .profile-name {
-            font-size: 4rem;
-            font-weight: 900;
-            letter-spacing: -0.04em;
-            margin-bottom: 0.5rem;
-            line-height: 1;
+        /* Trust Layer */
+        .trust-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            margin: 4rem 0;
         }
 
-        .stats-row {
+        .trust-item {
+            padding: 2rem;
+            background: var(--surface);
+            border: 1px solid var(--border);
+        }
+
+        .trust-item h4 {
+            margin-bottom: 1rem;
+            color: var(--member-accent);
+        }
+
+        /* Sticky CTA */
+        .sticky-cta {
+            position: fixed;
+            bottom: 40px;
+            right: 40px;
+            z-index: 1000;
+            padding: 16px 32px;
+            background: #fff;
+            color: #000;
+            font-weight: 800;
+            border-radius: 100px;
+            text-decoration: none;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+            transition: var(--transition);
             display: flex;
-            gap: 3rem;
-            margin-top: 2.5rem;
-            border-top: 1px solid #2A2A2A;
-            padding-top: 2rem;
+            align-items: center;
+            gap: 12px;
         }
 
-        .stat-item {
-            display: flex;
-            flex-direction: column;
-        }
-
-        .stat-value {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 1.5rem;
-            font-weight: 700;
+        .sticky-cta:hover {
+            transform: scale(1.05);
+            background: var(--member-accent);
             color: white;
         }
 
-        .stat-label {
-            font-size: 0.7rem;
-            color: #6B6B6B;
-            letter-spacing: 1px;
-            font-weight: 600;
+        /* Process */
+        .process-row {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1.5rem;
         }
 
-        .premium-card {
-            background: #111;
-            border: 1px solid #2A2A2A;
+        .process-col {
             padding: 2rem;
-            border-radius: 0;
-            transition: all 0.3s ease;
+            border-left: 1px solid var(--border);
         }
 
-        .premium-card:hover {
-            border-color: var(--member-accent);
-            transform: translateY(-5px);
-        }
-
-        .proof-label {
-            display: block;
+        .process-num {
             font-family: 'JetBrains Mono', monospace;
-            font-size: 0.65rem;
-            color: #444;
-            margin-top: 1.5rem;
-            margin-bottom: 0.25rem;
-        }
-
-        .mono-tag.accent {
-            border-color: var(--member-accent);
+            font-size: 0.7rem;
             color: var(--member-accent);
+            margin-bottom: 1.5rem;
         }
 
-        .premium-box {
-            background: #111;
-            border: 1px solid var(--member-accent);
-            padding: 3rem;
-            position: relative;
-            text-align: center;
-        }
-
-        .box-label {
-            position: absolute;
-            top: 0;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background: var(--member-accent);
-            color: black;
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 0.65rem;
-            font-weight: 800;
-            padding: 2px 10px;
-        }
-
-        .managed-label {
-            font-size: 0.75rem;
-            opacity: 0.5;
-            margin-top: 2rem;
-            font-family: 'JetBrains Mono', monospace;
-        }
-
-        .premium-btn {
-            background: var(--member-accent);
-            color: black;
-            border-radius: 0;
-            font-family: 'JetBrains Mono', monospace;
-            width: 100%;
-            justify-content: center;
-            margin-top: 1rem;
+        @media (max-width: 1024px) {
+            .hero-headline {
+                font-size: 4.5rem;
+            }
         }
 
         @media (max-width: 768px) {
-            .profile-name {
-                font-size: 2.5rem;
+            .profile-wrapper {
+                padding: 80px 1.5rem 80px;
             }
 
-            .stats-row {
+            .hero-section {
+                padding: 2rem 0 4rem;
+            }
+
+            .hero-headline {
+                font-size: 3.2rem;
+            }
+
+            .hero-sub {
+                font-size: 1.1rem;
+            }
+
+            .section-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+                margin: 4rem 0 2rem;
+            }
+
+            .case-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .case-study-card {
+                padding: 1.5rem;
+            }
+
+            .case-metric {
+                font-size: 3rem;
+            }
+
+            .trust-grid {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+
+            .process-row {
+                grid-template-columns: 1fr;
+                gap: 0;
+            }
+
+            .process-col {
+                border-left: none;
+                border-bottom: 1px solid var(--border);
+                padding: 1.5rem 0;
+            }
+
+            #pricing {
+                padding: 3rem 1.5rem;
+            }
+
+            .sticky-cta {
+                bottom: 20px;
+                right: 20px;
+                left: 20px;
+                justify-content: center;
+                font-size: 0.9rem;
+                padding: 14px;
+            }
+
+            #social-proof {
                 gap: 1.5rem;
                 flex-wrap: wrap;
+                margin-top: 4rem;
+            }
+
+            #social-proof span {
+                font-size: 1rem !important;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero-headline {
+                font-size: 2.2rem;
+            }
+
+            .hero-sub {
+                font-size: 1rem;
             }
         }
     </style>
 </head>
 
-<body class="premium-profile-theme">
+<body class="premium-profile-theme light-mode">
+    <div class="bg-animation">
+        <div class="aura-blob blob-1"></div>
+        <div class="aura-blob blob-2"></div>
+        <div class="aura-blob blob-3"></div>
+    </div>
     <div class="cursor-glow"></div>
     <div id="header-container"></div>
 
-    <main class="profile-container" id="profile-main-wrapper">
-        <!-- Top Section -->
-        <div class="profile-header">
-            <div class="avatar-circle" id="member-initials">--</div>
-            <div class="status-indicator status-available" id="member-status">
-                <div class="status-dot"></div>
-                <span>Available</span>
+    <main class="profile-wrapper">
+        <!-- Hero Section -->
+        <section class="hero-section">
+            <div class="hero-badge" id="member-id-tag">
+                <span style="opacity: 0.5;">ID//</span> HH-0000
             </div>
-        </div>
-
-        <div class="profile-intro">
-            <div class="member-meta-line" id="member-meta-top">
-                <span class="meta-item">// VETTED SPECIALIST</span>
-                <span class="meta-item" id="member-id-tag">ID: HH-000</span>
-            </div>
-            <h1 class="profile-name" id="member-name">Loading...</h1>
-            <div class="profile-role-line" id="member-role-line">ROLE · IIT KHARAGPUR</div>
-            <p class="profile-bio-line" id="member-one-liner">One line bio loading...</p>
-
-            <div class="tags-group" id="member-tags">
-                <!-- Tags added here -->
-            </div>
-
-            <div class="stats-row" id="member-stats-row">
-                <div class="stat-item">
-                    <span class="stat-value" id="member-projects-count">0</span>
-                    <span class="stat-label">PROJECTS</span>
-                </div>
-                <div class="stat-item">
-                    <span class="stat-value">100%</span>
-                    <span class="stat-label">VETTED</span>
-                </div>
-                <div class="stat-item" id="rating-stat">
-                    <span class="stat-value" id="member-rating">5.0</span>
-                    <span class="stat-label">RATING</span>
-                </div>
-            </div>
-        </div>
-
-        <div class="section-divider"></div>
-
-        <!-- What I Do -->
-        <div class="profile-section">
-            <span class="profile-section-label">// EXECUTION STRATEGY</span>
-            <p class="what-i-do-text" id="member-full-bio">
-                Bio loading content here...
+            <h1 class="hero-headline" id="member-hero-headline">
+                Creating impact through technical excellence.
+            </h1>
+            <p class="hero-sub" id="member-one-liner">
+                Vetted Specialist from IIT Kharagpur delivering global project outcomes.
             </p>
-        </div>
+            <div style="display: flex; gap: 1.5rem; justify-content: center; align-items: center;">
+                <a href="#" class="glow-button" id="member-cta-button"
+                    style="padding: 1.25rem 2.5rem; font-size: 1.1rem; border-radius: 0;">Book Strategy Call</a>
+                <div id="member-status" class="status-indicator">
+                    <div class="status-dot"></div>
+                    <span
+                        style="font-family: 'JetBrains Mono', monospace; font-size: 0.7rem; text-transform: uppercase;">Available</span>
+                </div>
+            </div>
 
-        <div class="section-divider"></div>
+            <div id="social-proof"
+                style="margin-top: 6rem; opacity: 0.3; display: flex; justify-content: center; gap: 4rem; filter: grayscale(1);">
+                <!-- Logos placeholder -->
+                <span style="font-family: 'Outfit', sans-serif; font-weight: 800; font-size: 1.5rem;">IIT KGP
+                    Network</span>
+                <span style="font-family: 'Outfit', sans-serif; font-weight: 800; font-size: 1.5rem;">Vetted
+                    Proof</span>
+                <span style="font-family: 'Outfit', sans-serif; font-weight: 800; font-size: 1.5rem;">Global
+                    Delivery</span>
+            </div>
+        </section>
 
         <!-- Proof Section -->
-        <div class="profile-section">
-            <span class="profile-section-label">// PROOF OF WORK</span>
-            <div class="proof-grid" id="member-proof">
-                <!-- Proof cards added here -->
+        <section id="proof">
+            <div class="section-header">
+                <div>
+                    <span
+                        style="font-family: 'JetBrains Mono', monospace; font-size: 0.7rem; color: var(--member-accent); text-transform: uppercase; letter-spacing: 2px;">//
+                        CASE STUDIES</span>
+                    <h2 class="section-title">Verified Proof of Work</h2>
+                </div>
+                <div class="mono" style="font-size: 0.8rem; opacity: 0.5;">[2026]</div>
             </div>
-        </div>
 
-        <div class="section-divider"></div>
-
-        <!-- Tools Section -->
-        <div class="profile-section">
-            <span class="profile-section-label">// TECH STACK</span>
-            <div class="tags-group" id="member-tools">
-                <!-- Tool tags added here -->
+            <div id="member-proof">
+                <!-- Case Study Cards Dynamic -->
             </div>
-        </div>
+        </section>
 
-        <div class="section-divider"></div>
-
-        <!-- System Flow -->
-        <div class="profile-section">
-            <span class="profile-section-label">// ENGAGEMENT SYSTEM</span>
-            <div class="expectation-list">
-                <div class="expectation-item">
-                    <div class="expectation-num">01</div>
-                    <div class="expectation-text">Book a free 20-min scoping call below.</div>
-                </div>
-                <div class="expectation-item">
-                    <div class="expectation-num">02</div>
-                    <div class="expectation-text">We verify requirements and match project scope.</div>
-                </div>
-                <div class="expectation-item">
-                    <div class="expectation-num">03</div>
-                    <div class="expectation-text">Hustle House issues terms and invoice within 24h.</div>
-                </div>
-                <div class="expectation-item">
-                    <div class="expectation-num">04</div>
-                    <div class="expectation-text">Execution begins with daily/weekly status syncs.</div>
+        <!-- Trust Section -->
+        <section id="trust">
+            <div class="section-header">
+                <div>
+                    <span
+                        style="font-family: 'JetBrains Mono', monospace; font-size: 0.7rem; color: var(--member-accent); text-transform: uppercase; letter-spacing: 2px;">//
+                        SELECTION MODEL</span>
+                    <h2 class="section-title">Why HustleHouse?</h2>
                 </div>
             </div>
-        </div>
-
-        <div class="section-divider"></div>
-
-        <!-- Book A Call -->
-        <div class="profile-section">
-            <div class="cta-box premium-box">
-                <div class="box-label">TRANSMISSION START</div>
-                <h2 id="member-cta-title">Free 20-min scoping call with NAME</h2>
-                <p id="member-cta-subtitle">ROLE · IIT Kharagpur</p>
-                <div class="cta-price" id="member-price">Minimal project: $X</div>
-                <p class="managed-label">Managed & Invoiced through KGP Hustle House</p>
-                <a href="#" class="glow-button premium-btn" id="member-cta-button">Engage Specialist →</a>
+            <div class="trust-grid">
+                <div class="trust-item">
+                    <h4>01. 1% Acceptance</h4>
+                    <p style="color: var(--text-secondary); font-size: 0.9rem;">We audit 100+ candidates for every
+                        specialist admitted to the network.</p>
+                </div>
+                <div class="trust-item">
+                    <h4>02. Direct Access</h4>
+                    <p style="color: var(--text-secondary); font-size: 0.9rem;">No account managers. You speak directly
+                        to the engineer/designer building your vision.</p>
+                </div>
+                <div class="trust-item">
+                    <h4>03. Managed Quality</h4>
+                    <p style="color: var(--text-secondary); font-size: 0.9rem;">Hustle House acts as the trust layer,
+                        managing invoicing and output standards.</p>
+                </div>
             </div>
-        </div>
+        </section>
 
-        <div class="fine-print mono">
-            SYSTEM STATUS: OPERATIONAL<br>
-            HUSTLE HOUSE CORE · IIT KHARAGPUR · 2025
-        </div>
+        <!-- Process Section -->
+        <section id="process">
+            <div class="section-header">
+                <h2 class="section-title">Engagement Model</h2>
+            </div>
+            <div class="process-row">
+                <div class="process-col">
+                    <div class="process-num">01/</div>
+                    <h3 style="font-size: 1.2rem; margin-bottom: 1rem;">Scope</h3>
+                    <p style="font-size: 0.85rem; color: var(--text-secondary);">15-min strategy call to align on goals
+                        and deliverables.</p>
+                </div>
+                <div class="process-col">
+                    <div class="process-num">02/</div>
+                    <h3 style="font-size: 1.2rem; margin-bottom: 1rem;">Propose</h3>
+                    <p style="font-size: 0.85rem; color: var(--text-secondary);">Transparent roadmap and pricing issued
+                        within 24 hours.</p>
+                </div>
+                <div class="process-col">
+                    <div class="process-num">03/</div>
+                    <h3 style="font-size: 1.2rem; margin-bottom: 1rem;">Execute</h3>
+                    <p style="font-size: 0.85rem; color: var(--text-secondary);">Dedicated specialist begins
+                        high-velocity sprints.</p>
+                </div>
+                <div class="process-col">
+                    <div class="process-num">04/</div>
+                    <h3 style="font-size: 1.2rem; margin-bottom: 1rem;">Deliver</h3>
+                    <p style="font-size: 0.85rem; color: var(--text-secondary);">Final handoff with verified
+                        documentation and support.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Drop a Query -->
+        <section id="query"
+            style="margin-top: 6rem; max-width: 700px; margin-left: auto; margin-right: auto; padding-bottom: 100px;">
+            <div style="text-align: center; margin-bottom: 3rem;">
+                <span
+                    style="font-family: 'JetBrains Mono', monospace; font-size: 0.7rem; color: var(--member-accent); text-transform: uppercase;">//
+                    INQUIRY TRANSMISSION</span>
+                <h2 class="section-title">Drop a Query</h2>
+                <p style="color: var(--text-secondary); margin-top: 1rem;">Not ready for a call? Send a brief brief
+                    about your project requirements.</p>
+            </div>
+
+            <form id="profile-query-form" class="glass"
+                style="padding: 3rem; border: 1px solid var(--border); background: var(--surface);">
+                <input type="hidden" id="query-specialist-name" name="specialist_name">
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 1.5rem;">
+                    <div>
+                        <label
+                            style="display: block; font-size: 0.75rem; color: #666; margin-bottom: 0.5rem; text-transform: uppercase; font-family: 'JetBrains Mono', monospace;">Your
+                            Name</label>
+                        <input type="text" name="name" required
+                            style="width: 100%; background: #000; border: 1px solid var(--border); padding: 1rem; color: #fff; outline: none;">
+                    </div>
+                    <div>
+                        <label
+                            style="display: block; font-size: 0.75rem; color: #666; margin-bottom: 0.5rem; text-transform: uppercase; font-family: 'JetBrains Mono', monospace;">Email
+                            or WhatsApp</label>
+                        <input type="text" id="query-contact" name="contact" required
+                            style="width: 100%; background: #000; border: 1px solid var(--border); padding: 1rem; color: #fff; outline: none;">
+                    </div>
+                </div>
+                <div style="margin-bottom: 2rem;">
+                    <label
+                        style="display: block; font-size: 0.75rem; color: #666; margin-bottom: 0.5rem; text-transform: uppercase; font-family: 'JetBrains Mono', monospace;">Your
+                        Requirement / Goal</label>
+                    <textarea name="message" required
+                        style="width: 100%; background: #000; border: 1px solid var(--border); padding: 1rem; color: #fff; outline: none; min-height: 120px; resize: vertical;"></textarea>
+                </div>
+                <button type="submit" class="glow-button" id="query-submit-btn"
+                    style="width: 100%; padding: 1.25rem; border: none; cursor: pointer; justify-content: center; font-size: 1rem;">Send
+                    Query to Specialist</button>
+            </form>
+        </section>
+
     </main>
+
+    <a href="#" class="sticky-cta" id="sticky-engage-btn">
+        <span>Engage Specialist</span>
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M5 10H15M15 10L10 5M15 10L10 15" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                stroke-linejoin="round" />
+        </svg>
+    </a>
 
     <div id="footer-container"></div>
 

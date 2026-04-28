@@ -242,12 +242,13 @@
                         </td>
                         <td style="font-size: 0.85rem;">
                              <div style="color: var(--accent);">Class of ${app.grad_year || '?'}</div>
-                             <div style="color: var(--text-secondary);">${app.address || '?'}</div>
+                             <div style="color: var(--text-secondary); font-family: 'JetBrains Mono', monospace; font-size: 0.7rem;">Subdomain: ${app.custom_subdomain || '?'}</div>
                         </td>
                         <td style="display: flex; gap: 0.8rem;">
-                            <a href="https://wa.me/91${app.whatsapp ? app.whatsapp.replace(/\+/g, '') : ''}" target="_blank" style="color: #25d366; text-decoration: none; font-size: 1.1rem;">💬</a>
-                            <a href="${app.portfolio}" target="_blank" style="color: var(--primary); text-decoration: none; font-size: 1.1rem;">🌐</a>
-                            <a href="${app.linkedin_url}" target="_blank" style="color: #0077b5; text-decoration: none; font-size: 1.1rem;">🔗</a>
+                            <a href="https://wa.me/91${app.whatsapp ? app.whatsapp.replace(/\+/g, '') : ''}" target="_blank" style="color: #25d366; text-decoration: none; font-size: 1.1rem;" title="WhatsApp">💬</a>
+                            <a href="${app.portfolio}" target="_blank" style="color: var(--primary); text-decoration: none; font-size: 1.1rem;" title="Portfolio">🌐</a>
+                            <a href="${app.linkedin_url}" target="_blank" style="color: #0077b5; text-decoration: none; font-size: 1.1rem;" title="LinkedIn">🔗</a>
+                            ${app.additional_proof ? `<a href="#" onclick="alert('Additional Proof Links:\\n${app.additional_proof.replace(/,/g, '\\n')}'); return false;" style="color: #f1c40f; text-decoration: none; font-size: 1.1rem;" title="More Proof">📑</a>` : ''}
                         </td>
                         <td>
                             <div style="display: flex; gap: 0.5rem;">

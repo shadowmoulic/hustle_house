@@ -85,83 +85,76 @@ async function initProfile() {
         }
 
         // 5. Populate Basic Info
-        const initials = profile.full_name.split(' ').map(n => n[0]).join('').toUpperCase();
-        document.getElementById('member-initials').innerText = initials;
-        document.getElementById('member-name').innerText = profile.full_name;
-        document.getElementById('member-role-line').innerText = `${profile.role.toUpperCase()} · IIT KHARAGPUR`;
-        document.getElementById('member-id-tag').innerText = `ID: HH-${profile.id.substring(0, 4).toUpperCase()}`;
+        const firstName = profile.full_name.split(' ')[0];
+        document.getElementById('member-id-tag').innerHTML = `<span style="opacity: 0.5;">ID//</span> HH-${profile.id.substring(0, 4).toUpperCase()}`;
 
-        // Bio & Stats
-        document.getElementById('member-one-liner').innerText = profile.bio.split('. ')[0] + '.';
-        document.getElementById('member-full-bio').innerText = profile.bio;
-        document.getElementById('member-projects-count').innerText = profile.projects_count || 0;
-        document.getElementById('member-rating').innerText = parseFloat(profile.rating || 5.0).toFixed(1);
+        // Handle result-driven headline (First sentence of bio or custom)
+        const bioParts = profile.bio.split('. ');
+        const headline = bioParts[0] + '.';
+        const remainingBio = bioParts.slice(1).join('. ');
 
-        if (theme.show_rating === false) {
-            document.getElementById('rating-stat').style.display = 'none';
-        }
+        document.getElementById('member-hero-headline').innerText = headline;
+        document.getElementById('member-one-liner').innerText = `${profile.role} from IIT Kharagpur delivering global project outcomes.`;
+        document.getElementById('member-price-anchor').innerText = `Typical Projects start at $${profile.min_project_price || 500}`;
 
         // Status & CTA Logic
         const statusEl = document.getElementById('member-status');
         const ctaBtn = document.getElementById('member-cta-button');
+        const stickyBtn = document.getElementById('sticky-engage-btn');
         const isAvailable = profile.availability !== 'busy';
 
         if (isAvailable) {
-            statusEl.className = 'status-indicator status-available';
-            statusEl.querySelector('span').innerText = 'Available';
-            ctaBtn.innerText = 'Engage Specialist →';
+            statusEl.querySelector('span').innerText = '● Available';
+            ctaBtn.innerText = 'Book Strategy Call';
             ctaBtn.href = profile.cal_link || '#';
+            stickyBtn.href = profile.cal_link || '#';
         } else {
-            statusEl.className = 'status-indicator status-busy';
-            statusEl.querySelector('span').innerText = 'At Capacity';
+            statusEl.querySelector('span').innerText = '● At Capacity';
             ctaBtn.innerText = 'Join Waitlist';
-            ctaBtn.onclick = (e) => {
-                e.preventDefault();
-                const email = prompt("Specialist is at capacity. Enter your email to join the waitlist:");
-                if (email) alert("Added to queue. We will notify you once a slot opens.");
-            };
+            stickyBtn.innerText = 'Join Waitlist';
         }
-
-        // CTA Section Branding
-        document.getElementById('member-cta-title').innerText = `Scoping call with ${profile.full_name.split(' ')[0]}`;
-        document.getElementById('member-cta-subtitle').innerText = `${profile.role} · IIT Kharagpur`;
-        document.getElementById('member-price').innerText = `Minimal project size: $${profile.min_project_price || 200}`;
-
-        // 6. Populate Tags (Skills)
-        const tagsContainer = document.getElementById('member-tags');
-        const topSkills = (profile.skills || '').split(',').slice(0, 4);
-        tagsContainer.innerHTML = topSkills.map(skill => `<span class="mono-tag">${skill.trim()}</span>`).join('');
-
-        // 7. Populate Tools
-        const toolsContainer = document.getElementById('member-tools');
-        const tools = (profile.tools || '').split(',');
-        toolsContainer.innerHTML = tools.map(tool => `<span class="mono-tag accent">${tool.trim()}</span>`).join('');
 
         // 8. Populate Proof (Portfolio)
         const proofContainer = document.getElementById('member-proof');
         if (portfolio && portfolio.length > 0) {
             proofContainer.innerHTML = portfolio.map(item => `
-                <div class="proof-card premium-card">
-                    <span class="proof-client">${item.client_type || 'B2B / SaaS'}</span>
-                    <h3 class="proof-title">${item.title}</h3>
-                    
-                    <span class="proof-label">// INTENT</span>
-                    <p class="proof-content">${item.description}</p>
-                    
-                    <span class="proof-label">// OUTCOME</span>
-                    <div class="proof-result accent-text">${item.result_metric || 'Successful'}</div>
-                    <p class="proof-result-desc">${item.result_detail || ''}</p>
-                    
-                    <a href="${item.proof_link || '#'}" target="_blank" class="proof-link">VERIFY PROOF ↗</a>
+                <div class="case-study-card dot-grid">
+                    <div class="case-grid">
+                        <div class="case-content">
+                            <span class="case-tag">// Case Study / ${item.client_type || 'B2B SaaS'}</span>
+                            <h3 style="color: var(--text-primary); font-size: 2.2rem; margin-bottom: 1.5rem; letter-spacing: -1px;">${item.title}</h3>
+                            
+                            <div style="margin-bottom: 2.5rem;">
+                                <span style="font-family: 'JetBrains Mono', monospace; font-size: 0.65rem; color: var(--member-accent); display: block; margin-bottom: 0.5rem; text-transform: uppercase;">The Challenge</span>
+                                <p style="color: var(--text-primary); font-size: 1.05rem; line-height: 1.6; font-weight: 500;">${item.description}</p>
+                            </div>
+
+                            <div class="case-result-box" style="background: var(--surface-lite); padding: 2rem; border-left: 4px solid var(--member-accent);">
+                                <div class="case-metric" style="font-size: 3rem; font-weight: 900; color: var(--text-primary); letter-spacing: -2px; line-height: 1;">${item.result_metric || '100%'}</div>
+                                <div class="case-metric-label" style="font-family: 'JetBrains Mono', monospace; font-size: 0.75rem; color: var(--text-secondary); text-transform: uppercase; margin-top: 0.5rem;">${item.result_detail || 'Success Rate'}</div>
+                            </div>
+                        </div>
+                        <div class="mesh-highlight" style="background: rgba(0,0,0,0.02); min-height: 300px; display: flex; align-items: center; justify-content: center; position: relative; border: 1px solid var(--border);">
+                            ${item.icon ? `<span style="font-size: 6rem; filter: drop-shadow(0 10px 20px rgba(0,0,0,0.1));">${item.icon}</span>` : `<span style="font-family: 'Outfit', sans-serif; font-weight: 900; font-size: 5rem; opacity: 0.05; letter-spacing: -5px;">PROOF//</span>`}
+                            <a href="${item.proof_link || '#'}" target="_blank" class="glow-button" style="position: absolute; bottom: 20px; right: 20px; padding: 10px 20px; font-size: 0.7rem; border-radius: 4px;">Verify Proof ↗</a>
+                        </div>
+                    </div>
                 </div>
             `).join('');
         } else {
-            proofContainer.innerHTML = `<p style="color: var(--text-secondary); grid-column: 1/-1; opacity: 0.5;">Verified case studies pending synchronization.</p>`;
+            proofContainer.innerHTML = `<p style="color: var(--text-secondary); text-align: center; padding: 4rem; border: 1px dashed var(--border);">Verified case studies pending synchronization.</p>`;
         }
 
         // Update Page Title & Metadata
-        const pageTitle = `${profile.full_name} | ${profile.role} | Hustle House · KGP`;
+        const pageTitle = `${profile.full_name} | ${profile.role} | HUSTLEHOUSE`;
         document.title = pageTitle;
+
+        // Populate Hidden Form Field
+        const specialistNameField = document.getElementById('query-specialist-name');
+        if (specialistNameField) specialistNameField.value = profile.full_name;
+
+        // Initialize Query Form Submission
+        initQueryForm();
 
         // Add/Update Canonical Link for SEO
         let canonical = document.querySelector('link[rel="canonical"]');
@@ -174,8 +167,46 @@ async function initProfile() {
 
     } catch (err) {
         console.error('Profile load error:', err);
-        document.getElementById('member-name').innerText = 'Member Not Found';
+        document.getElementById('member-hero-headline').innerText = 'Member Not Found';
     }
+}
+
+function initQueryForm() {
+    const form = document.getElementById('profile-query-form');
+    if (!form) return;
+
+    form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const btn = document.getElementById('query-submit-btn');
+        const originalText = btn.innerText;
+        btn.innerText = 'Transmitting...';
+        btn.disabled = true;
+
+        const formData = new FormData(form);
+        const contact = formData.get('contact');
+        const isEmail = contact.includes('@');
+
+        const payload = {
+            name: formData.get('name'),
+            message: formData.get('message'),
+            specialist_name: formData.get('specialist_name'),
+            [isEmail ? 'email' : 'whatsapp']: contact
+        };
+
+        try {
+            const { error } = await db.from('hh_leads').insert([payload]);
+            if (error) throw error;
+
+            alert('Query transmited. The specialist or HH admin will reach out shortly.');
+            form.reset();
+        } catch (err) {
+            console.error('Submission error:', err);
+            alert('Transmission failed. Direct link: contact@kgphustlehouse.com');
+        } finally {
+            btn.innerText = originalText;
+            btn.disabled = false;
+        }
+    });
 }
 
 document.addEventListener('DOMContentLoaded', initProfile);

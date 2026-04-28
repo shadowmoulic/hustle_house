@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "Premium IIT KGP Hacker Network",
   "scripts": {
-    "dev": "npx serve ."
+    "dev": "node dev-server.js"
   },
   "dependencies": {},
   "devDependencies": {
