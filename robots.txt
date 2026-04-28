@@ -1,4 +1,7 @@
 User-agent: *
 Allow: /
+Disallow: /admin/
+Disallow: /onboarding/
+Disallow: /private/
 
-Sitemap: https://hustlehouse.vercel.app/sitemap.xml
+Sitemap: https://kgphustlehouse.com/sitemap.xml

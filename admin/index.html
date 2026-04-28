@@ -15,87 +15,11 @@
     <link rel="stylesheet" href="../index.css">
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <style>
-        .admin-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 2rem;
-            color: white;
-            background: rgba(255, 255, 255, 0.02);
-            border-radius: 12px;
-            overflow: hidden;
-        }
-
-        .admin-table th,
-        .admin-table td {
-            padding: 1rem;
-            text-align: left;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-        }
-
-        .admin-table th {
-            background: rgba(255, 255, 255, 0.05);
-            font-weight: 700;
-            color: var(--primary);
-        }
-
-        .status-badge {
-            padding: 4px 10px;
-            border-radius: 6px;
-            font-size: 0.75rem;
-            font-weight: 700;
-            text-transform: uppercase;
-        }
-
-        .status-pending {
-            background: rgba(251, 191, 36, 0.1);
-            color: #fbbf24;
-            border: 1px solid rgba(251, 191, 36, 0.2);
-        }
-
-        .status-accepted {
-            background: rgba(34, 197, 94, 0.1);
-            color: #22c55e;
-            border: 1px solid rgba(34, 197, 94, 0.2);
-        }
-
-        .status-rejected {
-            background: rgba(239, 68, 68, 0.1);
-            color: #ef4444;
-            border: 1px solid rgba(239, 68, 68, 0.2);
-        }
-
-        .action-btn {
-            background: none;
-            border: 1px solid var(--glass-border);
-            color: white;
-            padding: 6px 10px;
-            border-radius: 6px;
-            cursor: pointer;
-            transition: 0.2s;
-        }
-
-        .action-btn:hover {
-            background: rgba(255, 255, 255, 0.1);
-        }
-
-        .btn-accept:hover {
-            border-color: #22c55e;
-            color: #22c55e;
-        }
-
-        .btn-reject:hover {
-            border-color: #ef4444;
-            color: #ef4444;
-        }
-
+        /* Minimal layout overrides only */
         .login-box {
             max-width: 400px;
             margin: 100px auto;
             text-align: center;
-        }
-
-        #admin-panel {
-            display: none;
         }
 
         .exp-badge {
@@ -114,47 +38,127 @@
     <div class="cursor-glow"></div>
     <div id="header-container"></div>
 
-    <main style="padding-top: 150px; padding-bottom: 100px;">
-        <div class="container" style="max-width: 1400px;">
-            <!-- Login View -->
-            <div id="login-view" class="login-box glass">
-                <h2 style="margin-bottom: 1.5rem;">Admin Access</h2>
-                <input type="password" id="admin-pass" placeholder="Enter Password"
-                    style="width: 100%; padding: 1rem; border-radius: 12px; border: 1px solid var(--glass-border); background: rgba(5,5,5,0.5); color: white; margin-bottom: 1.5rem; outline: none;">
-                <button onclick="checkAdmin()" class="glow-button"
-                    style="width: 100%; border: none; cursor: pointer; justify-content: center;">Authorize</button>
+    <main style="padding-top: 140px; padding-bottom: 100px;">
+        <div class="container" style="max-width: 900px;">
+
+            <!-- Tab Navigation -->
+            <div style="display: flex; gap: 1rem; margin-bottom: 3rem; justify-content: center;">
+                <button id="tab-ingestor" onclick="switchSection('portfolio')" class="action-btn"
+                    style="padding: 1rem 2rem; border-radius: 12px; font-weight: 800; background: var(--primary); border: none;">Proof
+                    Ingestor</button>
+                <button id="tab-admin" onclick="switchSection('applications')" class="action-btn"
+                    style="padding: 1rem 2rem; border-radius: 12px; font-weight: 800; opacity: 0.5;">Staff
+                    Portal</button>
             </div>
 
-            <!-- Admin Panel View -->
-            <div id="admin-panel">
-                <div class="section-header"
-                    style="text-align: left; margin-bottom: 3rem; display: flex; justify-content: space-between; align-items: flex-end;">
-                    <div>
-                        <h1 class="section-title">Hustle <span class="gradient-text">Network</span></h1>
-                        <p class="section-subtitle" style="margin: 0;">Manage applications and talent onboarding.</p>
-                    </div>
-                    <button onclick="fetchApplications()" class="action-btn">🔄 Refresh</button>
+            <!-- PUBLIC SECTION: Proof Ingestor -->
+            <div id="portfolio-section" class="glass"
+                style="padding: 3rem; border-radius: 30px; border: 1px solid var(--glass-border);">
+                <div style="text-align: center; margin-bottom: 3.5rem;">
+                    <span class="mono"
+                        style="color: var(--primary); font-size: 0.75rem; letter-spacing: 2px; font-weight: 800;">//
+                        MEMBER UTILITY</span>
+                    <h2 style="font-size: 2.8rem; font-weight: 900; margin-top: 1rem; line-height: 1;">Live Proof
+                        Ingestor</h2>
+                    <p style="color: var(--text-secondary); margin-top: 1rem; font-size: 1.1rem;">Push verified results
+                        directly to your talent profile.</p>
                 </div>
 
-                <div id="loading" style="text-align: center; padding: 2rem; color: var(--text-secondary);">Fetching
-                    data...</div>
+                <form id="add-proof-form" style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem;">
+                    <div style="grid-column: span 2;">
+                        <label class="query-label">Select Your Profile</label>
+                        <select id="proof-slug" required class="query-input">
+                            <option value="" disabled selected>Dropdown to pick your name...</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="query-label">Industry / Client</label>
+                        <input type="text" id="proof-client" required class="query-input" placeholder="e.g. B2B SaaS">
+                    </div>
+                    <div>
+                        <label class="query-label">Project Title</label>
+                        <input type="text" id="proof-title" required class="query-input" placeholder="e.g. SEO Audit">
+                    </div>
+                    <div style="grid-column: span 2;">
+                        <label class="query-label">What You Did</label>
+                        <textarea id="proof-desc" required class="query-input"
+                            placeholder="Narrative of technical strategy and execution..."
+                            style="min-height: 100px;"></textarea>
+                    </div>
+                    <div>
+                        <label class="query-label">Success Metric</label>
+                        <input type="text" id="proof-metric" required class="query-input" placeholder="e.g. 0 -> 4,200">
+                    </div>
+                    <div>
+                        <label class="query-label">Metric Detail</label>
+                        <input type="text" id="proof-detail" required class="query-input"
+                            placeholder="e.g. monthly visits">
+                    </div>
+                    <div style="grid-column: span 2;">
+                        <label class="query-label">Direct Link to Proof</label>
+                        <input type="url" id="proof-url" required class="query-input" placeholder="https://...">
+                    </div>
+                    <div style="grid-column: span 2;">
+                        <button type="submit" class="glow-button"
+                            style="width: 100%; justify-content: center; padding: 1.5rem; font-size: 1.1rem; font-weight: 900; border: none; cursor: pointer;">Push
+                            Proof to Profile 🚀</button>
+                    </div>
+                </form>
 
-                <div style="overflow-x: auto;">
-                    <table class="admin-table">
-                        <thead>
-                            <tr>
-                                <th>Name / Roll</th>
-                                <th>Status</th>
-                                <th>Expertise</th>
-                                <th>Grad / Address</th>
-                                <th>Links</th>
-                                <th>Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody id="applications-body">
-                            <!-- Data injected here -->
-                        </tbody>
-                    </table>
+                <div style="margin-top: 4rem; border-top: 1px solid var(--glass-border); padding-top: 3rem;">
+                    <h3 style="font-weight: 900; margin-bottom: 2rem;">Recent Submissions</h3>
+                    <div style="overflow-x: auto;">
+                        <table class="admin-table" style="background: transparent;">
+                            <thead>
+                                <tr>
+                                    <th>Talent</th>
+                                    <th>Project</th>
+                                    <th>Result</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody id="portfolio-body"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PROTECTED SECTION: Admin Login -->
+            <div id="admin-login-section" class="login-box glass"
+                style="display: none; padding: 4rem 3rem; border-radius: 30px;">
+                <h2 style="font-weight: 900; font-size: 2rem; margin-bottom: 0.5rem;">Admin Vault</h2>
+                <p style="color: var(--text-secondary); margin-bottom: 2.5rem;">Restricted area for network intake
+                    management.</p>
+                <input type="password" id="admin-pass" placeholder="Orbit Passcode" class="query-input"
+                    style="text-align: center; font-size: 1.25rem;">
+                <button onclick="checkAdmin()" class="glow-button"
+                    style="width: 100%; border: none; cursor: pointer; justify-content: center; padding: 1.25rem; margin-top: 1.5rem;">Enter
+                    Vault</button>
+            </div>
+
+            <!-- PROTECTED SECTION: Applications -->
+            <div id="applications-section" style="display: none;">
+                <div class="glass" style="padding: 3rem; border-radius: 30px;">
+                    <div
+                        style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 3rem;">
+                        <h2 style="font-weight: 900; font-size: 2rem;">Pending Intake</h2>
+                        <button onclick="fetchApplications()" class="action-btn">🔄 Refresh Feed</button>
+                    </div>
+                    <div id="loading" style="text-align: center; padding: 2rem; color: var(--text-secondary);">Scanning
+                        network for new applications...</div>
+                    <div style="overflow-x: auto;">
+                        <table class="admin-table">
+                            <thead>
+                                <tr>
+                                    <th>Talent</th>
+                                    <th>Status</th>
+                                    <th>Expertise</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="applications-body"></tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>
@@ -166,40 +170,64 @@
     <script src="../supabase.js"></script>
     <script>
         const ADMIN_PWD = "HH@KGP#123";
+        let isAdminAuthorized = false;
 
-        function checkAdmin() {
-            const pass = document.getElementById('admin-pass').value;
-            if (pass.trim() === ADMIN_PWD) {
-                document.getElementById('login-view').style.display = 'none';
-                document.getElementById('admin-panel').style.display = 'block';
-                fetchApplications();
-            } else {
-                alert("Unauthorized access denied.");
+        window.onload = () => {
+            fetchTalentDropdown();
+            fetchPortfolio(); // Initially load public portfolio list
+        };
+
+        function switchSection(section) {
+            // Reset visibilities
+            document.getElementById('portfolio-section').style.display = 'none';
+            document.getElementById('admin-login-section').style.display = 'none';
+            document.getElementById('applications-section').style.display = 'none';
+
+            // Reset tab highlights
+            document.getElementById('tab-ingestor').style.opacity = '0.5';
+            document.getElementById('tab-admin').style.opacity = '0.5';
+            document.getElementById('tab-ingestor').style.background = 'none';
+            document.getElementById('tab-admin').style.background = 'none';
+
+            if (section === 'portfolio') {
+                document.getElementById('portfolio-section').style.display = 'block';
+                document.getElementById('tab-ingestor').style.opacity = '1';
+                document.getElementById('tab-ingestor').style.background = 'var(--primary)';
+                fetchPortfolio();
+            } else if (section === 'applications') {
+                document.getElementById('tab-admin').style.opacity = '1';
+                document.getElementById('tab-admin').style.background = 'var(--primary)';
+                if (isAdminAuthorized) {
+                    document.getElementById('applications-section').style.display = 'block';
+                    fetchApplications();
+                } else {
+                    document.getElementById('admin-login-section').style.display = 'block';
+                }
             }
         }
 
-        async function updateStatus(id, newStatus) {
-            console.log('Updating ID:', id, 'to:', newStatus);
-            if (!id) return alert("Invalid Application ID");
-
+        async function fetchTalentDropdown() {
+            const dropdown = document.getElementById('proof-slug');
             try {
-                // IMPORTANT: Ensure you have run the UPDATE policy in Supabase SQL editor
-                const { data, error } = await db
-                    .from('hh_onboarding')
-                    .update({ status: newStatus })
-                    .eq('id', id)
-                    .select(); // Calling .select() ensures we get feedback
-
-                if (error) {
-                    console.error('Supabase Error:', error);
-                    throw error;
+                const { data, error } = await db.from('hh_profiles').select('full_name, slug').order('full_name');
+                if (data) {
+                    data.forEach(p => {
+                        const opt = document.createElement('option');
+                        opt.value = p.slug;
+                        opt.innerText = `${p.full_name} (@${p.slug})`;
+                        dropdown.appendChild(opt);
+                    });
                 }
+            } catch (err) { console.error(err); }
+        }
 
-                console.log('Update Successful:', data);
-                fetchApplications(); // Refresh list
-            } catch (err) {
-                console.error('System Update Error:', err);
-                alert("Update failed. Make sure the 'Enable update for all users' policy is active in Supabase.");
+        function checkAdmin() {
+            const pass = document.getElementById('admin-pass').value;
+            if (pass === ADMIN_PWD) {
+                isAdminAuthorized = true;
+                switchSection('applications');
+            } else {
+                alert("Restricted: Orbit Passcode incorrect.");
             }
         }
 
@@ -209,60 +237,78 @@
             loading.style.display = 'block';
 
             try {
-                const { data, error } = await db
-                    .from('hh_onboarding')
-                    .select('*')
-                    .order('created_at', { ascending: false });
-
-                if (error) throw error;
-
+                const { data, error } = await db.from('hh_onboarding').select('*').order('created_at', { ascending: false });
                 loading.style.display = 'none';
 
-                if (data.length === 0) {
-                    body.innerHTML = `<tr><td colspan="6" style="text-align:center; padding: 3rem;">No applications found yet.</td></tr>`;
-                    return;
-                }
-
-                body.innerHTML = data.map(app => {
-                    const expertiseBadges = (app.expertise || '').split(',').map(ex => `<span class="exp-badge">${ex}</span>`).join('');
-
-                    return `
+                body.innerHTML = data.map(app => `
                     <tr>
                         <td>
-                            <div style="font-weight: 700;">${app.full_name}</div>
-                            <div style="font-size: 0.8rem; color: var(--text-secondary);">${app.roll_number || 'N/A'}</div>
+                            <div style="font-weight: 800; font-size: 1.1rem;">${app.full_name}</div>
+                            <div style="font-size: 0.75rem; color: var(--text-secondary); font-family: monospace;">${app.whatsapp}</div>
                         </td>
+                        <td><span class="status-badge status-${app.status}">${app.status || 'new'}</span></td>
+                        <td><div style="max-width: 250px; font-size: 0.85rem; opacity: 0.8;">${app.expertise}</div></td>
                         <td>
-                            <span class="status-badge status-${app.status}">${app.status || 'pending'}</span>
-                        </td>
-                        <td>
-                            <div style="display: flex; flex-wrap: wrap; max-width: 250px;">
-                                ${expertiseBadges || '<span class="exp-badge">N/A</span>'}
-                            </div>
-                        </td>
-                        <td style="font-size: 0.85rem;">
-                             <div style="color: var(--accent);">Class of ${app.grad_year || '?'}</div>
-                             <div style="color: var(--text-secondary); font-family: 'JetBrains Mono', monospace; font-size: 0.7rem;">Subdomain: ${app.custom_subdomain || '?'}</div>
-                        </td>
-                        <td style="display: flex; gap: 0.8rem;">
-                            <a href="https://wa.me/91${app.whatsapp ? app.whatsapp.replace(/\+/g, '') : ''}" target="_blank" style="color: #25d366; text-decoration: none; font-size: 1.1rem;" title="WhatsApp">💬</a>
-                            <a href="${app.portfolio}" target="_blank" style="color: var(--primary); text-decoration: none; font-size: 1.1rem;" title="Portfolio">🌐</a>
-                            <a href="${app.linkedin_url}" target="_blank" style="color: #0077b5; text-decoration: none; font-size: 1.1rem;" title="LinkedIn">🔗</a>
-                            ${app.additional_proof ? `<a href="#" onclick="alert('Additional Proof Links:\\n${app.additional_proof.replace(/,/g, '\\n')}'); return false;" style="color: #f1c40f; text-decoration: none; font-size: 1.1rem;" title="More Proof">📑</a>` : ''}
-                        </td>
-                        <td>
-                            <div style="display: flex; gap: 0.5rem;">
-                                <button onclick="updateStatus('${app.id}', 'accepted')" class="action-btn btn-accept" title="Accept">✅</button>
-                                <button onclick="updateStatus('${app.id}', 'rejected')" class="action-btn btn-reject" title="Reject">❌</button>
+                            <div style="display: flex; gap: 0.75rem;">
+                                <button onclick="updateStatus('${app.id}', 'accepted')" class="action-btn" style="border-color: #22c55e; color: #22c55e;">Approve</button>
+                                <button onclick="updateStatus('${app.id}', 'rejected')" class="action-btn" style="border-color: #ef4444; color: #ef4444;">Reject</button>
                             </div>
                         </td>
                     </tr>
-                `}).join('');
+                `).join('');
+            } catch (err) { console.error(err); }
+        }
 
-            } catch (error) {
-                console.error('Fetch error:', error);
-                loading.innerText = 'Error loading data from orbit.';
+        async function fetchPortfolio() {
+            const body = document.getElementById('portfolio-body');
+            try {
+                const { data, error } = await db.from('hh_portfolio').select('id, title, result_metric, hh_profiles(full_name, slug)').order('created_at', { ascending: false }).limit(5);
+                if (data) {
+                    body.innerHTML = data.map(item => `
+                        <tr>
+                            <td><div style="font-weight: 700;">${item.hh_profiles?.full_name}</div></td>
+                            <td><div style="font-size: 0.9rem;">${item.title}</div></td>
+                            <td><div style="color: var(--primary); font-weight: 800;">${item.result_metric || 'Verified'}</div></td>
+                            <td><span class="status-badge status-accepted">LIVE</span></td>
+                        </tr>
+                    `).join('');
+                }
+            } catch (err) { console.error(err); }
+        }
+
+        document.getElementById('add-proof-form').onsubmit = async (e) => {
+            e.preventDefault();
+            const btn = e.target.querySelector('button');
+            btn.innerText = "Transmitting to Orbit...";
+            btn.disabled = true;
+
+            const slug = document.getElementById('proof-slug').value;
+            const { data: profile } = await db.from('hh_profiles').select('id').eq('slug', slug).single();
+
+            const { error } = await db.from('hh_portfolio').insert([{
+                profile_id: profile.id,
+                title: document.getElementById('proof-title').value,
+                description: document.getElementById('proof-desc').value,
+                client_type: document.getElementById('proof-client').value,
+                result_metric: document.getElementById('proof-metric').value,
+                result_detail: document.getElementById('proof-detail').value,
+                proof_link: document.getElementById('proof-url').value,
+                icon: '🚀'
+            }]);
+
+            if (error) alert("Error: " + error.message);
+            else {
+                alert("Success: Proof Ingested and Live!");
+                e.target.reset();
+                fetchPortfolio();
             }
+            btn.innerText = "Push Proof to Profile 🚀";
+            btn.disabled = false;
+        };
+
+        async function updateStatus(id, stat) {
+            await db.from('hh_onboarding').update({ status: stat }).eq('id', id);
+            fetchApplications();
         }
     </script>
 </body>

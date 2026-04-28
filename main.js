@@ -4,9 +4,12 @@ document.addEventListener('DOMContentLoaded', () => {
     initFilters();
     initContactForm();
 
+    const urlParams = new URL(window.location.href).searchParams;
+    const initialFilter = urlParams.get('filter');
+
     // If we are on the talent page, fetch data
     if (document.getElementById('talent-grid')) {
-        fetchTalent();
+        fetchTalent(initialFilter);
     }
 });
 
@@ -16,70 +19,59 @@ function generateSlug(name) {
 }
 
 // 1. Fetch & Render Accepted Talent from Supabase
-async function fetchTalent() {
+async function fetchTalent(initialFilter = 'all') {
     const grid = document.getElementById('talent-grid');
     const loading = document.getElementById('loading-state');
 
     try {
-        const { data, error } = await db
-            .from('hh_profiles')
-            .select('*')
-            .order('rating', { ascending: false });
-
+        const { data, error } = await db.from('hh_profiles').select('*').order('rating', { ascending: false });
         if (error) throw error;
 
         loading.style.display = 'none';
 
         if (data.length === 0) {
-            grid.innerHTML = `<div style="grid-column: 1/-1; text-align: center; padding: 4rem;">
-                <h3 style="color: white; margin-bottom: 1rem;">The network is currently in stealth mode.</h3>
-                <p style="color: var(--text-secondary);">New vetted members are being audited. Check back shortly.</p>
-            </div>`;
+            grid.innerHTML = '<div style="grid-column: 1/-1; text-align: center; padding: 4rem;"><h3>The network is in stealth mode.</h3></div>';
             return;
         }
 
         grid.innerHTML = data.map(member => {
-            const specialties = (member.skills || member.role || '').split(',');
+            const specialties = (member.skills || member.role || '').toLowerCase().split(',');
             const initials = member.full_name.split(' ').map(n => n[0]).join('').toUpperCase();
             const accentColor = member.primary_color || '#F5A623';
-            const slug = member.slug;
+
+            // Set display based on initial filter
+            const isVisible = initialFilter === 'all' || specialties.some(s => s.trim() === initialFilter.toLowerCase());
+            const displayStyle = isVisible ? 'block' : 'none';
 
             return `
-            <a href="/talent/${slug}" class="talent-card-link" style="text-decoration: none; color: inherit; display: block; margin-bottom: 2.5rem;">
-                <div class="talent-card fade-in" data-expertise="${member.skills || member.role}" 
-                     style="background: #111; border: 1px solid #2A2A2A; padding: 0; overflow: hidden; transition: all 0.3s ease; position: relative; height: 100%;">
-                    <div class="card-header-visual" style="height: 140px; background: #0A0A0A; display: flex; align-items: center; justify-content: center; font-size: 3rem; font-weight: 900; color: rgba(255,255,255,0.03); border-bottom: 1px solid #2A2A2A; position: relative;">
+            <a href="/talent/${member.slug}" class="talent-card-link" style="text-decoration: none; color: inherit; display: ${displayStyle};">
+                <div class="talent-card" data-expertise="${(member.skills || member.role).toLowerCase()}" 
+                     style="background: #111; border: 1px solid #2A2A2A; padding: 0; overflow: hidden; height: 100%;">
+                    <div class="card-header-visual" style="height: 140px; background: #0A0A0A; display: flex; align-items: center; justify-content: center; font-size: 3rem; font-weight: 900; color: rgba(255,255,255,0.03); border-bottom: 1px solid #2A2A2A;">
                         ${initials}
-                        <div style="position: absolute; bottom: 10px; right: 15px; font-family: 'JetBrains Mono', monospace; font-size: 0.65rem; color: #444;">ID/HH-${member.id.substring(0, 4)}</div>
                     </div>
                     <div class="talent-info" style="padding: 2rem;">
-                        <div style="display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 1rem;">
-                            ${specialties.slice(0, 3).map(s => `<span style="font-family: 'JetBrains Mono', monospace; color: ${accentColor}; font-weight: 700; font-size: 0.6rem; text-transform: uppercase; letter-spacing: 1px; border: 1px solid ${accentColor}33; padding: 2px 6px; background: ${accentColor}0D;">${s.trim()}</span>`).join('')}
-                        </div>
-                        <h3 style="font-size: 1.6rem; margin: 0.5rem 0; color: white; font-weight: 900; letter-spacing: -0.02em;">${member.full_name}</h3>
-                        <div class="talent-role" style="font-family: 'JetBrains Mono', monospace; font-size: 0.7rem; color: #666; letter-spacing: 1px; font-weight: 600; margin-bottom: 1.5rem; text-transform: uppercase;">// ${member.role}</div>
+                        <h3 style="font-size: 1.6rem; margin: 0.5rem 0; color: white; font-weight: 900;">${member.full_name}</h3>
+                        <div class="talent-role" style="font-family: 'JetBrains Mono', monospace; font-size: 0.7rem; color: #666; margin-bottom: 1.5rem; text-transform: uppercase;">// ${member.role}</div>
                         <p style="color: var(--text-secondary); font-size: 0.9rem; line-height: 1.6; margin-bottom: 2rem; opacity: 0.8;">${member.bio || 'Vetted specialist ready for execution.'}</p>
                         
                         <div style="display: flex; justify-content: space-between; align-items: center; padding-top: 1.5rem; border-top: 1px solid #2A2A2A;">
-                            <div style="display: flex; flex-direction: column;">
-                                <span style="font-family: 'JetBrains Mono', monospace; font-size: 0.6rem; color: #444;">MIN PROJECT</span>
-                                <span style="font-family: 'JetBrains Mono', monospace; font-size: 0.9rem; color: white; font-weight: 700;">$${member.min_project_price || 200}</span>
-                            </div>
-                            <span style="color: ${accentColor}; font-weight: 800; font-size: 0.75rem; font-family: 'JetBrains Mono', monospace; letter-spacing: 1px;">VIEW PROFILE →</span>
+                            <span style="color: white; font-weight: 700;">$${member.min_project_price || 200}</span>
+                            <span style="color: ${accentColor}; font-weight: 800; font-size: 0.75rem;">VIEW PROFILE →</span>
                         </div>
                     </div>
                 </div>
-            </a>
-            `;
+            </a>`;
         }).join('');
 
-        // Re-initialize filters
-        initFilters();
+        // Highlight active filter pill
+        if (initialFilter !== 'all') {
+            document.querySelectorAll('.filter-pill').forEach(p => {
+                p.classList.toggle('active', p.getAttribute('data-filter') === initialFilter);
+            });
+        }
 
-    } catch (err) {
-        console.error('Fetch error:', err);
-        loading.innerHTML = `<p style="color: #ef4444;">HH connection lost. Check back shortly.</p>`;
-    }
+    } catch (err) { console.error(err); }
 }
 
 // 2. Portfolio/Talent Filtering Logic (Supports Multi-Specialty)
@@ -120,11 +112,24 @@ async function initContactForm() {
     const contactForm = document.getElementById('contact-form');
     if (!contactForm) return;
 
-    const urlParams = new URLSearchParams(window.location.search);
+    const urlParams = new URL(window.location.href).searchParams;
     const talentName = urlParams.get('talent');
-    if (talentName) {
-        const msgField = contactForm.querySelector('textarea');
-        if (msgField) msgField.value = `I'm interested in working with ${talentName}. My project goal is...`;
+    const serviceType = urlParams.get('service');
+    const planType = urlParams.get('plan');
+
+    if (contactForm) {
+        if (talentName) {
+            const msgField = contactForm.querySelector('textarea');
+            if (msgField) msgField.value = `I'm interested in working with ${talentName}. My project goal is...`;
+        }
+        if (serviceType) {
+            const selectField = contactForm.querySelector('select');
+            if (selectField) selectField.value = serviceType;
+        }
+        if (planType) {
+            const msgField = contactForm.querySelector('textarea');
+            if (msgField) msgField.value = `Interested in the "${planType}" plan. We are looking to...`;
+        }
     }
 
     contactForm.addEventListener('submit', async (e) => {

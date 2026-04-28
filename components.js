@@ -43,17 +43,17 @@ const headerHTML = `
 `;
 
 const footerHTML = `
-    <footer class="fat-footer">
+    <footer class="fat-footer" style="background: #000; border-top: 1px solid rgba(255,255,255,0.03); padding-top: 8rem;">
         <div class="container">
             <div class="footer-grid">
                 <div class="footer-brand">
                     <div class="logo small">
-                        <span class="logo-hustle">HUSTLEHOUSE</span>
+                        <span class="logo-hustle silver-text" style="font-size: 2rem; letter-spacing: 4px;">HUSTLEHOUSE</span>
                     </div>
-                    <p>Built by IIT Kharagpur students. Delivering for global clients.</p>
+                    <p style="color: rgba(255,255,255,0.4); font-size: 1rem; margin-top: 1.5rem; max-width: 300px;">Built by IIT Kharagpur students. Delivering high-precision solutions for global innovators.</p>
                 </div>
                 <div class="footer-column">
-                    <h4>Services</h4>
+                    <h4 class="footer-silver-header">Services</h4>
                     <ul>
                         <li><a href="/services/web-development">Web Development</a></li>
                         <li><a href="/services/seo">SEO & Growth</a></li>
@@ -62,14 +62,14 @@ const footerHTML = `
                     </ul>
                 </div>
                 <div class="footer-column">
-                    <h4>Talent</h4>
+                    <h4 class="footer-silver-header">Talent</h4>
                     <ul>
                         <li><a href="/talent">Browse Talent</a></li>
                         <li><a href="/onboarding">Join Network</a></li>
                     </ul>
                 </div>
                 <div class="footer-column">
-                    <h4>Company</h4>
+                    <h4 class="footer-silver-header">Company</h4>
                     <ul>
                         <li><a href="/about">About</a></li>
                         <li><a href="/how-it-works">How It Works</a></li>
@@ -78,10 +78,10 @@ const footerHTML = `
                     </ul>
                 </div>
             </div>
-            <div class="footer-bottom">
-                <p>&copy; 2026 KGP Hustle House</p>
+            <div class="footer-bottom" style="margin-top: 8rem; border-top: 1px solid rgba(255,255,255,0.03); padding: 4rem 0;">
+                <p style="color: rgba(255,255,255,0.3); font-size: 0.9rem;">&copy; 2026 KGP Hustle House. All rights reserved.</p>
                 <div class="footer-links">
-                    <a href="/contact" style="margin-left: 20px;">Support</a>
+                    <a href="/contact" style="color: rgba(255,255,255,0.5); text-decoration: none; font-size: 0.9rem; font-weight: 600;">Support / Contact</a>
                 </div>
             </div>
         </div>
@@ -98,7 +98,7 @@ function injectComponents() {
             <nav class="navbar">
                 <div class="logo">
                     <a href="/" style="text-decoration: none;">
-                        <span class="logo-hustle">HUSTLEHOUSE</span>
+                        <span class="logo-hustle silver-text">HUSTLEHOUSE</span>
                     </a>
                 </div>
                 <div class="nav-links">

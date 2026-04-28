@@ -1,0 +1,27 @@
+# Hustle House
+
+> High-Efficiency Agentic Ecosystem of IIT Kharagpur Talent.
+
+Hustle House is a premium network of technical specialists and creative directors from IIT Kharagpur. We provide high-impact services in SEO, Web Development, AI Automation, and Content Production.
+
+## Core Values
+- **Proof First**: Every specialist is backed by verified case studies (Live Proof).
+- **Industrial Speed**: Fast execution driven by agentic workflows.
+- **Premium Aesthetics**: High-end minimalist design (JetBrains Mono + Outfit).
+
+## Services
+- **SEO & Growth**: Technical audits, semantic content systems, and authority building.
+- **Full-Stack Development**: Fast, high-conversion web apps and ecosystems.
+- **AI Automation**: Agentic workflows for lead gen and business operations.
+- **Creative Direction**: Premium video editing and industrial-grade branding.
+
+## Infrastructure
+- **Supabase**: Backend and live data management.
+- **Vanilla CSS**: Lightweight, performance-first design system.
+- **Agentic Workflows**: Utilizing LLMs for rapid development and optimization.
+
+## Key Links
+- [Home](https://kgphustlehouse.com/)
+- [Talent Network](https://kgphustlehouse.com/talent/)
+- [How It Works](https://kgphustlehouse.com/how-it-works/)
+- [Direct Hire SEO](https://kgphustlehouse.com/services/seo/)
