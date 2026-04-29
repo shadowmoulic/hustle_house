@@ -99,6 +99,7 @@ body {
 
 /* Background System */
 .bg-mesh-container {
+    display: none;
     position: fixed;
     top: 0;
     left: 0;
@@ -227,6 +228,7 @@ h3,
 
 /* Background Animation */
 .bg-animation {
+    display: none;
     position: fixed;
     top: 0;
     left: 0;
@@ -691,9 +693,11 @@ body.light-mode .footer-links.view-profile-btn i {
     border-radius: 20px;
     background: rgba(10, 10, 15, 0.9);
     z-index: 1;
+    border: 1px solid var(--glass-border);
 }
 
 .moving-border-box::before {
+    display: none;
     content: '';
     position: absolute;
     top: -2px;
@@ -770,6 +774,7 @@ body.light-mode .moving-border-box {
 }
 
 .hero::before {
+    display: none;
     content: '';
     position: absolute;
     top: -50%;
