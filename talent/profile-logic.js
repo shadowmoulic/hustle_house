@@ -62,7 +62,7 @@ async function initProfile() {
 
         // 4. Apply Custom Branding & Theme
         const theme = profile.theme_config || {};
-        const accentColor = profile.primary_color || '#F5A623';
+        const accentColor = profile.primary_color || '#6250FF';
 
         // Inject dynamic styles
         const styleEl = document.getElementById('custom-theme-styles');
