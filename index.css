@@ -3004,7 +3004,7 @@ body.light-mode .glass {
     padding: 1rem;
     border-radius: 12px;
     border: 1px solid var(--glass-border);
-    background: rgba(255, 255, 255, 0.03);
+    background: rgba(255, 255, 255);
     color: var(--text-primary);
     outline: none;
     transition: var(--transition);
@@ -3017,7 +3017,7 @@ body.light-mode .glass {
 .onboarding-form textarea:focus {
     border-color: var(--primary);
     box-shadow: 0 0 15px var(--primary-glow);
-    background: rgba(255, 255, 255, 0.05);
+    background: rgba(255, 255, 255);
 }
 
 body.light-mode .onboarding-form input,
