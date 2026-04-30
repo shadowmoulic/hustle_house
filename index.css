@@ -3010,7 +3010,7 @@ body.light-mode .glass {
     border-radius: 12px;
     border: 1px solid var(--glass-border);
     background: rgba(255, 255, 255);
-    color: var(--text-primary);
+    color: black;
     outline: none;
     transition: var(--transition);
     width: 100%;
@@ -3760,8 +3760,13 @@ body.light-mode .talent-card {
 
 /* Silver Shine Effects */
 @keyframes silver-shine {
-    0% { background-position: 100%; }
-    100% { background-position: -100%; }
+    0% {
+        background-position: 100%;
+    }
+
+    100% {
+        background-position: -100%;
+    }
 }
 
 .silver-text {
