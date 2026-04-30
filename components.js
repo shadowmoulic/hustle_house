@@ -6,8 +6,9 @@
 const headerHTML = `
     <nav class="navbar">
         <div class="logo">
-            <a href="/" style="text-decoration: none;">
-                <span class="logo-hustle">HUSTLEHOUSE</span>
+            <a href="/" style="text-decoration: none; display: flex; align-items: center; gap: 10px;">
+                <img src="/logo.png" alt="Hustle House Logo" style="height: 36px; width: auto; object-fit: contain;" />
+                <span class="silver-text" style="font-family: 'Outfit', sans-serif; font-size: 1.4rem; letter-spacing: -0.5px; padding-top: 4px;">HUSTLE HOUSE</span>
             </a>
         </div>
         <div class="nav-links">
@@ -47,8 +48,9 @@ const footerHTML = `
         <div class="container">
             <div class="footer-grid">
                 <div class="footer-brand">
-                    <div class="logo small">
-                        <span class="logo-hustle silver-text">HUSTLEHOUSE</span>
+                    <div class="logo small" style="display: flex; align-items: center; gap: 10px;">
+                        <img src="/logo.png" alt="Hustle House Logo" style="height: 36px; width: auto; object-fit: contain;" />
+                        <span class="silver-text" style="font-family: 'Outfit', sans-serif; font-size: 1.4rem; letter-spacing: -0.5px; padding-top: 4px;">HUSTLE HOUSE</span>
                     </div>
                     <p class="footer-desc">Built by IIT Kharagpur students. Delivering high-precision solutions for global innovators.</p>
                 </div>
@@ -125,8 +127,9 @@ function injectComponents() {
         headerContainer.innerHTML = `
             <nav class="navbar">
                 <div class="logo">
-                    <a href="/" style="text-decoration: none;">
-                        <span class="logo-hustle silver-text">HUSTLEHOUSE</span>
+                    <a href="/" style="text-decoration: none; display: flex; align-items: center; gap: 10px;">
+                        <img src="/logo.png" alt="Hustle House Logo" style="height: 36px; width: auto; object-fit: contain;" />
+                        <span class="silver-text" style="font-family: 'Outfit', sans-serif; font-size: 1.4rem; letter-spacing: -0.5px; padding-top: 4px;">HUSTLE HOUSE</span>
                     </a>
                 </div>
                 <div class="nav-links">
