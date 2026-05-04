@@ -647,7 +647,7 @@ body.light-mode .footer-links.view-profile-btn i {
 /* Tharun-Style Premium Components */
 .glow-button {
     position: relative;
-    padding: 1.25rem 2.5rem;
+    padding: 1rem 2.2rem;
     background: var(--primary);
     color: black;
     font-weight: 800;
@@ -906,7 +906,7 @@ body.light-mode .moving-border-box {
 .primary-btn {
     background: white;
     color: black;
-    padding: 1rem 2.5rem;
+    padding: 0.8rem 2.2rem;
     border-radius: 12px;
     text-decoration: none;
     font-weight: 700;
@@ -921,7 +921,7 @@ body.light-mode .moving-border-box {
 .secondary-btn {
     background: rgba(255, 255, 255, 0.05);
     color: #ffffff;
-    padding: 1rem 2.5rem;
+    padding: 0.8rem 2.2rem;
     border-radius: 12px;
     text-decoration: none;
     font-weight: 700;
@@ -3208,7 +3208,7 @@ body.light-mode .onboarding-form textarea {
     background: #25d366 !important;
     color: white !important;
     border: none !important;
-    padding: 1.5rem 3.5rem !important;
+    padding: 1.2rem 3rem !important;
     font-size: 1.1rem !important;
     border-radius: 50px !important;
     box-shadow: 0 10px 30px rgba(37, 211, 102, 0.2) !important;
@@ -3347,13 +3347,13 @@ section {
 
 .primary-cta {
     width: 100%;
-    padding: 1.25rem 2rem;
+    padding: 1rem 1.8rem;
     font-size: 1.1rem;
     justify-content: center;
 }
 
 .ghost-btn {
-    padding: 1.25rem 2rem;
+    padding: 1rem 1.8rem;
     border: 1px solid var(--glass-border);
     border-radius: 100px;
     font-weight: 700;
@@ -3687,7 +3687,7 @@ body.light-mode .talent-card {
 
 .green-glow-button {
     position: relative;
-    padding: 1.25rem 2.5rem;
+    padding: 1rem 2.2rem;
     background: #22c55e;
     color: white;
     font-weight: 800;
