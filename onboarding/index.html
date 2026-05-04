@@ -176,7 +176,8 @@
                 form.reset();
             } catch (error) {
                 console.error('Submission error:', error);
-                alert('Connection error. Ensure RLS is configured.');
+                const errorMsg = error.message || 'Check your connection or RLS configuration.';
+                alert(`Error: ${errorMsg}`);
             } finally {
                 submitBtn.innerText = originalText;
                 submitBtn.disabled = false;

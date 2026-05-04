@@ -16,6 +16,8 @@
         href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap"
         rel="stylesheet">
     <link rel="stylesheet" href="../index.css">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="../supabase.js"></script>
 </head>
 
 <body>
@@ -105,19 +107,19 @@
                             <div style="display: flex; flex-direction: column; gap: 0.5rem;">
                                 <label for="name" style="font-weight: 600; color: var(--text-secondary);">Full
                                     Name</label>
-                                <input type="text" id="name" required placeholder="John Doe" class="contact-input">
+                                <input type="text" id="name" name="name" required placeholder="John Doe" class="contact-input">
                             </div>
                             <div style="display: flex; flex-direction: column; gap: 0.5rem;">
                                 <label for="email" style="font-weight: 600; color: var(--text-secondary);">Work
                                     Email</label>
-                                <input type="email" id="email" required placeholder="john@company.com"
+                                <input type="email" id="email" name="email" required placeholder="john@company.com"
                                     class="contact-input">
                             </div>
                         </div>
                         <div style="display: flex; flex-direction: column; gap: 0.5rem;">
                             <label for="service" style="font-weight: 600; color: var(--text-secondary);">Service
                                 Needed</label>
-                            <select id="service" class="contact-input" style="appearance: none;">
+                            <select id="service" name="service" class="contact-input" style="appearance: none;">
                                 <option value="web-dev">Web Development</option>
                                 <option value="seo">SEO & Growth</option>
                                 <option value="ai-automation">AI Automation</option>
@@ -129,7 +131,7 @@
                         <div style="display: flex; flex-direction: column; gap: 0.5rem;">
                             <label for="message" style="font-weight: 600; color: var(--text-secondary);">Project
                                 Details</label>
-                            <textarea id="message" rows="5" required
+                            <textarea id="message" name="message" rows="5" required
                                 placeholder="Tell us about your project goals and timeline..."
                                 class="contact-input"></textarea>
                         </div>
@@ -160,13 +162,6 @@
 
     <script src="../components.js"></script>
     <script src="../main.js"></script>
-    <script>
-        document.getElementById('contact-form')?.addEventListener('submit', function (e) {
-            e.preventDefault();
-            alert('Proposal request sent! We will reach out on your email within the next few hours.');
-            this.reset();
-        });
-    </script>
 </body>
 
 </html>
