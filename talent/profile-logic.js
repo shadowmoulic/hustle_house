@@ -49,9 +49,36 @@ async function initProfile() {
             query = query.eq('slug', identifier);
         }
 
-        const { data: profile, error: profileError } = await query.single();
+        let { data: profile, error: profileError } = await query.single();
 
-        if (profileError || !profile) throw profileError || new Error('Profile not found');
+        // Fallback to hh_onboarding if not found in hh_profiles
+        if (profileError || !profile) {
+            console.log('Profile not found in hh_profiles, checking hh_onboarding...');
+            const { data: onboardingProfile, error: onboardingError } = await db
+                .from('hh_onboarding')
+                .select('*')
+                .or(`custom_subdomain.eq.${identifier},full_name.ilike.%${identifier}%`)
+                .eq('status', 'accepted')
+                .maybeSingle();
+
+            if (onboardingProfile) {
+                // Map onboarding fields to profile fields
+                profile = {
+                    id: onboardingProfile.id,
+                    full_name: onboardingProfile.full_name,
+                    slug: onboardingProfile.custom_subdomain,
+                    role: onboardingProfile.expertise ? onboardingProfile.expertise.split(',')[0] : 'Specialist',
+                    bio: onboardingProfile.bio,
+                    skills: onboardingProfile.expertise,
+                    primary_color: onboardingProfile.primary_color || '#6250FF',
+                    availability: 'available',
+                    theme_config: { variant: 'standard' },
+                    is_onboarding: true
+                };
+            } else {
+                throw profileError || onboardingError || new Error('Profile not found');
+            }
+        }
 
         // 3. Fetch Portfolio Data
         const { data: portfolio, error: portfolioError } = await db

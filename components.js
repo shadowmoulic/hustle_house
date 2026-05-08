@@ -25,7 +25,7 @@ const headerHTML = `
                 </div>
             </div>
             <a href="/how-it-works">How It Works</a>
-            <a href="/onboarding">Join Network</a>
+            <a href="/scoper" style="font-weight: 700; color: var(--primary);">Get Estimate</a>
             <a href="/contact" class="join-btn">Hire Us</a>
         </div>
         <button class="hamburger" id="hamburger-btn">
@@ -38,6 +38,7 @@ const headerHTML = `
         <a href="/talent">Talent</a>
         <a href="/services">Services</a>
         <a href="/how-it-works">How It Works</a>
+        <a href="/scoper">Get Estimate</a>
         <a href="/onboarding">Join Network</a>
         <a href="/contact" class="join-btn">Hire Us</a>
     </div>
@@ -75,7 +76,7 @@ const footerHTML = `
                     <ul>
                         <li><a href="/about">About</a></li>
                         <li><a href="/how-it-works">How It Works</a></li>
-                        <li><a href="/pricing">Pricing</a></li>
+                        <li><a href="/scoper">Scoper</a></li>
                         <li><a href="/privacy">Privacy · Terms</a></li>
                     </ul>
                 </div>
@@ -146,8 +147,8 @@ function injectComponents() {
                         </div>
                     </div>
                     <a href="/how-it-works">How It Works</a>
-                    <a href="/onboarding">Join Network</a>
-                    <a href="/talent" class="join-btn">Hire Us</a>
+                    <a href="/scoper" class="scoper-pill-btn">Get Estimate</a>
+                    <a href="/contact" class="join-btn" style="margin-left: 1rem;">Hire Us</a>
                 </div>
 
                 <div class="nav-actions" style="display: flex; align-items: center; gap: 15px;">
@@ -165,6 +166,7 @@ function injectComponents() {
             <div class="mobile-menu" id="mobile-menu">
                 <a href="/talent">Talent</a>
                 <a href="/services">Services</a>
+                <a href="/scoper">Get Estimate</a>
                 <a href="/how-it-works">How It Works</a>
                 <a href="/onboarding">Join Network</a>
                 <a href="/contact" class="join-btn">Hire Us</a>

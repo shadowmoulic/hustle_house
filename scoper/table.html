@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hustle House Pricing</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Segoe UI', sans-serif; background: #0e0e0e; color: #e0e0e0; padding: 32px 20px; }
+  h1 { font-size: 22px; font-weight: 700; color: #fff; margin-bottom: 4px; letter-spacing: 0.5px; }
+  .subtitle { font-size: 13px; color: #888; margin-bottom: 32px; }
+  .section { margin-bottom: 40px; }
+  .section-header { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; }
+  .section-title { font-size: 15px; font-weight: 700; color: #fff; text-transform: uppercase; letter-spacing: 1px; }
+  .badge { font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 20px; letter-spacing: 0.5px; }
+  .badge-ok { background: #1a3a1a; color: #4ade80; border: 1px solid #2a6a2a; }
+  .badge-new { background: #1a1a3a; color: #818cf8; border: 1px solid #3a3a8a; }
+  .badge-warn { background: #3a2a0a; color: #fbbf24; border: 1px solid #7a5a0a; }
+  table { width: 100%; border-collapse: collapse; font-size: 12.5px; }
+  thead tr { background: #1a1a1a; }
+  thead th { padding: 10px 12px; text-align: left; color: #aaa; font-weight: 600; font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px; border-bottom: 1px solid #2a2a2a; white-space: nowrap; }
+  tbody tr { border-bottom: 1px solid #1e1e1e; transition: background 0.15s; }
+  tbody tr:hover { background: #161616; }
+  td { padding: 11px 12px; vertical-align: top; }
+  .pkg { font-weight: 600; color: #fff; font-size: 13px; }
+  .outcome { color: #888; font-size: 11.5px; line-height: 1.5; max-width: 240px; }
+  .price { font-weight: 600; color: #e0e0e0; white-space: nowrap; }
+  .price-your { font-weight: 700; color: #4ade80; white-space: nowrap; }
+  .verdict { display: inline-block; font-size: 10.5px; font-weight: 700; padding: 2px 8px; border-radius: 12px; white-space: nowrap; }
+  .v-good { background: #1a3a1a; color: #4ade80; }
+  .v-low { background: #3a1a1a; color: #f87171; }
+  .v-ok { background: #1a2a3a; color: #60a5fa; }
+  .divider { border: none; border-top: 1px solid #252525; margin: 8px 0; }
+  .note { font-size: 11px; color: #666; margin-top: 8px; padding: 8px 12px; background: #141414; border-left: 3px solid #333; border-radius: 0 4px 4px 0; }
+  .note b { color: #aaa; }
+  @media (max-width: 700px) {
+    .outcome { display: none; }
+    thead th:nth-child(5), td:nth-child(5) { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<h1>HUSTLE HOUSE — SERVICE PRICING TABLE</h1>
+<p class="subtitle">Benchmarked against Indian market rates (2025–26) · Green = Your Price · Verdict reflects market positioning</p>
+
+<!-- 1. WEB DEV -->
+<div class="section">
+  <div class="section-header">
+    <div class="section-title">1. Web Development</div>
+    <span class="badge badge-ok">✓ VERIFIED</span>
+  </div>
+  <table>
+    <thead><tr>
+      <th>Package</th><th>What's Included</th><th>Outcome</th>
+      <th>Standard (India)</th><th>Your Price (India)</th>
+      <th>Standard (Intl)</th><th>Your Price (Intl)</th>
+      <th>Verdict</th>
+    </tr></thead>
+    <tbody>
+      <tr><td class="pkg">Landing Page</td><td>1 high-converting page, mobile responsive, contact form, basic SEO</td><td class="outcome">A clean, professional landing page designed to capture leads</td><td class="price">₹25K–₹40K</td><td class="price-your">₹12K–₹22K</td><td class="price">$400–$800</td><td class="price-your">$250–$450</td><td><span class="verdict v-good">Well priced</span></td></tr>
+      <tr><td class="pkg">Starter Website</td><td>4–5 pages, responsive design, lead forms, basic SEO</td><td class="outcome">Complete business website that builds credibility</td><td class="price">₹50K–₹80K</td><td class="price-your">₹22K–₹45K</td><td class="price">$800–$1,500</td><td class="price-your">$450–$900</td><td><span class="verdict v-good">Well priced</span></td></tr>
+      <tr><td class="pkg">Growth Website</td><td>6–8 pages, custom UI/UX, CMS, speed opt, integrations</td><td class="outcome">Scalable website for consistent lead gen</td><td class="price">₹1L–₹1.8L</td><td class="price-your">₹45K–₹90K</td><td class="price">$1,500–$3,000</td><td class="price-your">$900–$1,800</td><td><span class="verdict v-good">Well priced</span></td></tr>
+      <tr><td class="pkg">Conversion Website</td><td>Custom design + copy, funnel setup, CRM/email/analytics</td><td class="outcome">Conversion-focused site built to drive sales or signups</td><td class="price">₹2L–₹4L</td><td class="price-your">₹90K–₹2L</td><td class="price">$3,000–$6,000</td><td class="price-your">$1,800–$4,000</td><td><span class="verdict v-good">Well priced</span></td></tr>
+      <tr><td class="pkg">Web App / MVP</td><td>Full-stack, login/auth, dashboards, APIs, DB setup</td><td class="outcome">Functional product to launch or validate</td><td class="price">₹3L–₹8L</td><td class="price-your">₹1.2L–₹4L</td><td class="price">$5,000–$12,000</td><td class="price-your">$2,500–$8,000</td><td><span class="verdict v-good">Well priced</span></td></tr>
+    </tbody>
+  </table>
+  <p class="note"><b>Audit note:</b> Market rates for a freelance dev in India average ₹20K–₹40K for small sites, up to ₹80K for complex builds. Your pricing is 30–50% below standard agency rates — healthy discount positioning for a boutique setup.</p>
+</div>
+
+<!-- 2. DESIGN -->
+<div class="section">
+  <div class="section-header">
+    <div class="section-title">2. Design (UI/UX & Branding)</div>
+    <span class="badge badge-ok">✓ VERIFIED</span>
+  </div>
+  <table>
+    <thead><tr>
+      <th>Package</th><th>What's Included</th><th>Outcome</th>
+      <th>Standard (India)</th><th>Your Price (India)</th>
+      <th>Standard (Intl)</th><th>Your Price (Intl)</th>
+      <th>Verdict</th>
+    </tr></thead>
+    <tbody>
+      <tr><td class="pkg">Logo + Palette</td><td>Logo, color palette, 2–3 variations, revisions</td><td class="outcome">Professional brand identity</td><td class="price">₹10K–₹25K</td><td class="price-your">₹5K–₹10K</td><td class="price">$150–$400</td><td class="price-your">$80–$200</td><td><span class="verdict v-ok">Fair</span></td></tr>
+      <tr><td class="pkg">Brand Identity</td><td>Logo, typography, color system, guidelines, templates</td><td class="outcome">Consistent brand across all platforms</td><td class="price">₹40K–₹80K</td><td class="price-your">₹15K–₹35K</td><td class="price">$600–$1,500</td><td class="price-your">$300–$800</td><td><span class="verdict v-good">Well priced</span></td></tr>
+      <tr><td class="pkg">Social Creatives</td><td>10 custom posts, captions (optional), brand styling</td><td class="outcome">Consistent high-quality content</td><td class="price">₹15K–₹30K</td><td class="price-your">₹6K–₹12K</td><td class="price">$250–$600</td><td class="price-your">$120–$300</td><td><span class="verdict v-ok">Fair</span></td></tr>
+      <tr><td class="pkg">Landing Page Design</td><td>High-conversion Figma design, responsive layouts</td><td class="outcome">Ready-to-develop LP focused on conversions</td><td class="price">₹20K–₹50K</td><td class="price-your">₹8K–₹18K</td><td class="price">$300–$900</td><td class="price-your">$150–$400</td><td><span class="verdict v-good">Well priced</span></td></tr>
+      <tr><td class="pkg">App / Dashboard UI</td><td>5–10 screens, wireframes, UX flow, Figma design</td><td class="outcome">Clean product interface ready for dev</td><td class="price">₹60K–₹1.5L</td><td class="price-your">₹25K–₹55K</td><td class="price">$1,000–$3,000</td><td class="price-your">$500–$1,200</td><td><span class="verdict v-good">Well priced</span></td></tr>
+      <tr><td class="pkg">Full Brand System</td><td>Logo + identity + UI kit + 15–20 templates</td><td class="outcome">Complete brand infrastructure for scaling</td><td class="price">₹1L–₹3L</td><td class="price-your">₹50K–₹1.2L</td><td class="price">$2,000–$5,000</td><td class="price-your">$1,000–$2,500</td><td><span class="verdict v-good">Well priced</span></td></tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- 3. SEO -->
+<div class="section">
+  <div class="section-header">
+    <div class="section-title">3. SEO (Monthly Retainer)</div>
+    <span class="badge badge-warn">⚠ REVIEW PRICING</span>
+  </div>
+  <table>
+    <thead><tr>
+      <th>Package</th><th>What's Included</th><th>Outcome</th>
+      <th>Standard (India)</th><th>Your Price (India)</th>
+      <th>Standard (Intl)</th><th>Your Price (Intl)</th>
+      <th>Verdict</th>
+    </tr></thead>
+    <tbody>
+      <tr><td class="pkg">Starter SEO</td><td>Keyword research, on-page optimization, basic audit</td><td class="outcome">Strong SEO foundation and improved site health</td><td class="price">₹20K–₹40K</td><td class="price-your">₹10K–₹18K</td><td class="price">$300–$700</td><td class="price-your">$200–$400</td><td><span class="verdict v-low">Slightly low</span></td></tr>
+      <tr><td class="pkg">Growth SEO</td><td>Content strategy, 8–12 blogs/month, technical SEO, reports</td><td class="outcome">Steady traffic growth and inbound leads</td><td class="price">₹50K–₹1.2L</td><td class="price-your">₹25K–₹65K</td><td class="price">$800–$2,000</td><td class="price-your">$500–$1,400</td><td><span class="verdict v-ok">Fair</span></td></tr>
+      <tr><td class="pkg">Authority SEO</td><td>Full SEO system, backlinks, CRO, AI SEO strategies</td><td class="outcome">Dominate niche with scalable organic traffic</td><td class="price">₹1.5L–₹5L</td><td class="price-your">₹65K–₹2L</td><td class="price">$2,000–$6,000</td><td class="price-your">$1,400–$4,000</td><td><span class="verdict v-good">Well priced</span></td></tr>
+    </tbody>
+  </table>
+  <p class="note"><b>Audit note:</b> Mid-size SEO agencies in India typically charge ₹25K–₹75K/month. Your Starter SEO at ₹10K–₹18K is below even freelancer rates (₹8K–₹20K). Consider bumping the floor to ₹15K minimum to reflect tool costs and time investment.</p>
+</div>
+
+<!-- 4. AI AUTOMATION -->
+<div class="section">
+  <div class="section-header">
+    <div class="section-title">4. AI Automation</div>
+    <span class="badge badge-ok">✓ VERIFIED</span>
+  </div>
+  <table>
+    <thead><tr>
+      <th>Package</th><th>What's Included</th><th>Outcome</th>
+      <th>Standard (India)</th><th>Your Price (India)</th>
+      <th>Standard (Intl)</th><th>Your Price (Intl)</th>
+      <th>Verdict</th>
+    </tr></thead>
+    <tbody>
+      <tr><td class="pkg">Basic Automation</td><td>1–2 workflows (email, lead capture, notifications)</td><td class="outcome">Saves hours of manual work</td><td class="price">₹25K–₹60K</td><td class="price-your">₹10K–₹22K</td><td class="price">$400–$1,000</td><td class="price-your">$200–$500</td><td><span class="verdict v-ok">Fair</span></td></tr>
+      <tr><td class="pkg">Growth Automation</td><td>CRM setup, multi-step workflows, integrations, reporting</td><td class="outcome">Automated lead handling and follow-up systems</td><td class="price">₹60K–₹1.5L</td><td class="price-your">₹22K–₹65K</td><td class="price">$1,000–$3,000</td><td class="price-your">$500–$1,400</td><td><span class="verdict v-good">Well priced</span></td></tr>
+      <tr><td class="pkg">Advanced AI System</td><td>AI agents, custom workflows, sales/content automation</td><td class="outcome">Semi-automated business system</td><td class="price">₹2L–₹6L</td><td class="price-your">₹65K–₹2.5L</td><td class="price">$3,000–$10,000</td><td class="price-your">$1,400–$6,000</td><td><span class="verdict v-good">Well priced</span></td></tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- 5. MARKETING -->
+<div class="section">
+  <div class="section-header">
+    <div class="section-title">5. Marketing & Growth (Monthly)</div>
+    <span class="badge badge-ok">✓ VERIFIED</span>
+  </div>
+  <table>
+    <thead><tr>
+      <th>Package</th><th>What's Included</th><th>Outcome</th>
+      <th>Standard (India)</th><th>Your Price (India)</th>
+      <th>Standard (Intl)</th><th>Your Price (Intl)</th>
+      <th>Verdict</th>
+    </tr></thead>
+    <tbody>
+      <tr><td class="pkg">Starter Growth</td><td>Content plan + 8–12 posts/month</td><td class="outcome">Consistent online presence and brand visibility</td><td class="price">₹25K–₹60K</td><td class="price-your">₹10K–₹22K</td><td class="price">$400–$1,000</td><td class="price-your">$200–$500</td><td><span class="verdict v-ok">Fair</span></td></tr>
+      <tr><td class="pkg">Growth Marketing</td><td>Content + funnels + analytics + email</td><td class="outcome">Regular lead gen and audience growth</td><td class="price">₹60K–₹1.5L</td><td class="price-your">₹30K–₹75K</td><td class="price">$1,000–$3,000</td><td class="price-your">$600–$1,600</td><td><span class="verdict v-good">Well priced</span></td></tr>
+      <tr><td class="pkg">Full Growth Engine</td><td>Ads + SEO + content + funnels + tracking</td><td class="outcome">Scalable and measurable lead gen system</td><td class="price">₹2L–₹6L</td><td class="price-your">₹1L–₹2.8L</td><td class="price">$3,000–$10,000</td><td class="price-your">$2,000–$6,000</td><td><span class="verdict v-good">Well priced</span></td></tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- 6. VIDEO EDITING — NEW -->
+<div class="section">
+  <div class="section-header">
+    <div class="section-title">6. Video Editing</div>
+    <span class="badge badge-new">★ NEW</span>
+  </div>
+  <table>
+    <thead><tr>
+      <th>Package</th><th>What's Included</th><th>Outcome</th>
+      <th>Standard (India)</th><th>Your Price (India)</th>
+      <th>Standard (Intl)</th><th>Your Price (Intl)</th>
+      <th>Verdict</th>
+    </tr></thead>
+    <tbody>
+      <tr><td class="pkg">Reels / Shorts</td><td>Up to 10 short-form videos/month (≤60 sec), captions, music sync, basic motion</td><td class="outcome">Consistent, platform-ready short content for Instagram, YouTube & TikTok</td><td class="price">₹8K–₹20K</td><td class="price-your">₹5K–₹12K</td><td class="price">$150–$400</td><td class="price-your">$100–$250</td><td><span class="verdict v-ok">Fair</span></td></tr>
+      <tr><td class="pkg">Content Creator Pack</td><td>4–8 long-form edits/month (YouTube, podcast cuts), thumbnails, chapters</td><td class="outcome">Polished, binge-worthy long-form content that grows channels</td><td class="price">₹15K–₹40K</td><td class="price-your">₹8K–₹20K</td><td class="price">$300–$800</td><td class="price-your">$150–$400</td><td><span class="verdict v-good">Well priced</span></td></tr>
+      <tr><td class="pkg">Brand Video</td><td>1 corporate/ad video (1–3 min), color grading, motion graphics, voiceover sync</td><td class="outcome">Professional brand storytelling for ads, websites, and pitches</td><td class="price">₹20K–₹60K</td><td class="price-your">₹10K–₹30K</td><td class="price">$400–$1,200</td><td class="price-your">$200–$600</td><td><span class="verdict v-good">Well priced</span></td></tr>
+      <tr><td class="pkg">Full Video Retainer</td><td>Unlimited short-form + 4 long-form/month, full post-production, dedicated editor</td><td class="outcome">End-to-end video ops for brands that publish consistently</td><td class="price">₹50K–₹1.2L</td><td class="price-your">₹25K–₹60K</td><td class="price">$1,000–$2,500</td><td class="price-your">$500–$1,200</td><td><span class="verdict v-good">Well priced</span></td></tr>
+    </tbody>
+  </table>
+  <p class="note"><b>Market ref:</b> Short-form video editing in India is priced at ₹500–₹5,000 per video by freelancers and ₹5K–₹20K+ for agency short-form packs. Your bundled pricing is competitive and justified for a quality-first agency.</p>
+</div>
+
+<!-- 7. CONTENT WRITING — NEW -->
+<div class="section">
+  <div class="section-header">
+    <div class="section-title">7. Content Writing</div>
+    <span class="badge badge-new">★ NEW</span>
+  </div>
+  <table>
+    <thead><tr>
+      <th>Package</th><th>What's Included</th><th>Outcome</th>
+      <th>Standard (India)</th><th>Your Price (India)</th>
+      <th>Standard (Intl)</th><th>Your Price (Intl)</th>
+      <th>Verdict</th>
+    </tr></thead>
+    <tbody>
+      <tr><td class="pkg">SEO Blog Pack</td><td>4 SEO-optimized blogs/month (800–1,500 words), keyword targeting, meta copy</td><td class="outcome">Consistent organic content that builds topical authority</td><td class="price">₹12K–₹28K</td><td class="price-your">₹6K–₹14K</td><td class="price">$200–$600</td><td class="price-your">$100–$300</td><td><span class="verdict v-ok">Fair</span></td></tr>
+      <tr><td class="pkg">Growth Content</td><td>8–12 blogs/month + social captions + email copy</td><td class="outcome">Full content engine fueling SEO, social & email simultaneously</td><td class="price">₹30K–₹75K</td><td class="price-your">₹15K–₹35K</td><td class="price">$600–$1,500</td><td class="price-your">$300–$800</td><td><span class="verdict v-good">Well priced</span></td></tr>
+      <tr><td class="pkg">Website Copywriting</td><td>5–8 pages of conversion-focused website copy, SEO-optimized</td><td class="outcome">Messaging that converts visitors — not just fills space</td><td class="price">₹20K–₹50K</td><td class="price-your">₹10K–₹25K</td><td class="price">$400–$1,000</td><td class="price-your">$200–$500</td><td><span class="verdict v-good">Well priced</span></td></tr>
+      <tr><td class="pkg">Authority Content</td><td>Long-form content (case studies, whitepapers, lead magnets) + distribution plan</td><td class="outcome">Establishes thought leadership and generates warm B2B leads</td><td class="price">₹40K–₹1.2L</td><td class="price-your">₹20K–₹60K</td><td class="price">$800–$2,500</td><td class="price-your">$400–$1,200</td><td><span class="verdict v-good">Well priced</span></td></tr>
+    </tbody>
+  </table>
+  <p class="note"><b>Market ref:</b> Premium Indian agencies charge ₹3–₹5/word; a 1,000-word blog = ₹3K–₹5K. Packages from agencies range ₹15K–₹75K/month depending on volume. Your pricing sits at a competitive mid-tier level.</p>
+</div>
+
+<!-- 8. CONTENT STRATEGY — NEW -->
+<div class="section">
+  <div class="section-header">
+    <div class="section-title">8. Content Strategy</div>
+    <span class="badge badge-new">★ NEW</span>
+  </div>
+  <table>
+    <thead><tr>
+      <th>Package</th><th>What's Included</th><th>Outcome</th>
+      <th>Standard (India)</th><th>Your Price (India)</th>
+      <th>Standard (Intl)</th><th>Your Price (Intl)</th>
+      <th>Verdict</th>
+    </tr></thead>
+    <tbody>
+      <tr><td class="pkg">Strategy Sprint</td><td>One-time: audience research, content pillars, 90-day content roadmap, platform plan</td><td class="outcome">A clear direction so every piece of content has a purpose and a goal</td><td class="price">₹25K–₹60K</td><td class="price-your">₹12K–₹28K</td><td class="price">$400–$1,000</td><td class="price-your">$200–$500</td><td><span class="verdict v-ok">Fair</span></td></tr>
+      <tr><td class="pkg">Monthly Strategy</td><td>Monthly content calendar, brief writing, performance analysis, competitor tracking</td><td class="outcome">Always-on strategy layer that improves content ROI over time</td><td class="price">₹30K–₹80K</td><td class="price-your">₹15K–₹35K</td><td class="price">$600–$1,500</td><td class="price-your">$300–$750</td><td><span class="verdict v-good">Well priced</span></td></tr>
+      <tr><td class="pkg">Full Content OS</td><td>Strategy + editorial calendar + SOPs + content team management + reporting</td><td class="outcome">A fully operational content system that runs like clockwork</td><td class="price">₹80K–₹2L</td><td class="price-your">₹40K–₹1L</td><td class="price">$1,500–$4,000</td><td class="price-your">$800–$2,000</td><td><span class="verdict v-good">Well priced</span></td></tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- 9. PERFORMANCE MARKETING — NEW -->
+<div class="section">
+  <div class="section-header">
+    <div class="section-title">9. Performance Marketing (Monthly, excl. ad spend)</div>
+    <span class="badge badge-new">★ NEW</span>
+  </div>
+  <table>
+    <thead><tr>
+      <th>Package</th><th>What's Included</th><th>Outcome</th>
+      <th>Standard (India)</th><th>Your Price (India)</th>
+      <th>Standard (Intl)</th><th>Your Price (Intl)</th>
+      <th>Verdict</th>
+    </tr></thead>
+    <tbody>
+      <tr><td class="pkg">Starter Ads</td><td>1 platform (Meta or Google), campaign setup, 2 ad sets, basic reporting</td><td class="outcome">First paid acquisition system to test and learn from</td><td class="price">₹15K–₹35K</td><td class="price-your">₹8K–₹18K</td><td class="price">$300–$700</td><td class="price-your">$150–$400</td><td><span class="verdict v-ok">Fair</span></td></tr>
+      <tr><td class="pkg">Growth Ads</td><td>2 platforms (Meta + Google), A/B testing, funnel setup, retargeting, monthly report</td><td class="outcome">Consistent, optimized paid lead flow with improving ROAS</td><td class="price">₹35K–₹90K</td><td class="price-your">₹18K–₹45K</td><td class="price">$700–$2,000</td><td class="price-your">$400–$1,000</td><td><span class="verdict v-good">Well priced</span></td></tr>
+      <tr><td class="pkg">Scale Engine Ads</td><td>Full-funnel: Meta + Google + YouTube, creative strategy, CRO, attribution, weekly reports</td><td class="outcome">A performance machine that scales revenue predictably</td><td class="price">₹1L–₹3L</td><td class="price-your">₹50K–₹1.5L</td><td class="price">$2,000–$6,000</td><td class="price-your">$1,000–$3,000</td><td><span class="verdict v-good">Well priced</span></td></tr>
+    </tbody>
+  </table>
+  <p class="note"><b>Important:</b> Always state clearly that ad spend is <b>not included</b> — this is purely the management fee. Industry standard is to charge either a flat retainer or 10–15% of ad spend, whichever is higher. Your pricing reflects flat retainer model which is easier to sell to new clients.</p>
+</div>
+
+<!-- 10. BUNDLES -->
+<div class="section">
+  <div class="section-header">
+    <div class="section-title">10. Bundles (Recommended)</div>
+    <span class="badge badge-ok">✓ VERIFIED</span>
+  </div>
+  <table>
+    <thead><tr>
+      <th>Package</th><th>What's Included</th><th>Outcome</th>
+      <th>Standard (India)</th><th>Your Price (India)</th>
+      <th>Standard (Intl)</th><th>Your Price (Intl)</th>
+      <th>Verdict</th>
+    </tr></thead>
+    <tbody>
+      <tr><td class="pkg">Startup Launch</td><td>Website + branding + basic SEO + social setup</td><td class="outcome">Complete, ready-to-launch online presence</td><td class="price">₹1L–₹2.5L</td><td class="price-your">₹40K–₹85K</td><td class="price">$1,500–$4,000</td><td class="price-your">$800–$1,800</td><td><span class="verdict v-good">Well priced</span></td></tr>
+      <tr><td class="pkg">Growth System</td><td>Website + SEO + automation + funnels</td><td class="outcome">Predictable, structured lead gen system</td><td class="price">₹3L–₹8L</td><td class="price-your">₹1L–₹2.8L</td><td class="price">$4,000–$12,000</td><td class="price-your">$2,000–$6,000</td><td><span class="verdict v-good">Well priced</span></td></tr>
+      <tr><td class="pkg">Scale Engine</td><td>Web + SEO + AI + marketing + content</td><td class="outcome">Full-scale growth engine with systems in place</td><td class="price">₹8L–₹25L</td><td class="price-your">₹3L–₹10L+</td><td class="price">$10,000–$30,000</td><td class="price-your">$6,000–$20,000</td><td><span class="verdict v-good">Well priced</span></td></tr>
+    </tbody>
+  </table>
+</div>
+
+</body>
+</html>

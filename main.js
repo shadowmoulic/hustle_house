@@ -25,8 +25,40 @@ async function fetchTalent(initialFilter = 'all') {
     const loading = document.getElementById('loading-state');
 
     try {
-        const { data, error } = await db.from('hh_profiles').select('*').order('rating', { ascending: false });
-        if (error) throw error;
+        // Fetch from both main profiles and accepted onboarding entries
+        const [profilesRes, onboardingRes] = await Promise.all([
+            db.from('hh_profiles').select('*').order('rating', { ascending: false }),
+            db.from('hh_onboarding').select('*').eq('status', 'accepted')
+        ]);
+
+        if (profilesRes.error) console.error('Error fetching profiles:', profilesRes.error);
+        if (onboardingRes.error) console.error('Error fetching onboarding:', onboardingRes.error);
+
+        const profiles = profilesRes.data || [];
+        const acceptedOnboarding = (onboardingRes.data || []).map(app => ({
+            id: app.id,
+            full_name: app.full_name,
+            slug: app.custom_subdomain || generateSlug(app.full_name),
+            skills: app.expertise,
+            role: app.expertise ? app.expertise.split(',')[0] : 'Specialist',
+            bio_tagline: app.bio,
+            rating: 5.0,
+            is_from_onboarding: true,
+            primary_color: app.primary_color || '#6250FF'
+        }));
+
+        // Merge and deduplicate by slug
+        const combinedData = [...profiles];
+        const profileSlugs = new Set(profiles.map(p => p.slug));
+
+        acceptedOnboarding.forEach(t => {
+            if (!profileSlugs.has(t.slug)) {
+                combinedData.push(t);
+            }
+        });
+
+        // Use the merged data
+        const data = combinedData;
 
         loading.style.display = 'none';
 
@@ -39,7 +71,7 @@ async function fetchTalent(initialFilter = 'all') {
             const specialties = (member.skills || member.role || '').toLowerCase().split(',').map(s => s.trim());
             const initials = member.full_name.split(' ').map(n => n[0]).join('').toUpperCase();
 
-            // Result-based tagline logic (simplified for now, can be expanded)
+            // Result-based tagline logic
             const tagline = member.bio_tagline || `Scaled products to ${member.delivered_projects || 'global'} benchmarks.`;
 
             const activeFilter = initialFilter || 'all';
@@ -50,7 +82,7 @@ async function fetchTalent(initialFilter = 'all') {
             <a href="/talent/${member.slug}" class="talent-card-link" style="display: ${displayStyle};">
                 <div class="talent-card" data-expertise="${specialties.join(',')}" data-filter="${specialties.join(',')}">
                     <div class="card-header-visual">
-                        <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=${member.full_name}" alt="${member.full_name}" class="avatar-img">
+                        <img src="${member.photo_url || `https://api.dicebear.com/7.x/avataaars/svg?seed=${member.full_name}`}" alt="${member.full_name}" class="avatar-img">
                         <div class="availability-status">
                             <span class="pulse-dot"></span> Available
                         </div>
@@ -79,7 +111,10 @@ async function fetchTalent(initialFilter = 'all') {
             });
         }
 
-    } catch (err) { console.error(err); }
+    } catch (err) { 
+        console.error('Fetch Talent error:', err);
+        loading.innerHTML = '<span>Failed to assemble the elite. System interference detected.</span>';
+    }
 }
 
 // 2. Portfolio/Talent Filtering Logic (Supports Multi-Specialty)

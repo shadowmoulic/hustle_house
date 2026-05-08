@@ -1,0 +1,951 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project Scoper | Hustle House · IIT KGP</title>
+    <link rel="icon" type="image/png" href="/logo.png">
+    <link rel="shortcut icon" type="image/png" href="/logo.png">
+    <link rel="apple-touch-icon" href="/logo.png">
+    <meta name="description"
+        content="Get an instant industrial-grade estimate for your next technical project. Benchmarked against global market rates. Vetted IIT KGP talent.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;800;900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../index.css">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <style>
+        :root {
+            --step-bg: rgba(255, 255, 255, 0.02);
+            --step-border: rgba(255, 255, 255, 0.08);
+        }
+
+        .scoper-main {
+            padding-top: 140px;
+            padding-bottom: 100px;
+            min-height: 100vh;
+            position: relative;
+        }
+
+        .scoper-container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .scoper-header {
+            text-align: center;
+            margin-bottom: 5rem;
+        }
+
+        .scoper-badge {
+            display: inline-block;
+            padding: 0.5rem 1.2rem;
+            background: rgba(98, 80, 255, 0.1);
+            border: 1px solid var(--primary-glow);
+            color: var(--primary);
+            border-radius: 50px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 1.5rem;
+        }
+
+        .scoper-card {
+            background: rgba(10, 10, 15, 0.6);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 32px;
+            padding: 4rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .step-content {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .step-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .question-title {
+            font-size: 2.5rem;
+            font-weight: 900;
+            margin-bottom: 1rem;
+            letter-spacing: -1.5px;
+            line-height: 1.1;
+        }
+
+        .question-subtitle {
+            color: var(--text-secondary);
+            margin-bottom: 3rem;
+            font-size: 1.1rem;
+        }
+
+        .option-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .option-card {
+            background: var(--step-bg);
+            border: 1px solid var(--step-border);
+            padding: 2rem;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: var(--transition);
+            text-align: center;
+        }
+
+        .option-card:hover {
+            border-color: var(--primary);
+            background: rgba(98, 80, 255, 0.05);
+            transform: translateY(-5px);
+        }
+
+        .option-card.selected {
+            background: var(--primary);
+            border-color: var(--primary);
+        }
+
+        .option-card.selected h3,
+        .option-card.selected p {
+            color: white;
+        }
+
+        .option-card i {
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            color: var(--primary);
+        }
+
+        .option-card.selected i {
+            color: white;
+        }
+
+        .option-card h3 {
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .option-card p {
+            font-size: 0.85rem;
+            opacity: 0.6;
+        }
+
+        /* Progress Bar */
+        .progress-container {
+            width: 100%;
+            height: 4px;
+            background: var(--step-border);
+            margin-bottom: 4rem;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: var(--primary);
+            width: 25%;
+            transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* Result View */
+        .result-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: center;
+        }
+
+        .price-box {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid var(--step-border);
+            padding: 2.5rem;
+            border-radius: 24px;
+            position: relative;
+        }
+
+        .market-label {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            opacity: 0.5;
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+
+        .market-price {
+            font-size: 1.5rem;
+            text-decoration: line-through;
+            opacity: 0.4;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .hh-price {
+            font-size: 3.5rem;
+            font-weight: 900;
+            color: var(--primary);
+            letter-spacing: -2px;
+            line-height: 1;
+        }
+
+        .hh-label {
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-top: 0.5rem;
+            display: block;
+        }
+
+        .expert-card {
+            background: var(--step-bg);
+            border: 1px solid var(--step-border);
+            padding: 1.5rem;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            gap: 1.2rem;
+            margin-bottom: 1rem;
+            transition: var(--transition);
+            text-decoration: none;
+            color: white;
+        }
+
+        .expert-card:hover {
+            border-color: var(--primary);
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .expert-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            background: #222;
+        }
+
+        .expert-info h4 {
+            font-size: 1rem;
+            margin: 0;
+        }
+
+        .expert-info p {
+            font-size: 0.75rem;
+            opacity: 0.6;
+        }
+
+        .back-btn {
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            cursor: pointer;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.8rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 2rem;
+            transition: var(--transition);
+        }
+
+        .back-btn:hover {
+            color: var(--primary);
+        }
+
+        .nav-btns {
+            margin-top: 4rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        @media (max-width: 768px) {
+            .scoper-card {
+                padding: 2rem;
+            }
+
+            .result-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .question-title {
+                font-size: 1.8rem;
+            }
+        }
+    </style>
+</head>
+
+<body class="dark-theme">
+    <div class="bg-mesh-container" style="display: block;">
+        <div class="noise"></div>
+        <div class="blur-blobs">
+            <div class="blob blob-1"></div>
+            <div class="blob blob-2"></div>
+            <div class="blob blob-3"></div>
+        </div>
+        <div class="grid-overlay"></div>
+    </div>
+
+    <div id="header-container"></div>
+
+    <main class="scoper-main">
+        <div class="scoper-container">
+            <div class="scoper-header">
+                <div class="scoper-badge">Industrial Scoping Engine v1.0</div>
+                <h1 style="font-size: 3.5rem; font-weight: 900; margin-bottom: 1rem; letter-spacing: -2px;">Project
+                    <span class="gradient-text">Scoper.</span>
+                </h1>
+                <p style="color: var(--text-secondary); font-size: 1.1rem; max-width: 500px; margin: 0 auto;">Instant
+                    technical scoping and budget analysis for elite IIT KGP deployments.</p>
+            </div>
+
+            <div class="progress-container">
+                <div id="progress-bar" class="progress-bar"></div>
+            </div>
+
+            <div class="scoper-card">
+                <button id="back-btn" class="back-btn" style="display: none;">
+                    <i class="fas fa-arrow-left"></i> Back to Previous
+                </button>
+
+                <!-- Step 1: Service Selection -->
+                <div id="step-1" class="step-content active">
+                    <h2 class="question-title">What are we <span class="gradient-text">building?</span></h2>
+                    <p class="question-subtitle">Select the primary domain of your project.</p>
+                    <div class="option-grid">
+                        <div class="option-card" onclick="selectService('web-dev')">
+                            <i class="fas fa-code"></i>
+                            <h3>Web Dev</h3>
+                            <p>Websites, Apps, MVPs</p>
+                        </div>
+                        <div class="option-card" onclick="selectService('seo')">
+                            <i class="fas fa-chart-line"></i>
+                            <h3>SEO & Growth</h3>
+                            <p>Organic, Technical, Content</p>
+                        </div>
+                        <div class="option-card" onclick="selectService('ai-automation')">
+                            <i class="fas fa-microchip"></i>
+                            <h3>AI Automation</h3>
+                            <p>Agents, Workflows, CRM</p>
+                        </div>
+                        <div class="option-card" onclick="selectService('video')">
+                            <i class="fas fa-video"></i>
+                            <h3>Video Editing</h3>
+                            <p>Reels, YouTube, Brand</p>
+                        </div>
+                        <div class="option-card" onclick="selectService('custom')">
+                            <i class="fas fa-wand-magic-sparkles"></i>
+                            <h3>Custom / Hybrid</h3>
+                            <p>Unique technical needs</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 2: Web Dev Details -->
+                <div id="step-web-dev" class="step-content">
+                    <h2 class="question-title">Define the <span class="gradient-text">Scope.</span></h2>
+                    <p class="question-subtitle">What type of web solution do you need?</p>
+                    <div class="option-grid">
+                        <div class="option-card" onclick="calculateResult('web-dev', 'landing')">
+                            <i class="fas fa-bolt"></i>
+                            <h3>Landing Page</h3>
+                            <p>High-conversion single page</p>
+                        </div>
+                        <div class="option-card" onclick="calculateResult('web-dev', 'starter')">
+                            <i class="fas fa-layer-group"></i>
+                            <h3>Starter Website</h3>
+                            <p>Multi-page (4-5 pages)</p>
+                        </div>
+                        <div class="option-card" onclick="calculateResult('web-dev', 'growth')">
+                            <i class="fas fa-rocket"></i>
+                            <h3>Growth Website</h3>
+                            <p>Custom UI/UX + CMS (10-15 pages)</p>
+                        </div>
+                        <div class="option-card" onclick="selectService('custom')">
+                            <i class="fas fa-ellipsis"></i>
+                            <h3>Something else?</h3>
+                            <p>Custom features / Web Apps</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 2: SEO Details -->
+                <div id="step-seo" class="step-content">
+                    <h2 class="question-title">Traffic <span class="gradient-text">Goals.</span></h2>
+                    <p class="question-subtitle">Select your desired growth intensity.</p>
+                    <div class="option-grid">
+                        <div class="option-card" onclick="calculateResult('seo', 'starter')">
+                            <i class="fas fa-seedling"></i>
+                            <h3>Starter SEO</h3>
+                            <p>Audits + On-page basics</p>
+                        </div>
+                        <div class="option-card" onclick="calculateResult('seo', 'growth')">
+                            <i class="fas fa-trending-up"></i>
+                            <h3>Growth SEO</h3>
+                            <p>Content engine + Backlinks</p>
+                        </div>
+                        <div class="option-card" onclick="calculateResult('seo', 'authority')">
+                            <i class="fas fa-crown"></i>
+                            <h3>Authority SEO</h3>
+                            <p>Full niche domination</p>
+                        </div>
+                        <div class="option-card" onclick="selectService('custom')">
+                            <i class="fas fa-plus"></i>
+                            <h3>Something else?</h3>
+                            <p>Unique SEO requirements</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 2: AI Details -->
+                <div id="step-ai" class="step-content">
+                    <h2 class="question-title">Automate <span class="gradient-text">Workflows.</span></h2>
+                    <p class="question-subtitle">Select the level of complexity.</p>
+                    <div class="option-grid">
+                        <div class="option-card" onclick="calculateResult('ai-automation', 'basic')">
+                            <i class="fas fa-robot"></i>
+                            <h3>Basic</h3>
+                            <p>1-2 simple automations</p>
+                        </div>
+                        <div class="option-card" onclick="calculateResult('ai-automation', 'growth')">
+                            <i class="fas fa-brain"></i>
+                            <h3>Growth</h3>
+                            <p>CRM + Multi-step workflows</p>
+                        </div>
+                        <div class="option-card" onclick="calculateResult('ai-automation', 'system')">
+                            <i class="fas fa-network-wired"></i>
+                            <h3>Full AI System</h3>
+                            <p>Agents + Custom AI Ops</p>
+                        </div>
+                        <div class="option-card" onclick="selectService('custom')">
+                            <i class="fas fa-plus"></i>
+                            <h3>Something else?</h3>
+                            <p>Hybrid Automation / R&D</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 2: Video Details -->
+                <div id="step-video" class="step-content">
+                    <h2 class="question-title">Visual <span class="gradient-text">Impact.</span></h2>
+                    <p class="question-subtitle">What are we producing?</p>
+                    <div class="option-grid">
+                        <div class="option-card" onclick="calculateResult('video', 'reels')">
+                            <i class="fab fa-instagram"></i>
+                            <h3>Reels / Shorts</h3>
+                            <p>Pack of 10 edits</p>
+                        </div>
+                        <div class="option-card" onclick="calculateResult('video', 'creator')">
+                            <i class="fab fa-youtube"></i>
+                            <h3>Creator Pack</h3>
+                            <p>Long-form + Thumbnails</p>
+                        </div>
+                        <div class="option-card" onclick="calculateResult('video', 'brand')">
+                            <i class="fas fa-film"></i>
+                            <h3>Brand Video</h3>
+                            <p>Premium Corporate/Ad</p>
+                        </div>
+                        <div class="option-card" onclick="selectService('custom')">
+                            <i class="fas fa-ellipsis"></i>
+                            <h3>Other</h3>
+                            <p>Custom edits / Full Retainer</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 2: Custom Details -->
+                <div id="step-custom" class="step-content">
+                    <h2 class="question-title">Describe the <span class="gradient-text">Mission.</span></h2>
+                    <p class="question-subtitle">Tell us what you're building. Be as technical or vague as you like.</p>
+                    <textarea id="custom-desc"
+                        placeholder="E.g. I need a hybrid mobile app with Supabase integration and a custom AI-driven recommendation engine..."
+                        style="width: 100%; height: 200px; padding: 2rem; border-radius: 24px; background: rgba(255,255,255,0.03); border: 1px solid var(--step-border); color: white; font-family: 'Plus Jakarta Sans', sans-serif; font-size: 1.1rem; resize: none; margin-bottom: 2rem;"></textarea>
+
+                    <div style="text-align: right;">
+                        <button onclick="analyzeCustomProject()" class="glow-button" id="analyze-btn">Analyze
+                            Requirements & Get Quote →</button>
+                    </div>
+
+                    <div id="ai-analysis-feedback" style="margin-top: 2rem; display: none;">
+                        <div
+                            style="padding: 1.5rem; background: rgba(98, 80, 255, 0.05); border: 1px solid var(--primary-glow); border-radius: 16px;">
+                            <div
+                                style="display: flex; align-items: center; gap: 10px; margin-bottom: 0.5rem; color: var(--primary); font-family: 'JetBrains Mono', monospace; font-size: 0.75rem;">
+                                <i class="fas fa-brain"></i> GROQ AI ANALYSIS ENGINE
+                            </div>
+                            <p id="analysis-text" style="font-size: 0.9rem; line-height: 1.6;"></p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Results Step updated with WhatsApp -->
+                <div id="step-result" class="step-content">
+                    <div class="result-grid">
+                        <div>
+                            <h2 class="question-title">Project <span class="gradient-text">Estimate.</span></h2>
+                            <p class="question-subtitle" id="result-desc">Based on your requirements, here is the projected budget analysis.</p>
+
+                            <div class="price-box">
+                                <span class="market-label">Global Market Average</span>
+                                <div class="market-price" id="market-price">₹40,000</div>
+                                <div class="hh-price" id="hh-price">₹18,000</div>
+                                <span class="hh-label">Hustle House Direct Rate</span>
+                                
+                                <div id="price-breakdown" style="margin-top: 2rem; padding-top: 1.5rem; border-top: 1px solid rgba(255,255,255,0.1);">
+                                    <h4 style="font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px; color: var(--primary); margin-bottom: 1rem;">Direct Rate Breakdown</h4>
+                                    <div id="breakdown-list" style="display: flex; flex-direction: column; gap: 0.8rem;">
+                                        <!-- Dynamic Breakdown -->
+                                    </div>
+                                </div>
+
+                                <p style="margin-top: 1.5rem; font-size: 0.8rem; opacity: 0.5;">*Final scope and exact line-items confirmed on discovery call.</p>
+                            </div>
+
+                            <div style="margin-top: 2rem;">
+                                <a href="https://wa.me/919038315605" target="_blank" class="whatsapp-link"
+                                    style="width: 100%; justify-content: center; margin: 0;">
+                                    <i class="fab fa-whatsapp"></i> Chat with Founder
+                                </a>
+                            </div>
+                        </div>
+</div>
+
+                        <div>
+                            <h3 style="font-size: 1.2rem; margin-bottom: 1.5rem; font-weight: 800;">Recommended Experts
+                            </h3>
+                            <div id="experts-list">
+                                <!-- Dynamic Experts -->
+                                <div style="text-align: center; padding: 2rem; opacity: 0.5;">
+                                    <i class="fas fa-circle-notch fa-spin"></i> Finding specialists...
+                                </div>
+                            </div>
+
+                            <div style="margin-top: 2rem;" id="final-cta-area">
+                                <h3 style="font-size: 1.2rem; margin-bottom: 1.5rem; font-weight: 800;">Lock in this
+                                    Rate</h3>
+                                <form id="scoper-lead-form" style="display: flex; flex-direction: column; gap: 1rem;">
+                                    <input type="text" id="lead-name" placeholder="Your Name" required
+                                        style="padding: 1rem; border-radius: 12px; background: rgba(255,255,255,0.03); border: 1px solid var(--step-border); color: white;">
+                                    <input type="email" id="lead-email" placeholder="Work Email" required
+                                        style="padding: 1rem; border-radius: 12px; background: rgba(255,255,255,0.03); border: 1px solid var(--step-border); color: white;">
+                                    <input type="tel" id="lead-whatsapp" placeholder="WhatsApp (e.g. +91 9876543210)" required
+                                        pattern="^\+?[1-9]\d{0,3}[\s-]?\d{10}$"
+                                        title="Please include country code and 10-digit number (e.g. +91 9876543210)"
+                                        style="padding: 1rem; border-radius: 12px; background: rgba(255,255,255,0.03); border: 1px solid var(--step-border); color: white;">
+                                    <button type="submit" class="glow-button"
+                                        style="width: 100%; justify-content: center; padding: 1.2rem;">Send Quote to
+                                        Founder</button>
+                                    <p style="text-align: center; font-size: 0.75rem; opacity: 0.5;">Founder will reach
+                                        out within 2h to finalize details.</p>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Scoping Rules -->
+                <div style="margin-top: 4rem; padding-top: 2rem; border-top: 1px solid var(--step-border);">
+                    <h4
+                        style="font-family: 'JetBrains Mono', monospace; font-size: 0.7rem; text-transform: uppercase; color: var(--primary); margin-bottom: 1.5rem; letter-spacing: 2px;">
+                        Scoping Guidelines</h4>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 2rem;">
+                        <div style="font-size: 0.85rem; opacity: 0.7;">
+                            <b style="color: white; display: block; margin-bottom: 0.5rem;">01. Fixed Pricing</b>
+                            Estimates represent the median budget for standard technical depth. Heavy custom logic may
+                            adjust final rates.
+                        </div>
+                        <div style="font-size: 0.85rem; opacity: 0.7;">
+                            <b style="color: white; display: block; margin-bottom: 0.5rem;">02. Direct Line</b>
+                            Communication is direct with the specialist. Hustle House handles the contract and quality
+                            assurance layers.
+                        </div>
+                        <div style="font-size: 0.85rem; opacity: 0.7;">
+                            <b style="color: white; display: block; margin-bottom: 0.5rem;">03. Fast Track</b>
+                            Projects confirmed via Scoper move to top of the queue for immediate specialist allocation.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div
+                style="margin-top: 4rem; text-align: center; opacity: 0.5; font-family: 'JetBrains Mono', monospace; font-size: 0.7rem;">
+                <p>HH-SCOPER // SYSTEM SECURE // BENCHMARKED 2026</p>
+                <p style="margin-top: 0.5rem;"><a href="/scoper/table.html"
+                        style="color: white; text-decoration: underline;">View Full Market Price Table</a></p>
+            </div>
+        </div>
+    </main>
+
+    <div id="footer-container"></div>
+
+    <script src="../components.js"></script>
+    <script src="../supabase.js"></script>
+    <script>
+        const pricingData = {
+            'web-dev': {
+                'landing': { 
+                    market: '₹25K–₹40K', 
+                    hh: '₹12K–₹22K', 
+                    desc: '1 high-converting page, mobile responsive, basic SEO.',
+                    breakdown: ['UI/UX Design: 30%', 'Frontend Dev: 50%', 'SEO Setup: 20%']
+                },
+                'starter': { 
+                    market: '₹50K–₹80K', 
+                    hh: '₹22K–₹45K', 
+                    desc: '4-5 pages, responsive design, lead forms.',
+                    breakdown: ['Arch/Design: 25%', 'Frontend: 45%', 'Forms/Backend: 30%']
+                },
+                'growth': { 
+                    market: '₹1L–₹1.8L', 
+                    hh: '₹45K–₹90K', 
+                    desc: '10-15 pages, custom UI/UX, CMS, speed optimization.',
+                    breakdown: ['Bespoke UX: 35%', 'CMS Config: 25%', 'Optimization: 40%']
+                },
+                'mvp': { 
+                    market: '₹3L–₹8L', 
+                    hh: '₹1.2L–₹4L', 
+                    desc: 'Full-stack web app, auth, dashboards, DB setup.',
+                    breakdown: ['Product Logic: 40%', 'Fullstack Dev: 45%', 'DevOps: 15%']
+                }
+            },
+            'seo': {
+                'starter': { 
+                    market: '₹20K–₹40K', 
+                    hh: '₹10K–₹18K', 
+                    desc: 'Keyword research, on-page optimization, basic audit.',
+                    breakdown: ['Audit: 30%', 'On-Page: 50%', 'Research: 20%']
+                },
+                'growth': { 
+                    market: '₹50K–₹1.2L', 
+                    hh: '₹25K–₹65K', 
+                    desc: 'Content strategy, 8-12 blogs/mo, technical SEO.',
+                    breakdown: ['Content Engine: 40%', 'Tech SEO: 30%', 'Strategy: 30%']
+                },
+                'authority': { 
+                    market: '₹1.5L–₹5L', 
+                    hh: '₹65K–₹2L', 
+                    desc: 'Full SEO system, backlinks, CRO, AI SEO strategies.',
+                    breakdown: ['Strategy: 30%', 'Production: 40%', 'Backlinks: 30%']
+                }
+            },
+            'ai-automation': {
+                'basic': { 
+                    market: '₹25K–₹60K', 
+                    hh: '₹10K–₹22K', 
+                    desc: '1-2 custom workflows (Email, Lead capture, Notifications).',
+                    breakdown: ['Logic: 40%', 'Integration: 40%', 'Testing: 20%']
+                },
+                'growth': { 
+                    market: '₹60K–₹1.5L', 
+                    hh: '₹22K–₹65K', 
+                    desc: 'CRM setup, multi-step workflows, reporting.',
+                    breakdown: ['System Design: 35%', 'Automation: 45%', 'Reporting: 20%']
+                },
+                'system': { 
+                    market: '₹2L–₹6L', 
+                    hh: '₹65K–₹2.5L', 
+                    desc: 'AI agents, custom workflows, sales/content automation.',
+                    breakdown: ['Architecture: 40%', 'Agent Tuning: 40%', 'Ops: 20%']
+                }
+            },
+            'video': {
+                'reels': { 
+                    market: '₹8K–₹20K', 
+                    hh: '₹5K–₹12K', 
+                    desc: 'Pack of 10 short-form edits, captions, music sync.',
+                    breakdown: ['Editing: 60%', 'Subtitles: 20%', 'Sound: 20%']
+                },
+                'creator': { 
+                    market: '₹15K–₹40K', 
+                    hh: '₹8K–₹20K', 
+                    desc: '4-8 long-form edits, thumbnails, chapters.',
+                    breakdown: ['Pacing: 40%', 'VFX/GFX: 40%', 'Audio: 20%']
+                },
+                'brand': { 
+                    market: '₹20K–₹60K', 
+                    hh: '₹10K–₹30K', 
+                    desc: '1 corporate/ad video, color grading, motion graphics.',
+                    breakdown: ['Direction: 30%', 'Post-Prod: 50%', 'Color: 20%']
+                }
+            }
+        };
+
+        let currentStep = 1;
+        let selectedService = '';
+        let historySteps = [1];
+
+        function showStep(stepId) {
+            document.querySelectorAll('.step-content').forEach(s => s.classList.remove('active'));
+            const nextStep = document.getElementById(stepId);
+            if (nextStep) {
+                nextStep.classList.add('active');
+                updateProgress(stepId);
+            }
+
+            if (historySteps.length > 1) {
+                document.getElementById('back-btn').style.display = 'flex';
+            } else {
+                document.getElementById('back-btn').style.display = 'none';
+            }
+        }
+
+        function updateProgress(stepId) {
+            const bar = document.getElementById('progress-bar');
+            if (stepId === 'step-1') bar.style.width = '25%';
+            else if (stepId === 'step-result') bar.style.width = '100%';
+            else bar.style.width = '60%';
+        }
+
+        function selectService(service) {
+            selectedService = service;
+            const nextStepId = `step-${service === 'ai-automation' ? 'ai' : service}`;
+            historySteps.push(nextStepId);
+            showStep(nextStepId);
+        }
+
+        async function analyzeCustomProject() {
+            const desc = document.getElementById('custom-desc').value;
+            if (desc.length < 10) {
+                alert('Please provide a bit more detail for the analysis engine.');
+                return;
+            }
+
+            const btn = document.getElementById('analyze-btn');
+            const feedback = document.getElementById('ai-analysis-feedback');
+            const analysisText = document.getElementById('analysis-text');
+            
+            btn.disabled = true;
+            btn.innerText = 'Analyzing with Groq AI...';
+            feedback.style.display = 'block';
+            analysisText.innerHTML = '<i class="fas fa-circle-notch fa-spin"></i> Scoping technical complexity...';
+
+            const GROQ_API_KEY = 'gsk_9yL4t8B9o0kP3mO2fX1n';
+            
+            try {
+                // Real Groq API Call
+                const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${GROQ_API_KEY}`,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        model: "llama-3.3-70b-versatile",
+                        messages: [
+                            {
+                                role: "system",
+                                content: `You are a senior technical architect at Hustle House. Analyze the project and provide:
+                                1. Complexity: [Standard/High/Critical]
+                                2. Budget Range: [INR Range]
+                                3. Market Average: [INR Range]
+                                4. Breakdown: [3 specific line items with percentages, e.g., Logic: 40%, QA: 20%, etc.]
+                                5. Summary: [2 sentences]
+                                Format as valid JSON if possible, or clear bullet points.`
+                            },
+                            {
+                                role: "user",
+                                content: desc
+                            }
+                        ],
+                        temperature: 0.5,
+                        max_tokens: 300
+                    })
+                });
+
+                const groqData = await response.json();
+                const analysis = groqData.choices[0].message.content;
+
+                analysisText.innerHTML = `<strong>Groq Analysis:</strong> ${analysis}`;
+
+                // Extract prices and breakdown (Simple regex parser)
+                const hhMatch = analysis.match(/Budget (?:Range)?:\s*(₹?[\d,kL-]+)/i);
+                const marketMatch = analysis.match(/Market (?:Average)?:\s*(₹?[\d,kL-]+)/i);
+                
+                document.getElementById('market-price').innerText = marketMatch ? marketMatch[1] : '₹3L - ₹10L';
+                document.getElementById('hh-price').innerText = hhMatch ? hhMatch[1] : '₹1.2L - ₹4L';
+                document.getElementById('result-desc').innerText = `Bespoke Scoping Analysis: Project confirmed for IIT KGP allocation.`;
+
+                // Custom Breakdown from Groq (Mocked from analysis text for UI)
+                const items = analysis.includes('Breakdown') ? 
+                              analysis.split('Breakdown:')[1].split('\n').filter(l => l.trim().length > 5).slice(0, 3) :
+                              ['Technical Architecture: 40%', 'Elite Specialist Fee: 40%', 'Quality Assurance: 20%'];
+                
+                renderBreakdown(items);
+
+                historySteps.push('step-result');
+                showStep('step-result');
+                fetchExperts('web-dev'); 
+                
+            } catch (err) {
+                console.error('Groq Error:', err);
+                analysisText.innerText = 'AI Engine busy. Analyzing with local heuristics...';
+                setTimeout(() => {
+                    document.getElementById('market-price').innerText = '₹1L – ₹3L';
+                    document.getElementById('hh-price').innerText = '₹45K – ₹90K';
+                    renderBreakdown(['Production: 50%', 'Creative Direction: 30%', 'Management: 20%']);
+                    showStep('step-result');
+                }, 1000);
+            } finally {
+                btn.disabled = false;
+                btn.innerText = 'Analyze Requirements & Get Quote →';
+            }
+        }
+
+        async function calculateResult(service, tier) {
+            const data = pricingData[service][tier];
+            document.getElementById('market-price').innerText = data.market;
+            document.getElementById('hh-price').innerText = data.hh;
+            document.getElementById('result-desc').innerText = data.desc;
+
+            renderBreakdown(data.breakdown);
+
+            historySteps.push('step-result');
+            showStep('step-result');
+
+            const serviceName = service.split('-').map(s => s.charAt(0).toUpperCase() + s.slice(1)).join(' ');
+            fetchExperts(service);
+        }
+
+        function renderBreakdown(items) {
+            const list = document.getElementById('breakdown-list');
+            list.innerHTML = items.map(item => `
+                <div style="display: flex; justify-content: space-between; align-items: center; background: rgba(255,255,255,0.03); padding: 0.8rem 1.2rem; border-radius: 10px; border: 1px solid rgba(255,255,255,0.05);">
+                    <span style="font-size: 0.85rem; opacity: 0.8;">${item.split(':')[0] || item}</span>
+                    <span style="font-size: 0.85rem; font-weight: 700; color: var(--primary);">${item.split(':')[1] || ''}</span>
+                </div>
+            `).join('');
+        }
+
+
+        async function fetchExperts(service) {
+            const list = document.getElementById('experts-list');
+            if (!list) return;
+
+            try {
+                let filter = service || 'web-dev';
+                if (filter === 'custom') filter = 'web-dev';
+                
+                // Try targeted fetch
+                let { data, error } = await db.from('hh_profiles').select('*').ilike('skills', `%${filter}%`).limit(3);
+                
+                // Fallback: If no targeted specialists, fetch ANY top-rated specialists
+                if (!data || data.length === 0) {
+                    console.log('No specific experts found, fetching top specialists...');
+                    const fallback = await db.from('hh_profiles').select('*').order('rating', { ascending: false }).limit(3);
+                    data = fallback.data;
+                }
+
+                if (data && data.length > 0) {
+                    list.innerHTML = data.map(exp => `
+                        <a href="/talent/${exp.slug}" class="expert-card">
+                            <img src="${exp.photo_url || `https://api.dicebear.com/7.x/avataaars/svg?seed=${exp.full_name}`}" class="expert-avatar" alt="${exp.full_name}">
+                            <div class="expert-info">
+                                <h4>${exp.full_name}</h4>
+                                <p>${exp.role}</p>
+                            </div>
+                            <i class="fas fa-chevron-right" style="margin-left: auto; font-size: 0.8rem; opacity: 0.3;"></i>
+                        </a>
+                    `).join('');
+                } else {
+                    list.innerHTML = `
+                        <div style="padding: 1.5rem; text-align: center; opacity: 0.5;">
+                            <p style="font-size: 0.9rem;">Specialists currently on assignment.</p>
+                            <p style="font-size: 0.75rem;">Founder will manually assign an elite team.</p>
+                        </div>
+                    `;
+                }
+            } catch (err) {
+                console.error('Fetch Experts Error:', err);
+                list.innerHTML = '<p style="opacity: 0.5; padding: 1rem; text-align: center; font-size: 0.8rem;">Specialists pending availability check. Founder will assign manually.</p>';
+            }
+        }
+
+        document.getElementById('back-btn').onclick = () => {
+            if (historySteps.length > 1) {
+                historySteps.pop();
+                const lastStepId = historySteps[historySteps.length - 1];
+                showStep(typeof lastStepId === 'number' ? `step-${lastStepId}` : lastStepId);
+            }
+        };
+
+        // Lead Submission Logic
+        document.getElementById('scoper-lead-form').onsubmit = async (e) => {
+            e.preventDefault();
+            const btn = e.target.querySelector('button');
+            const originalText = btn.innerText;
+            btn.innerText = 'Transmitting...';
+            btn.disabled = true;
+
+            const name = document.getElementById('lead-name').value;
+            const email = document.getElementById('lead-email').value;
+            const whatsapp = document.getElementById('lead-whatsapp').value;
+            const market = document.getElementById('market-price').innerText;
+            const hh = document.getElementById('hh-price').innerText;
+
+            const leadData = {
+                name,
+                email,
+                whatsapp,
+                service: selectedService,
+                message: `Project Scoper Quote:
+Hustle House Est: ${hh}
+Market Est: ${market}
+Selected Service: ${selectedService}
+Email: ${email}
+WhatsApp: ${whatsapp}`,
+            };
+
+            try {
+                const { error } = await db.from('HH_Leads').insert([leadData]);
+                if (error) throw error;
+
+                document.getElementById('final-cta-area').innerHTML = `
+                    <div style="text-align: center; padding: 3rem; background: rgba(74, 222, 128, 0.05); border: 1px solid #4ade80; border-radius: 24px;">
+                        <i class="fas fa-check-circle" style="font-size: 3rem; color: #4ade80; margin-bottom: 1rem;"></i>
+                        <h3 style="color: #4ade80;">Transmission Successful</h3>
+                        <p style="font-size: 0.9rem; opacity: 0.7; margin-top: 0.5rem;">Founder has received your quote. Stand by for contact.</p>
+                    </div>
+                `;
+            } catch (err) {
+                console.error(err);
+                document.getElementById('final-cta-area').innerHTML = `
+                    <div style="text-align: center; padding: 2rem; background: rgba(239, 68, 68, 0.05); border: 1px solid #ef4444; border-radius: 24px;">
+                        <i class="fas fa-exclamation-triangle" style="font-size: 2rem; color: #ef4444; margin-bottom: 1rem;"></i>
+                        <h3 style="color: #ef4444;">Transmission Failed</h3>
+                        <p style="font-size: 0.8rem; opacity: 0.7; margin-top: 0.5rem;">System interference detected. Please reach out to the founder directly.</p>
+                        <a href="https://wa.me/919038315605" class="whatsapp-link" style="margin-top: 1.5rem; justify-content: center;">WhatsApp Founder</a>
+                    </div>
+                `;
+            }
+        };
+
+        // Initialize header/footer
+        window.onload = () => {
+            // Components already handled by script tags
+        };
+    </script>
+</body>
+
+</html>
