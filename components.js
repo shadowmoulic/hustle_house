@@ -22,6 +22,7 @@ const headerHTML = `
                     <a href="/services/design">Design & UI/UX</a>
                     <a href="/services/video-editing">Video Editing</a>
                     <a href="/services/digital-marketing">Digital Marketing</a>
+                    <a href="/services/content-writing">Content Writing</a>
                 </div>
             </div>
             <a href="/how-it-works">How It Works</a>
@@ -62,6 +63,7 @@ const footerHTML = `
                         <li><a href="/services/seo">SEO & Growth</a></li>
                         <li><a href="/services/ai-automation">AI Automation</a></li>
                         <li><a href="/services/design">Design & UI/UX</a></li>
+                        <li><a href="/services/content-writing">Content Writing</a></li>
                     </ul>
                 </div>
                 <div class="footer-column">
@@ -144,6 +146,7 @@ function injectComponents() {
                             <a href="/services/design">Design & UI/UX</a>
                             <a href="/services/video-editing">Video Editing</a>
                             <a href="/services/digital-marketing">Digital Marketing</a>
+                            <a href="/services/content-writing">Content Writing</a>
                         </div>
                     </div>
                     <a href="/how-it-works">How It Works</a>

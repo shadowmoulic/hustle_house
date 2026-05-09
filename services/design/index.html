@@ -16,6 +16,69 @@
         href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap"
         rel="stylesheet">
     <link rel="stylesheet" href="../../index.css">
+    <style>
+        .talent-feature {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 4rem;
+        }
+
+        .talent-card-mini {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 24px;
+            padding: 2.5rem;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .talent-card-mini:hover {
+            transform: translateY(-10px);
+            background: rgba(255, 255, 255, 0.05);
+            border-color: var(--accent-color);
+        }
+
+        .talent-card-mini .avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            font-weight: 800;
+            color: white;
+        }
+
+        .talent-card-mini h3 {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .talent-card-mini p {
+            font-size: 0.9rem;
+            opacity: 0.7;
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+
+        .talent-link {
+            color: var(--accent-color);
+            text-decoration: none;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        .talent-link:hover {
+            gap: 0.8rem;
+        }
+    </style>
 </head>
 
 <body>
@@ -27,10 +90,10 @@
         <section class="section">
             <div class="container">
                 <div class="badge fade-in">Design & UI/UX</div>
-                <h1 class="section-title">IIT KGP Designers. <span class="gradient-text">Sharp Portfolios.</span> Zero
-                    Fluff.</h1>
-                <p class="section-subtitle">We design interfaces that people love to use and brands that they never
-                    forget.</p>
+                <h1 class="section-title">IIT KGP Designers <span class="gradient-text">With Vision.</span></h1>
+                <p class="section-subtitle">We design interfaces that people love to use and brands that command respect
+                    across the global digital landscape.
+                </p>
 
                 <div class="feature-grid" style="margin-top: 4rem;">
                     <div class="feature-card glass">
@@ -53,12 +116,78 @@
             </div>
         </section>
 
-        <section class="goal-section">
-            <div class="goal-card glass-premium">
-                <h2>Elevate Your Brand</h2>
-                <p class="mission-text">Let our designers build you a world-class visual identity.</p>
-                <a href="/contact" class="cta-large">See Our Portfolio</a>
+        <section class="section mesh-highlight">
+            <div class="container">
+                <div style="text-align: center;">
+                    <div class="section-label" style="margin-bottom: 1rem;">// THE DIRECTORS</div>
+                    <h2 class="section-title">Meet Your <span class="gradient-text">Design Architects.</span></h2>
+                    <p class="section-subtitle" style="margin: 0 auto; max-width: 700px;">Work directly with the elite
+                        creative minds from IIT Kharagpur who bridge the gap between engineering and aesthetics.</p>
+                </div>
+
+                <div class="talent-feature">
+                    <!-- Skanda -->
+                    <div class="talent-card-mini">
+                        <div class="avatar" style="background: linear-gradient(135deg, #fb7b50, #f85c21);">S</div>
+                        <h3>Skanda KM</h3>
+                        <p>Visual Identity Architect. Specialized in building seamless brand experiences through
+                            technical precision and high-fidelity design systems.</p>
+                        <a href="/talent/skanda" class="talent-link">View Full Profile ↗</a>
+                    </div>
+                </div>
             </div>
+        </section>
+
+        <section class="section dot-grid" style="padding: 10rem 0; background: #050505;">
+            <div class="container">
+                <div class="section-label" style="text-align: center; margin-bottom: 2rem;">// THE PHILOSOPHY</div>
+                <h2 class="section-title" style="color:white !important; text-align: center; margin-bottom: 52px;">
+                    Built for
+                    <span class="gradient-text">Conversion.</span>
+                </h2>
+
+                <div class="faq-grid">
+                    <div class="faq-card">
+                        <h3 class="faq-question">What's your design process?</h3>
+                        <p class="faq-answer">We start with deep research into your users and competitors. Then, we
+                            iterate through wireframes to final high-fidelity designs with a focus on usability.</p>
+                    </div>
+                    <div class="faq-card">
+                        <h3 class="faq-question">Do you provide source files?</h3>
+                        <p class="faq-answer">Yes, always. You'll receive fully organized Figma files with components,
+                            styles, and documentation for your developers.</p>
+                    </div>
+                    <div class="faq-card">
+                        <h3 class="faq-question">Can you handle development too?</h3>
+                        <p class="faq-answer">Absolutely. Our design and dev teams work in lockstep to ensure your vision
+                            is implemented perfectly without any "lost in translation" friction.</p>
+                    </div>
+                    <div class="faq-card">
+                        <h3 class="faq-question">How do you handle revisions?</h3>
+                        <p class="faq-answer">We believe in collaboration. We offer iterative feedback rounds to ensure
+                            the final product exceeds your expectations and meets your goals.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="goal-section bg-black" style="border-top: 1px solid rgba(255,255,255,0.05); padding: 10rem 0;">
+            <div class="goal-card glass-premium" style="max-width: 800px; position: relative; overflow: visible;">
+                <div
+                    style="position: absolute; top: -20px; left: 50%; transform: translateX(-50%); background: #25d366; color: white; padding: 6px 15px; border-radius: 20px; font-size: 0.7rem; font-weight: 800; letter-spacing: 1px; display: flex; align-items: center; gap: 8px;">
+                    <span
+                        style="width: 8px; height: 8px; background: white; border-radius: 50%; display: inline-block; animation: pulse 2s infinite;"></span>
+                    FOUNDER DIRECT · REPLIES < 1H </div>
+                        <h2 style="font-size: 3rem; font-weight: 900; margin-bottom: 1rem;">Need Design?</h2>
+                        <p class="mission-text" style="font-size: 1.2rem; opacity: 0.7; margin-bottom: 3rem;">Ready to
+                            transform your digital presence with elite IIT KGP design talent? Let's discuss your vision.
+                        </p>
+                        <a href="https://wa.me/919038315605?text=Hello Sayak! I'm interested in Design services at Hustle House."
+                            class="glow-button" target="_blank"
+                            style="background: #25d366; color: white; border: none; padding: 1.5rem 3.5rem; font-size: 1.1rem; border-radius: 50px; box-shadow: 0 0 30px rgba(37, 211, 102, 0.3);">
+                            Secure Your Architect ↗
+                        </a>
+                </div>
         </section>
     </main>
 
