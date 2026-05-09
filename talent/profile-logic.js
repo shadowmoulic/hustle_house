@@ -41,6 +41,7 @@ async function initProfile() {
 
     try {
         // 2. Fetch Profile Data (Query by slug OR custom_subdomain)
+        // We try both tables to ensure "programmatic" coverage for all members
         let query = db.from('hh_profiles').select('*');
 
         if (isSubdomainRequest) {
@@ -49,49 +50,75 @@ async function initProfile() {
             query = query.eq('slug', identifier);
         }
 
-        let { data: profile, error: profileError } = await query.single();
+        let { data: profile, error: profileError } = await query.maybeSingle();
 
         // Fallback to hh_onboarding if not found in hh_profiles
-        if (profileError || !profile) {
+        // This ensures even applicants who haven't been manually moved to the main profile table yet have a live page
+        if (!profile) {
             console.log('Profile not found in hh_profiles, checking hh_onboarding...');
+            // Normalize identifier for name search (replace-dash-with-space)
+            const nameSearch = identifier.replace(/-/g, ' ');
+            
             const { data: onboardingProfile, error: onboardingError } = await db
                 .from('hh_onboarding')
                 .select('*')
-                .or(`custom_subdomain.eq.${identifier},full_name.ilike.%${identifier}%`)
-                .eq('status', 'accepted')
+                .or(`custom_subdomain.eq.${identifier},full_name.ilike.%${nameSearch}%`)
                 .maybeSingle();
 
             if (onboardingProfile) {
-                // Map onboarding fields to profile fields
                 profile = {
                     id: onboardingProfile.id,
                     full_name: onboardingProfile.full_name,
-                    slug: onboardingProfile.custom_subdomain,
-                    role: onboardingProfile.expertise ? onboardingProfile.expertise.split(',')[0] : 'Specialist',
+                    slug: onboardingProfile.custom_subdomain || identifier,
+                    role: onboardingProfile.expertise ? onboardingProfile.expertise.split(',')[0].replace('-', ' ').toUpperCase() : 'Specialist',
                     bio: onboardingProfile.bio,
                     skills: onboardingProfile.expertise,
                     primary_color: onboardingProfile.primary_color || '#6250FF',
                     availability: 'available',
+                    min_project_price: 500,
                     theme_config: { variant: 'standard' },
                     is_onboarding: true
                 };
             } else {
-                throw profileError || onboardingError || new Error('Profile not found');
+                throw new Error('Member not found in database.');
             }
         }
 
-        // 3. Fetch Portfolio Data
-        const { data: portfolio, error: portfolioError } = await db
+        // 3. Dynamic Meta Tags & SEO Injection
+        const pageTitle = `${profile.full_name} | ${profile.role} | Hustle House`;
+        const pageDesc = profile.bio ? profile.bio.substring(0, 160) : `Portfolio and technical proof of ${profile.full_name} from IIT Kharagpur.`;
+        const ogImage = profile.photo_url || `https://api.dicebear.com/7.x/avataaars/svg?seed=${profile.full_name}`;
+
+        document.title = pageTitle;
+        
+        // Inject/Update Meta Tags
+        const updateMeta = (name, content, attr = 'name') => {
+            let el = document.querySelector(`meta[${attr}="${name}"]`);
+            if (!el) {
+                el = document.createElement('meta');
+                el.setAttribute(attr, name);
+                document.head.appendChild(el);
+            }
+            el.setAttribute('content', content);
+        };
+
+        updateMeta('description', pageDesc);
+        updateMeta('og:title', pageTitle, 'property');
+        updateMeta('og:description', pageDesc, 'property');
+        updateMeta('og:image', ogImage, 'property');
+        updateMeta('twitter:card', 'summary_large_image');
+
+        // 4. Fetch Portfolio Data
+        const { data: portfolio } = await db
             .from('hh_portfolio')
             .select('*')
             .eq('profile_id', profile.id)
             .order('created_at', { ascending: false });
 
-        // 4. Apply Custom Branding & Theme
+        // 5. Apply Custom Branding & Theme
         const theme = profile.theme_config || {};
         const accentColor = profile.primary_color || '#6250FF';
 
-        // Inject dynamic styles
         const styleEl = document.getElementById('custom-theme-styles');
         styleEl.innerHTML = `
             :root {
@@ -99,32 +126,32 @@ async function initProfile() {
             }
             .premium-profile-theme {
                 --primary: ${accentColor};
-                --primary-glow: ${accentColor}4D; /* 30% opacity */
+                --primary-glow: ${accentColor}4D;
             }
             ${theme.font_style === 'serif' ? 'body { font-family: "Syne", serif; }' : ''}
             ${theme.variant === 'terminal' ? '.profile-container { border: 1px solid var(--member-accent); padding: 3rem; background: #000; }' : ''}
-            /* Custom User Overrides */
             ${theme.custom_css || ''}
         `;
 
-        if (theme.variant === 'terminal') {
-            document.body.classList.add('terminal-variant');
-        }
+        if (theme.variant === 'terminal') document.body.classList.add('terminal-variant');
 
-        // 5. Populate Basic Info
-        const firstName = profile.full_name.split(' ')[0];
+        // 6. Populate Info
         document.getElementById('member-id-tag').innerHTML = `<span style="opacity: 0.5;">ID//</span> HH-${profile.id.substring(0, 4).toUpperCase()}`;
-
-        // Handle result-driven headline (First sentence of bio or custom)
-        const bioParts = profile.bio.split('. ');
-        const headline = bioParts[0] + '.';
+        
+        const bioText = profile.bio || "IIT KGP Specialist delivering high-precision technical solutions.";
+        const bioParts = bioText.split('. ');
+        const headline = bioParts[0] + (bioParts[0].endsWith('.') ? '' : '.');
         const remainingBio = bioParts.slice(1).join('. ');
 
-        document.getElementById('member-hero-headline').innerText = headline;
-        document.getElementById('member-one-liner').innerText = `${profile.role} from IIT Kharagpur delivering global project outcomes.`;
-        document.getElementById('member-price-anchor').innerText = `Typical Projects start at $${profile.min_project_price || 500}`;
+        const headlineEl = document.getElementById('member-hero-headline');
+        const oneLinerEl = document.getElementById('member-one-liner');
+        const priceEl = document.getElementById('member-price-anchor');
 
-        // Status & CTA Logic
+        if (headlineEl) headlineEl.innerText = headline;
+        if (oneLinerEl) oneLinerEl.innerText = `${profile.role} from IIT Kharagpur delivering global project outcomes.`;
+        if (priceEl) priceEl.innerText = `Typical Projects start at $${profile.min_project_price || 500}`;
+
+        // 7. Status & CTA Logic
         const statusEl = document.getElementById('member-status');
         const ctaBtn = document.getElementById('member-cta-button');
         const stickyBtn = document.getElementById('sticky-engage-btn');
@@ -150,12 +177,10 @@ async function initProfile() {
                         <div class="case-content">
                             <span class="case-tag">// Case Study / ${item.client_type || 'B2B SaaS'}</span>
                             <h3 class="case-title">${item.title}</h3>
-                            
                             <div style="margin-bottom: 2.5rem;">
                                 <span style="font-family: 'JetBrains Mono', monospace; font-size: 0.65rem; color: var(--member-accent); display: block; margin-bottom: 0.5rem; text-transform: uppercase;">The Challenge</span>
                                 <p style="color: var(--text-primary); font-size: 1.05rem; line-height: 1.6; font-weight: 500;">${item.description}</p>
                             </div>
-
                             <div class="case-result-box">
                                 <div class="case-metric">${item.result_metric || '100%'}</div>
                                 <div class="case-metric-label">${item.result_detail || 'Success Rate'}</div>
@@ -172,18 +197,11 @@ async function initProfile() {
             proofContainer.innerHTML = `<p style="color: var(--text-secondary); text-align: center; padding: 4rem; border: 1px dashed var(--border);">Verified case studies pending synchronization.</p>`;
         }
 
-        // Update Page Title & Metadata
-        const pageTitle = `${profile.full_name} | ${profile.role} | HUSTLEHOUSE`;
-        document.title = pageTitle;
-
-        // Populate Hidden Form Field
+        // 9. SEO & Forms
         const specialistNameField = document.getElementById('query-specialist-name');
         if (specialistNameField) specialistNameField.value = profile.full_name;
-
-        // Initialize Query Form Submission
         initQueryForm();
 
-        // Add/Update Canonical Link for SEO
         let canonical = document.querySelector('link[rel="canonical"]');
         if (!canonical) {
             canonical = document.createElement('link');
@@ -195,6 +213,7 @@ async function initProfile() {
     } catch (err) {
         console.error('Profile load error:', err);
         document.getElementById('member-hero-headline').innerText = 'Member Not Found';
+        document.getElementById('member-one-liner').innerText = 'The requested profile is either in stealth mode or has not been fully syncronized.';
     }
 }
 

@@ -40,11 +40,14 @@ async function fetchTalent(initialFilter = 'all') {
             full_name: app.full_name,
             slug: app.custom_subdomain || generateSlug(app.full_name),
             skills: app.expertise,
-            role: app.expertise ? app.expertise.split(',')[0] : 'Specialist',
-            bio_tagline: app.bio,
+            role: app.expertise ? app.expertise.split(',')[0].replace('-', ' ').toUpperCase() : 'Specialist',
+            bio: app.bio,
+            bio_tagline: app.bio_tagline || app.bio,
             rating: 5.0,
+            projects_count: 1, // Default for new accepted members
             is_from_onboarding: true,
-            primary_color: app.primary_color || '#6250FF'
+            primary_color: app.primary_color || '#6250FF',
+            photo_url: `https://api.dicebear.com/7.x/avataaars/svg?seed=${app.full_name}`
         }));
 
         // Merge and deduplicate by slug
@@ -57,8 +60,8 @@ async function fetchTalent(initialFilter = 'all') {
             }
         });
 
-        // Use the merged data
-        const data = combinedData;
+        // Use the merged data, explicitly excluding Rahul
+        const data = combinedData.filter(member => member.slug !== 'rahul');
 
         loading.style.display = 'none';
 
@@ -72,7 +75,10 @@ async function fetchTalent(initialFilter = 'all') {
             const initials = member.full_name.split(' ').map(n => n[0]).join('').toUpperCase();
 
             // Result-based tagline logic
-            const tagline = member.bio_tagline || `Scaled products to ${member.delivered_projects || 'global'} benchmarks.`;
+            let tagline = member.bio_tagline || member.bio || `Scaled products to ${member.delivered_projects || 'global'} benchmarks.`;
+            if (tagline === 'null' || !tagline) {
+                tagline = `IIT KGP Specialist delivering high-precision ${member.role || 'technical'} solutions.`;
+            }
 
             const activeFilter = initialFilter || 'all';
             const isVisible = activeFilter === 'all' || specialties.includes(activeFilter.toLowerCase());

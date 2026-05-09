@@ -4,7 +4,7 @@
 -- 1. Profiles Table
 CREATE TABLE IF NOT EXISTS HH_profiles (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-    slug TEXT UNIQUE NOT NULL, -- sayak, rahul, etc.
+    slug TEXT UNIQUE NOT NULL, -- sayak, etc.
     full_name TEXT NOT NULL,
     role TEXT NOT NULL, -- SEO Strategist, Web Dev, etc.
     education TEXT DEFAULT 'IIT Kharagpur',
@@ -50,8 +50,7 @@ CREATE POLICY "Public Read" ON HH_skills FOR SELECT USING (true);
 -- Insert Sample Data
 INSERT INTO HH_profiles (slug, full_name, role, education, rating, projects_count, bio, cal_link)
 VALUES 
-('sayak', 'Sayak', 'SEO Strategist', 'IIT Kharagpur', 5.0, 3, 'Specialized in semantic SEO and organic growth for startups.', 'sayak/30min'),
-('rahul', 'Rahul', 'Web Developer', 'IIT Kharagpur', 4.5, 1, 'Full-stack developer focused on performance and scale.', 'rahul/discovery');
+('sayak', 'Sayak', 'SEO Strategist', 'IIT Kharagpur', 5.0, 3, 'Specialized in semantic SEO and organic growth for startups.', 'sayak/30min');
 
 INSERT INTO HH_portfolio (profile_id, title, description, icon)
 SELECT id, 'FinTech SEO Scale', 'Increased monthly organic visitors from 1k to 25k.', '📈'

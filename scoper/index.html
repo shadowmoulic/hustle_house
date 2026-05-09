@@ -530,7 +530,6 @@
                                 </a>
                             </div>
                         </div>
-</div>
 
                         <div>
                             <h3 style="font-size: 1.2rem; margin-bottom: 1.5rem; font-weight: 800;">Recommended Experts
@@ -847,32 +846,47 @@
                 let filter = service || 'web-dev';
                 if (filter === 'custom') filter = 'web-dev';
                 
-                // Try targeted fetch
-                let { data, error } = await db.from('hh_profiles').select('*').ilike('skills', `%${filter}%`).limit(3);
+                // Fetch from both main profiles and accepted onboarding entries
+                const [profilesRes, onboardingRes] = await Promise.all([
+                    db.from('hh_profiles').select('*').ilike('role', `%${filter}%`).neq('slug', 'rahul').limit(3),
+                    db.from('hh_onboarding').select('*').eq('status', 'accepted').ilike('expertise', `%${filter}%`).limit(3)
+                ]);
+
+                let data = profilesRes.data || [];
+                const onboardingData = (onboardingRes.data || []).map(app => ({
+                    full_name: app.full_name,
+                    slug: app.custom_subdomain,
+                    role: app.expertise ? app.expertise.split(',')[0].replace('-', ' ').toUpperCase() : 'Specialist',
+                    photo_url: `https://api.dicebear.com/7.x/avataaars/svg?seed=${app.full_name}`,
+                    is_onboarding: true
+                }));
+
+                data = [...data, ...onboardingData].slice(0, 3);
                 
-                // Fallback: If no targeted specialists, fetch ANY top-rated specialists
-                if (!data || data.length === 0) {
+                // Fallback: If no targeted specialists, fetch ANY top-rated specialists (excluding rahul)
+                if (data.length === 0) {
                     console.log('No specific experts found, fetching top specialists...');
-                    const fallback = await db.from('hh_profiles').select('*').order('rating', { ascending: false }).limit(3);
-                    data = fallback.data;
+                    const fallback = await db.from('hh_profiles').select('*').neq('slug', 'rahul').order('rating', { ascending: false }).limit(3);
+                    data = fallback.data || [];
                 }
 
                 if (data && data.length > 0) {
                     list.innerHTML = data.map(exp => `
-                        <a href="/talent/${exp.slug}" class="expert-card">
+                        <a href="/talent/${exp.slug}" class="expert-card" style="border-left: 4px solid var(--primary);">
                             <img src="${exp.photo_url || `https://api.dicebear.com/7.x/avataaars/svg?seed=${exp.full_name}`}" class="expert-avatar" alt="${exp.full_name}">
                             <div class="expert-info">
-                                <h4>${exp.full_name}</h4>
-                                <p>${exp.role}</p>
+                                <h4 style="font-weight: 800;">${exp.full_name}</h4>
+                                <p style="font-family: 'JetBrains Mono', monospace; font-size: 0.65rem; text-transform: uppercase; color: var(--primary);">${exp.role || 'Elite Specialist'}</p>
                             </div>
                             <i class="fas fa-chevron-right" style="margin-left: auto; font-size: 0.8rem; opacity: 0.3;"></i>
                         </a>
                     `).join('');
                 } else {
                     list.innerHTML = `
-                        <div style="padding: 1.5rem; text-align: center; opacity: 0.5;">
-                            <p style="font-size: 0.9rem;">Specialists currently on assignment.</p>
-                            <p style="font-size: 0.75rem;">Founder will manually assign an elite team.</p>
+                        <div style="padding: 1.5rem; text-align: center; background: rgba(255,255,255,0.02); border-radius: 20px; border: 1px dashed var(--step-border);">
+                            <p style="font-size: 0.9rem; margin-bottom: 0.5rem; font-weight: 700;">Specialists currently on assignment.</p>
+                            <p style="font-size: 0.75rem; opacity: 0.6;">Founder will manually scout the IIT KGP network for your specific requirements.</p>
+                            <a href="https://wa.me/919038315605" class="action-btn" style="margin-top: 1rem; font-size: 0.7rem; padding: 0.5rem 1rem;">Direct Scout Request →</a>
                         </div>
                     `;
                 }

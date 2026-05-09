@@ -14,13 +14,28 @@ const server = http.createServer((req, res) => {
         isSubdomain = true;
     }
 
-    let filePath = '.' + req.url;
-    if (filePath === './') filePath = './index.html';
+    const urlWithoutQuery = req.url.split('?')[0];
+    const urlParts = urlWithoutQuery.split('/').filter(p => p !== '');
 
-    // If it's a subdomain and the path is just root, serve the profile.html template
-    // This simulates the Vercel middleware locally
-    if (isSubdomain && (req.url === '/' || req.url === '')) {
+    // 1. Programmatic Talent Routing (Priority)
+    if (urlParts.length === 2 && urlParts[0] === 'talent' && !urlParts[1].includes('.')) {
         filePath = './talent/profile.html';
+        console.log(`[ROUTING] Programmatic rewrite: ${req.url} -> ${filePath}`);
+    } 
+    // 2. Subdomain Routing
+    else if (isSubdomain && (urlWithoutQuery === '/' || urlWithoutQuery === '')) {
+        filePath = './talent/profile.html';
+        console.log(`[SUBDOMAIN] Serving profile: ${req.url} -> ${filePath}`);
+    }
+    // 3. Static File Routing
+    else {
+        filePath = '.' + urlWithoutQuery;
+        if (filePath === './' || filePath.endsWith('/')) {
+            filePath += 'index.html';
+        } else if (fs.existsSync(filePath) && fs.statSync(filePath).isDirectory()) {
+            filePath += '/index.html';
+        }
+        console.log(`[STATIC] Serving: ${req.url} -> ${filePath}`);
     }
 
     const extname = String(path.extname(filePath)).toLowerCase();

@@ -30,13 +30,6 @@ export default function middleware(req) {
         return Response.rewrite(new URL(`/talent/profile.html`, req.url));
     }
 
-    // 2. Handle Path-based Routing (kgphustlehouse.com/talent/sayak)
-    if (url.pathname.startsWith("/talent/")) {
-        const pathParts = url.pathname.split('/').filter(p => p !== "");
-
-        // If it's exactly /talent/slug and not an asset
-        if (pathParts.length === 2 && !pathParts[1].includes('.')) {
-            return Response.rewrite(new URL(`/talent/profile.html`, req.url));
-        }
-    }
+    // 2. Path-based Routing is now handled by vercel.json for better reliability
+    // Only subdomain routing remains here
 }

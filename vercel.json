@@ -1,0 +1,13 @@
+{
+  "rewrites": [
+    {
+      "source": "/talent/:slug",
+      "destination": "/talent/profile.html"
+    },
+    {
+      "source": "/(.*)",
+      "destination": "/404.html",
+      "check": true
+    }
+  ]
+}

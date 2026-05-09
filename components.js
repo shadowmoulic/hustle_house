@@ -39,7 +39,7 @@ const headerHTML = `
         <a href="/services">Services</a>
         <a href="/how-it-works">How It Works</a>
         <a href="/scoper">Get Estimate</a>
-        <a href="/onboarding">Join Network</a>
+        <a href="/contact">Contact Us</a>
         <a href="/contact" class="join-btn">Hire Us</a>
     </div>
 `;
@@ -68,7 +68,7 @@ const footerHTML = `
                     <h4 class="footer-silver-header">Talent</h4>
                     <ul>
                         <li><a href="/talent">Browse Talent</a></li>
-                        <li><a href="/onboarding">Join Network</a></li>
+                        <li><a href="/contact">Contact Us</a></li>
                     </ul>
                 </div>
                 <div class="footer-column">
@@ -168,7 +168,7 @@ function injectComponents() {
                 <a href="/services">Services</a>
                 <a href="/scoper">Get Estimate</a>
                 <a href="/how-it-works">How It Works</a>
-                <a href="/onboarding">Join Network</a>
+                <a href="/contact">Contact Us</a>
                 <a href="/contact" class="join-btn">Hire Us</a>
             </div>
         `;

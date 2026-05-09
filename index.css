@@ -499,6 +499,33 @@ body.light-mode .aura-blob {
     color: var(--primary) !important;
 }
 
+body.light-mode .dropdown-menu {
+    background: #ffffff;
+    border-color: rgba(0,0,0,0.1);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+}
+
+body.light-mode .dropdown-menu a {
+    color: #444 !important;
+}
+
+body.light-mode .dropdown-menu a:hover {
+    background: rgba(0,0,0,0.03);
+    color: var(--primary) !important;
+}
+
+/* Global Select Fix */
+select, option {
+    background-color: #111 !important;
+    color: white !important;
+}
+
+body.light-mode select, 
+body.light-mode option {
+    background-color: #fff !important;
+    color: #111 !important;
+}
+
 /* Fat Footer */
 .fat-footer {
     padding: 80px 10% 40px;
