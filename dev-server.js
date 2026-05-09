@@ -22,10 +22,11 @@ const server = http.createServer((req, res) => {
         filePath = './talent/profile.html';
         console.log(`[ROUTING] Programmatic rewrite: ${req.url} -> ${filePath}`);
     } 
-    // 2. Subdomain Routing
+    // 2. Subdomain Routing (e.g., arnavshukla.localhost)
     else if (isSubdomain && (urlWithoutQuery === '/' || urlWithoutQuery === '')) {
-        filePath = './talent/profile.html';
-        console.log(`[SUBDOMAIN] Serving profile: ${req.url} -> ${filePath}`);
+        const subdomain = host.split('.')[0];
+        filePath = `./talent/${subdomain}/index.html`;
+        console.log(`[SUBDOMAIN] Serving static folder: ${req.url} -> ${filePath}`);
     }
     // 3. Static File Routing
     else {
