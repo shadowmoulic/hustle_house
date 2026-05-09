@@ -846,29 +846,38 @@
                 let filter = service || 'web-dev';
                 if (filter === 'custom') filter = 'web-dev';
                 
-                // Fetch from both main profiles and accepted onboarding entries
-                const [profilesRes, onboardingRes] = await Promise.all([
-                    db.from('hh_profiles').select('*').ilike('role', `%${filter}%`).neq('slug', 'rahul').limit(3),
-                    db.from('hh_onboarding').select('*').eq('status', 'accepted').ilike('expertise', `%${filter}%`).limit(3)
-                ]);
+                // Fetch only from main profiles table as requested ("actual table")
+                const { data: profiles, error: profilesError } = await db
+                    .from('hh_profiles')
+                    .select('*')
+                    .ilike('role', `%${filter}%`)
+                    .limit(10);
 
-                let data = profilesRes.data || [];
-                const onboardingData = (onboardingRes.data || []).map(app => ({
-                    full_name: app.full_name,
-                    slug: app.custom_subdomain,
-                    role: app.expertise ? app.expertise.split(',')[0].replace('-', ' ').toUpperCase() : 'Specialist',
-                    photo_url: `https://api.dicebear.com/7.x/avataaars/svg?seed=${app.full_name}`,
-                    is_onboarding: true
-                }));
+                if (profilesError) throw profilesError;
 
-                data = [...data, ...onboardingData].slice(0, 3);
+                // Filter out 'rahul' and duplicate 'sayak' records
+                let data = (profiles || []).filter(member => {
+                    const isRahul = member.slug === 'rahul';
+                    const isDuplicateSayak = (member.full_name && member.full_name.toLowerCase().includes('sayak')) && member.slug !== 'sayak';
+                    return !isRahul && !isDuplicateSayak;
+                });
                 
-                // Fallback: If no targeted specialists, fetch ANY top-rated specialists (excluding rahul)
+                // Fallback: If no targeted specialists, fetch ANY top-rated specialists
                 if (data.length === 0) {
                     console.log('No specific experts found, fetching top specialists...');
-                    const fallback = await db.from('hh_profiles').select('*').neq('slug', 'rahul').order('rating', { ascending: false }).limit(3);
-                    data = fallback.data || [];
+                    const fallback = await db.from('hh_profiles')
+                        .select('*')
+                        .order('rating', { ascending: false })
+                        .limit(5);
+                        
+                    data = (fallback.data || []).filter(member => {
+                        const isRahul = member.slug === 'rahul';
+                        const isDuplicateSayak = (member.full_name && member.full_name.toLowerCase().includes('sayak')) && member.slug !== 'sayak';
+                        return !isRahul && !isDuplicateSayak;
+                    });
                 }
+
+                data = data.slice(0, 3);
 
                 if (data && data.length > 0) {
                     list.innerHTML = data.map(exp => `
