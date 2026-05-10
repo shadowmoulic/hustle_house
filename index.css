@@ -927,9 +927,40 @@ body.light-mode .moving-border-box {
 }
 
 .hero-content {
+    text-align: center;
     position: relative;
-    z-index: 2;
+    z-index: 10;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.headline-wrapper {
+    overflow: hidden;
     margin-bottom: 2rem;
+    position: relative;
+}
+
+.reveal-item {
+    opacity: 0;
+    transform: translateY(40px);
+    animation: cinematicReveal 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.trust-badge.reveal-item { animation-delay: 0.2s; }
+.headline-wrapper .reveal-item { animation-delay: 0.4s; }
+.hero-subtitle.reveal-item { animation-delay: 0.6s; }
+.hero-ctas.reveal-item { animation-delay: 0.8s; }
+.trust-line.reveal-item { animation-delay: 1s; }
+
+@keyframes cinematicReveal {
+    0% {
+        opacity: 0;
+        transform: translateY(40px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 .hero::before {
@@ -1794,7 +1825,6 @@ footer p {
     line-height: 1.6;
     letter-spacing: 0.5px;
 }
-    }
 
     .hero-ctas {
         flex-direction: column;
