@@ -2286,6 +2286,80 @@ footer p {
     transform: scale(1.05);
 }
 
+/* Premium Proof Cards */
+.proof-card {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.04) 0%, rgba(255, 255, 255, 0.01) 100%);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 28px;
+    padding: 2.5rem;
+    transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+    position: relative;
+    overflow: hidden;
+    backdrop-filter: blur(20px);
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    text-decoration: none;
+}
+
+.proof-card:hover {
+    transform: translateY(-10px) scale(1.02);
+    border-color: var(--member-accent, var(--primary));
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.02) 100%);
+    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.5);
+}
+
+.proof-card::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 100px;
+    height: 100px;
+    background: radial-gradient(circle, var(--member-accent, var(--primary)) 0%, transparent 70%);
+    opacity: 0.1;
+    filter: blur(40px);
+    transition: opacity 0.5s;
+}
+
+.proof-card:hover::after {
+    opacity: 0.3;
+}
+
+.proof-card h4 {
+    font-size: 1.6rem;
+    font-weight: 800;
+    margin-bottom: 1rem;
+    color: white;
+    letter-spacing: -0.5px;
+}
+
+.proof-card p {
+    font-size: 1rem;
+    color: var(--text-secondary);
+    line-height: 1.6;
+    margin-bottom: 2rem;
+    opacity: 0.8;
+}
+
+.proof-card .proof-cta {
+    margin-top: auto;
+    font-size: 0.9rem;
+    font-weight: 800;
+    letter-spacing: 1.5px;
+    color: var(--member-accent, var(--primary));
+    text-transform: uppercase;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.proof-card-embed {
+    padding: 0;
+    overflow: hidden;
+    height: 500px;
+}
+
 .section-dark-alt {
     background: linear-gradient(to bottom, #030303, #0a0a0f);
     position: relative;

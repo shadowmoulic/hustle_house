@@ -96,7 +96,7 @@ async function fetchTalent(initialFilter = 'all', targetGridId = 'talent-grid', 
             const displayStyle = isVisible ? 'flex' : 'none';
 
             return `
-            <div class="talent-card-container fade-in" style="display: ${displayStyle}; width: 100%;">
+            <a href="/talent/${member.slug}" class="talent-card-link fade-in" style="display: ${displayStyle}; width: 100%; text-decoration: none; color: inherit;">
                 <div class="talent-card" data-expertise="${specialties.join(',')}" data-filter="${specialties.join(',')}">
                     <div class="card-left">
                         <div class="avatar-wrapper">
@@ -120,13 +120,13 @@ async function fetchTalent(initialFilter = 'all', targetGridId = 'talent-grid', 
                             ${specialties.slice(0, 4).map(s => `<span class="skill-pill">${s}</span>`).join('')}
                         </div>
                     </div>
-
+ 
                     <div class="card-right">
-                        <a href="/talent/${member.slug}" class="view-profile-btn-v3">View Proof </a>
+                        <div class="view-profile-btn-v3">View Proof →</div>
                     </div>
                 </div>
-            </div>
-            `;
+            </a>
+            `;;
         }).join('');
 
         // 4. Global Mouse Tracking for Spotlights (Cards & Hero)
