@@ -208,7 +208,7 @@
             font-size: 3.5rem;
             font-weight: 900;
             color: var(--primary);
-            letter-spacing: -2px;
+
             line-height: 1;
         }
 
@@ -314,7 +314,7 @@
         <div class="scoper-container">
             <div class="scoper-header">
                 <div class="scoper-badge">Industrial Scoping Engine v1.0</div>
-                <h1 style="font-size: 3.5rem; font-weight: 900; margin-bottom: 1rem; letter-spacing: -2px;">Project
+                <h1 style="font-size: 3.5rem; font-weight: 900; margin-bottom: 1rem; ">Project
                     <span class="gradient-text">Scoper.</span>
                 </h1>
                 <p style="color: var(--text-secondary); font-size: 1.1rem; max-width: 500px; margin: 0 auto;">Instant
@@ -485,7 +485,7 @@
 
                     <div style="text-align: right;">
                         <button onclick="analyzeCustomProject()" class="glow-button" id="analyze-btn">Analyze
-                            Requirements & Get Quote →</button>
+                            Requirements & Get Quote </button>
                     </div>
 
                     <div id="ai-analysis-feedback" style="margin-top: 2rem; display: none;">
@@ -505,22 +505,28 @@
                     <div class="result-grid">
                         <div>
                             <h2 class="question-title">Project <span class="gradient-text">Estimate.</span></h2>
-                            <p class="question-subtitle" id="result-desc">Based on your requirements, here is the projected budget analysis.</p>
+                            <p class="question-subtitle" id="result-desc">Based on your requirements, here is the
+                                projected budget analysis.</p>
 
                             <div class="price-box">
                                 <span class="market-label">Global Market Average</span>
                                 <div class="market-price" id="market-price">₹40,000</div>
                                 <div class="hh-price" id="hh-price">₹18,000</div>
                                 <span class="hh-label">Hustle House Direct Rate</span>
-                                
-                                <div id="price-breakdown" style="margin-top: 2rem; padding-top: 1.5rem; border-top: 1px solid rgba(255,255,255,0.1);">
-                                    <h4 style="font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px; color: var(--primary); margin-bottom: 1rem;">Direct Rate Breakdown</h4>
-                                    <div id="breakdown-list" style="display: flex; flex-direction: column; gap: 0.8rem;">
+
+                                <div id="price-breakdown"
+                                    style="margin-top: 2rem; padding-top: 1.5rem; border-top: 1px solid rgba(255,255,255,0.1);">
+                                    <h4
+                                        style="font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px; color: var(--primary); margin-bottom: 1rem;">
+                                        Direct Rate Breakdown</h4>
+                                    <div id="breakdown-list"
+                                        style="display: flex; flex-direction: column; gap: 0.8rem;">
                                         <!-- Dynamic Breakdown -->
                                     </div>
                                 </div>
 
-                                <p style="margin-top: 1.5rem; font-size: 0.8rem; opacity: 0.5;">*Final scope and exact line-items confirmed on discovery call.</p>
+                                <p style="margin-top: 1.5rem; font-size: 0.8rem; opacity: 0.5;">*Final scope and exact
+                                    line-items confirmed on discovery call.</p>
                             </div>
 
                             <div style="margin-top: 2rem;">
@@ -549,8 +555,8 @@
                                         style="padding: 1rem; border-radius: 12px; background: rgba(255,255,255,0.03); border: 1px solid var(--step-border); color: white;">
                                     <input type="email" id="lead-email" placeholder="Work Email" required
                                         style="padding: 1rem; border-radius: 12px; background: rgba(255,255,255,0.03); border: 1px solid var(--step-border); color: white;">
-                                    <input type="tel" id="lead-whatsapp" placeholder="WhatsApp (e.g. +91 9876543210)" required
-                                        pattern="^\+?[1-9]\d{0,3}[\s-]?\d{10}$"
+                                    <input type="tel" id="lead-whatsapp" placeholder="WhatsApp (e.g. +91 9876543210)"
+                                        required pattern="^\+?[1-9]\d{0,3}[\s-]?\d{10}$"
                                         title="Please include country code and 10-digit number (e.g. +91 9876543210)"
                                         style="padding: 1rem; border-radius: 12px; background: rgba(255,255,255,0.03); border: 1px solid var(--step-border); color: white;">
                                     <button type="submit" class="glow-button"
@@ -604,87 +610,87 @@
     <script>
         const pricingData = {
             'web-dev': {
-                'landing': { 
-                    market: '₹25K–₹40K', 
-                    hh: '₹12K–₹22K', 
+                'landing': {
+                    market: '₹25K–₹40K',
+                    hh: '₹12K–₹22K',
                     desc: '1 high-converting page, mobile responsive, basic SEO.',
                     breakdown: ['UI/UX Design: 30%', 'Frontend Dev: 50%', 'SEO Setup: 20%']
                 },
-                'starter': { 
-                    market: '₹50K–₹80K', 
-                    hh: '₹22K–₹45K', 
+                'starter': {
+                    market: '₹50K–₹80K',
+                    hh: '₹22K–₹45K',
                     desc: '4-5 pages, responsive design, lead forms.',
                     breakdown: ['Arch/Design: 25%', 'Frontend: 45%', 'Forms/Backend: 30%']
                 },
-                'growth': { 
-                    market: '₹1L–₹1.8L', 
-                    hh: '₹45K–₹90K', 
+                'growth': {
+                    market: '₹1L–₹1.8L',
+                    hh: '₹45K–₹90K',
                     desc: '10-15 pages, custom UI/UX, CMS, speed optimization.',
                     breakdown: ['Bespoke UX: 35%', 'CMS Config: 25%', 'Optimization: 40%']
                 },
-                'mvp': { 
-                    market: '₹3L–₹8L', 
-                    hh: '₹1.2L–₹4L', 
+                'mvp': {
+                    market: '₹3L–₹8L',
+                    hh: '₹1.2L–₹4L',
                     desc: 'Full-stack web app, auth, dashboards, DB setup.',
                     breakdown: ['Product Logic: 40%', 'Fullstack Dev: 45%', 'DevOps: 15%']
                 }
             },
             'seo': {
-                'starter': { 
-                    market: '₹20K–₹40K', 
-                    hh: '₹10K–₹18K', 
+                'starter': {
+                    market: '₹20K–₹40K',
+                    hh: '₹10K–₹18K',
                     desc: 'Keyword research, on-page optimization, basic audit.',
                     breakdown: ['Audit: 30%', 'On-Page: 50%', 'Research: 20%']
                 },
-                'growth': { 
-                    market: '₹50K–₹1.2L', 
-                    hh: '₹25K–₹65K', 
+                'growth': {
+                    market: '₹50K–₹1.2L',
+                    hh: '₹25K–₹65K',
                     desc: 'Content strategy, 8-12 blogs/mo, technical SEO.',
                     breakdown: ['Content Engine: 40%', 'Tech SEO: 30%', 'Strategy: 30%']
                 },
-                'authority': { 
-                    market: '₹1.5L–₹5L', 
-                    hh: '₹65K–₹2L', 
+                'authority': {
+                    market: '₹1.5L–₹5L',
+                    hh: '₹65K–₹2L',
                     desc: 'Full SEO system, backlinks, CRO, AI SEO strategies.',
                     breakdown: ['Strategy: 30%', 'Production: 40%', 'Backlinks: 30%']
                 }
             },
             'ai-automation': {
-                'basic': { 
-                    market: '₹25K–₹60K', 
-                    hh: '₹10K–₹22K', 
+                'basic': {
+                    market: '₹25K–₹60K',
+                    hh: '₹10K–₹22K',
                     desc: '1-2 custom workflows (Email, Lead capture, Notifications).',
                     breakdown: ['Logic: 40%', 'Integration: 40%', 'Testing: 20%']
                 },
-                'growth': { 
-                    market: '₹60K–₹1.5L', 
-                    hh: '₹22K–₹65K', 
+                'growth': {
+                    market: '₹60K–₹1.5L',
+                    hh: '₹22K–₹65K',
                     desc: 'CRM setup, multi-step workflows, reporting.',
                     breakdown: ['System Design: 35%', 'Automation: 45%', 'Reporting: 20%']
                 },
-                'system': { 
-                    market: '₹2L–₹6L', 
-                    hh: '₹65K–₹2.5L', 
+                'system': {
+                    market: '₹2L–₹6L',
+                    hh: '₹65K–₹2.5L',
                     desc: 'AI agents, custom workflows, sales/content automation.',
                     breakdown: ['Architecture: 40%', 'Agent Tuning: 40%', 'Ops: 20%']
                 }
             },
             'video': {
-                'reels': { 
-                    market: '₹8K–₹20K', 
-                    hh: '₹5K–₹12K', 
+                'reels': {
+                    market: '₹8K–₹20K',
+                    hh: '₹5K–₹12K',
                     desc: 'Pack of 10 short-form edits, captions, music sync.',
                     breakdown: ['Editing: 60%', 'Subtitles: 20%', 'Sound: 20%']
                 },
-                'creator': { 
-                    market: '₹15K–₹40K', 
-                    hh: '₹8K–₹20K', 
+                'creator': {
+                    market: '₹15K–₹40K',
+                    hh: '₹8K–₹20K',
                     desc: '4-8 long-form edits, thumbnails, chapters.',
                     breakdown: ['Pacing: 40%', 'VFX/GFX: 40%', 'Audio: 20%']
                 },
-                'brand': { 
-                    market: '₹20K–₹60K', 
-                    hh: '₹10K–₹30K', 
+                'brand': {
+                    market: '₹20K–₹60K',
+                    hh: '₹10K–₹30K',
                     desc: '1 corporate/ad video, color grading, motion graphics.',
                     breakdown: ['Direction: 30%', 'Post-Prod: 50%', 'Color: 20%']
                 }
@@ -734,14 +740,14 @@
             const btn = document.getElementById('analyze-btn');
             const feedback = document.getElementById('ai-analysis-feedback');
             const analysisText = document.getElementById('analysis-text');
-            
+
             btn.disabled = true;
             btn.innerText = 'Analyzing with Groq AI...';
             feedback.style.display = 'block';
             analysisText.innerHTML = '<i class="fas fa-circle-notch fa-spin"></i> Scoping technical complexity...';
 
             const GROQ_API_KEY = 'gsk_9yL4t8B9o0kP3mO2fX1n';
-            
+
             try {
                 // Real Groq API Call
                 const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
@@ -781,22 +787,22 @@
                 // Extract prices and breakdown (Simple regex parser)
                 const hhMatch = analysis.match(/Budget (?:Range)?:\s*(₹?[\d,kL-]+)/i);
                 const marketMatch = analysis.match(/Market (?:Average)?:\s*(₹?[\d,kL-]+)/i);
-                
+
                 document.getElementById('market-price').innerText = marketMatch ? marketMatch[1] : '₹3L - ₹10L';
                 document.getElementById('hh-price').innerText = hhMatch ? hhMatch[1] : '₹1.2L - ₹4L';
                 document.getElementById('result-desc').innerText = `Bespoke Scoping Analysis: Project confirmed for IIT KGP allocation.`;
 
                 // Custom Breakdown from Groq (Mocked from analysis text for UI)
-                const items = analysis.includes('Breakdown') ? 
-                              analysis.split('Breakdown:')[1].split('\n').filter(l => l.trim().length > 5).slice(0, 3) :
-                              ['Technical Architecture: 40%', 'Elite Specialist Fee: 40%', 'Quality Assurance: 20%'];
-                
+                const items = analysis.includes('Breakdown') ?
+                    analysis.split('Breakdown:')[1].split('\n').filter(l => l.trim().length > 5).slice(0, 3) :
+                    ['Technical Architecture: 40%', 'Elite Specialist Fee: 40%', 'Quality Assurance: 20%'];
+
                 renderBreakdown(items);
 
                 historySteps.push('step-result');
                 showStep('step-result');
-                fetchExperts('web-dev'); 
-                
+                fetchExperts('web-dev');
+
             } catch (err) {
                 console.error('Groq Error:', err);
                 analysisText.innerText = 'AI Engine busy. Analyzing with local heuristics...';
@@ -808,7 +814,7 @@
                 }, 1000);
             } finally {
                 btn.disabled = false;
-                btn.innerText = 'Analyze Requirements & Get Quote →';
+                btn.innerText = 'Analyze Requirements & Get Quote ';
             }
         }
 
@@ -845,7 +851,7 @@
             try {
                 let filter = service || 'web-dev';
                 if (filter === 'custom') filter = 'web-dev';
-                
+
                 // Fetch only from main profiles table as requested ("actual table")
                 const { data: profiles, error: profilesError } = await db
                     .from('hh_profiles')
@@ -861,7 +867,7 @@
                     const isDuplicateSayak = (member.full_name && member.full_name.toLowerCase().includes('sayak')) && member.slug !== 'sayak';
                     return !isRahul && !isDuplicateSayak;
                 });
-                
+
                 // Fallback: If no targeted specialists, fetch ANY top-rated specialists
                 if (data.length === 0) {
                     console.log('No specific experts found, fetching top specialists...');
@@ -869,7 +875,7 @@
                         .select('*')
                         .order('rating', { ascending: false })
                         .limit(5);
-                        
+
                     data = (fallback.data || []).filter(member => {
                         const isRahul = member.slug === 'rahul';
                         const isDuplicateSayak = (member.full_name && member.full_name.toLowerCase().includes('sayak')) && member.slug !== 'sayak';
@@ -895,7 +901,7 @@
                         <div style="padding: 1.5rem; text-align: center; background: rgba(255,255,255,0.02); border-radius: 20px; border: 1px dashed var(--step-border);">
                             <p style="font-size: 0.9rem; margin-bottom: 0.5rem; font-weight: 700;">Specialists currently on assignment.</p>
                             <p style="font-size: 0.75rem; opacity: 0.6;">Founder will manually scout the IIT KGP network for your specific requirements.</p>
-                            <a href="https://wa.me/919038315605" class="action-btn" style="margin-top: 1rem; font-size: 0.7rem; padding: 0.5rem 1rem;">Direct Scout Request →</a>
+                            <a href="https://wa.me/919038315605" class="action-btn" style="margin-top: 1rem; font-size: 0.7rem; padding: 0.5rem 1rem;">Direct Scout Request </a>
                         </div>
                     `;
                 }

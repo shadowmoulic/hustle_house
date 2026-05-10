@@ -46,47 +46,56 @@ const headerHTML = `
 `;
 
 const footerHTML = `
-    <footer class="fat-footer">
+    <footer class="fat-footer section-glass-dark" style="margin-top: 8rem; padding: 8rem 0 4rem;">
         <div class="container">
             <div class="footer-grid">
                 <div class="footer-brand">
-                    <div class="logo small" style="display: flex; align-items: center; gap: 10px;">
-                        <img src="/logo.png" alt="Hustle House Logo" style="height: 36px; width: auto; object-fit: contain;" />
-                        <span class="silver-text" style="font-family: 'Outfit', sans-serif; font-size: 1.4rem; letter-spacing: -0.5px; padding-top: 4px;">HUSTLE HOUSE</span>
+                    <div class="logo" style="display: flex; align-items: center; gap: 10px; margin-bottom: 2rem;">
+                        <img src="/logo.png" alt="Hustle House Logo" style="height: 40px; width: auto; object-fit: contain;" />
+                        <span class="silver-text" style="font-family: 'Squada One', cursive; font-size: 2rem; letter-spacing: 1px; white-space: nowrap;">HUSTLE HOUSE</span>
                     </div>
-                    <p class="footer-desc">Built by IIT Kharagpur students. Delivering high-precision solutions for global innovators.</p>
+                    <p class="footer-desc" style="max-width: 320px; opacity: 0.6; line-height: 1.7; font-size: 0.95rem;">
+                        The elite student talent network from IIT Kharagpur. We ship precision-engineered digital products for global innovators.
+                    </p>
+                    <div class="footer-socials" style="margin-top: 2rem; display: flex; gap: 1.5rem;">
+                        <a href="#" style="color: white; opacity: 0.5; transition: 0.3s;"><i class="fab fa-twitter"></i></a>
+                        <a href="#" style="color: white; opacity: 0.5; transition: 0.3s;"><i class="fab fa-linkedin"></i></a>
+                        <a href="#" style="color: white; opacity: 0.5; transition: 0.3s;"><i class="fab fa-instagram"></i></a>
+                    </div>
                 </div>
                 <div class="footer-column">
-                    <h4 class="footer-silver-header">Services</h4>
-                    <ul>
-                        <li><a href="/services/web-development">Web Development</a></li>
-                        <li><a href="/services/seo">SEO & Growth</a></li>
-                        <li><a href="/services/ai-automation">AI Automation</a></li>
-                        <li><a href="/services/design">Design & UI/UX</a></li>
-                        <li><a href="/services/content-writing">Content Writing</a></li>
+                    <h4 class="footer-header" style="color: white; font-weight: 800; font-size: 0.75rem; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 2rem; opacity: 0.4;">Capabilities</h4>
+                    <ul style="list-style: none; padding: 0; display: flex; flex-direction: column; gap: 1rem;">
+                        <li><a href="/services/web-development" style="color: white; text-decoration: none; opacity: 0.6; font-size: 0.95rem; transition: 0.3s;">Web Platforms</a></li>
+                        <li><a href="/services/ai-automation" style="color: white; text-decoration: none; opacity: 0.6; font-size: 0.95rem; transition: 0.3s;">AI Orchestration</a></li>
+                        <li><a href="/services/seo" style="color: white; text-decoration: none; opacity: 0.6; font-size: 0.95rem; transition: 0.3s;">Growth Engines</a></li>
+                        <li><a href="/services/design" style="color: white; text-decoration: none; opacity: 0.6; font-size: 0.95rem; transition: 0.3s;">UI/UX Design</a></li>
+                        <li><a href="/services/video-editing" style="color: white; text-decoration: none; opacity: 0.6; font-size: 0.95rem; transition: 0.3s;">Cinematic Motion</a></li>
                     </ul>
                 </div>
                 <div class="footer-column">
-                    <h4 class="footer-silver-header">Talent</h4>
-                    <ul>
-                        <li><a href="/talent">Browse Talent</a></li>
-                        <li><a href="/contact">Contact Us</a></li>
+                    <h4 class="footer-header" style="color: white; font-weight: 800; font-size: 0.75rem; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 2rem; opacity: 0.4;">Network</h4>
+                    <ul style="list-style: none; padding: 0; display: flex; flex-direction: column; gap: 1rem;">
+                        <li><a href="/talent" style="color: white; text-decoration: none; opacity: 0.6; font-size: 0.95rem; transition: 0.3s;">Specialists</a></li>
+                        <li><a href="/scoper" style="color: white; text-decoration: none; opacity: 0.6; font-size: 0.95rem; transition: 0.3s;">Project Scoper</a></li>
+                        <li><a href="/how-it-works" style="color: white; text-decoration: none; opacity: 0.6; font-size: 0.95rem; transition: 0.3s;">The Process</a></li>
+                        <li><a href="/contact" style="color: white; text-decoration: none; opacity: 0.6; font-size: 0.95rem; transition: 0.3s;">Join Network</a></li>
                     </ul>
                 </div>
                 <div class="footer-column">
-                    <h4 class="footer-silver-header">Company</h4>
-                    <ul>
-                        <li><a href="/about">About</a></li>
-                        <li><a href="/how-it-works">How It Works</a></li>
-                        <li><a href="/scoper">Scoper</a></li>
-                        <li><a href="/privacy">Privacy · Terms</a></li>
+                    <h4 class="footer-header" style="color: white; font-weight: 800; font-size: 0.75rem; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 2rem; opacity: 0.4;">Connect</h4>
+                    <ul style="list-style: none; padding: 0; display: flex; flex-direction: column; gap: 1rem;">
+                        <li><a href="https://wa.me/919038315605" style="color: white; text-decoration: none; opacity: 0.6; font-size: 0.95rem; transition: 0.3s;">Founder Direct</a></li>
+                        <li><a href="/contact" style="color: white; text-decoration: none; opacity: 0.6; font-size: 0.95rem; transition: 0.3s;">Initiate Signal</a></li>
+                        <li><a href="mailto:hello@hustlehouse.in" style="color: white; text-decoration: none; opacity: 0.6; font-size: 0.95rem; transition: 0.3s;">Official Mail</a></li>
                     </ul>
                 </div>
             </div>
-            <div class="footer-bottom">
-                <p class="copyright">&copy; 2026 KGP Hustle House. All rights reserved.</p>
-                <div class="footer-links">
-                    <a href="/contact">Support / Contact</a>
+            <div class="footer-bottom" style="margin-top: 6rem; padding-top: 2rem; border-top: 1px solid rgba(255,255,255,0.05); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 2rem;">
+                <p class="copyright" style="opacity: 0.4; font-size: 0.85rem;">&copy; 2026 Hustle House · Vetted IIT KGP Network</p>
+                <div class="footer-legal" style="display: flex; gap: 2rem; font-size: 0.85rem; opacity: 0.4;">
+                    <a href="/privacy" style="color: white; text-decoration: none;">Privacy</a>
+                    <a href="/terms" style="color: white; text-decoration: none;">Terms</a>
                 </div>
             </div>
         </div>
@@ -130,9 +139,9 @@ function injectComponents() {
         headerContainer.innerHTML = `
             <nav class="navbar">
                 <div class="logo">
-                    <a href="/" style="text-decoration: none; display: flex; align-items: center; gap: 10px;">
-                        <img src="/logo.png" alt="Hustle House Logo" style="height: 36px; width: auto; object-fit: contain;" />
-                        <span class="silver-text" style="font-family: 'Outfit', sans-serif; font-size: 1.4rem; letter-spacing: -0.5px; padding-top: 4px;">HUSTLE HOUSE</span>
+                    <a href="/" class="logo-container" style="text-decoration: none; display: flex; align-items: center; gap: 8px; flex-shrink: 0;">
+                        <img src="/logo.png" alt="Hustle House Logo" class="nav-logo-img" style="height: 36px; width: auto; object-fit: contain;" />
+                        <span class="silver-text nav-logo-text" style="font-family: 'Squada One', cursive; font-size: 1.8rem; letter-spacing: 1px; padding-top: 4px; white-space: nowrap;">HUSTLE HOUSE</span>
                     </a>
                 </div>
                 <div class="nav-links">

@@ -50,7 +50,7 @@
         }
 
         .profile-wrapper {
-            max-width: 1200px;
+            max-width: 1400px;
             margin: 0 auto;
             padding: 120px 2rem 100px;
         }
@@ -204,7 +204,8 @@
             }
 
             .hero-headline {
-                font-size: 2.5rem;
+                font-size: clamp(2rem, 10vw, 3rem);
+
             }
 
             .case-grid {
@@ -230,6 +231,15 @@
 
             .case-study-card {
                 padding: 1.5rem;
+                border-radius: 16px;
+            }
+
+            .case-title {
+                font-size: 1.6rem;
+            }
+
+            .case-metric {
+                font-size: 2.2rem;
             }
         }
 
@@ -271,8 +281,11 @@
                 <span style="opacity: 0.5;">ID//</span> HH-0000
             </div>
             <h1 class="hero-headline" id="member-hero-headline">Creating impact through technical excellence.</h1>
-            <p class="hero-sub" id="member-one-liner">Vetted Specialist from IIT Kharagpur delivering global outcomes.</p>
-            <p id="member-price-anchor" style="font-family: 'JetBrains Mono', monospace; font-size: 0.75rem; color: var(--member-accent); margin-bottom: 2rem; opacity: 0.8;"></p>
+            <p class="hero-sub" id="member-one-liner">Vetted Specialist from IIT Kharagpur delivering global outcomes.
+            </p>
+            <p id="member-price-anchor"
+                style="font-family: 'JetBrains Mono', monospace; font-size: 0.75rem; color: var(--member-accent); margin-bottom: 2rem; opacity: 0.8;">
+            </p>
 
             <div style="display: flex; gap: 1rem; justify-content: center; align-items: center; flex-wrap: wrap;">
                 <a href="#" class="glow-button" id="member-cta-button"

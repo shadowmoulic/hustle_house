@@ -6,13 +6,13 @@ Why this works: Black + amber is aggressive and premium — think Bloomberg Term
 🔤 Typography
 Primary Typeface — Headlines & Display
 Neue Haas Grotesk or its free equivalent Inter (weight: 700–900)
-→ Use for all headlines, hero text, nav. Tight letter-spacing (-0.03em). All caps for section labels.
+ Use for all headlines, hero text, nav. Tight letter-spacing (-0.03em). All caps for section labels.
 Secondary Typeface — Body & UI
 IBM Plex Mono
-→ Used for stats, data, member handles, labels. The mono gives it a systems/terminal energy — reinforces the "execution machine" feel.
+ Used for stats, data, member handles, labels. The mono gives it a systems/terminal energy — reinforces the "execution machine" feel.
 Accent Typeface — Subheads & Pull Quotes
 Syne (weight: 700–800)
-→ Used sparingly for pull quotes or section intros. Adds edge without being decorative.
+ Used sparingly for pull quotes or section intros. Adds edge without being decorative.
 Type Scale (desktop)
 
 Hero: 72–96px / weight 900 / tracking -0.04em

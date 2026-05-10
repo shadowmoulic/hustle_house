@@ -10,7 +10,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // If we are on the talent page, fetch data
     if (document.getElementById('talent-grid')) {
-        fetchTalent(initialFilter);
+        fetchTalent(initialFilter, 'talent-grid');
+    }
+    // Homepage preview
+    if (document.getElementById('talent-grid-preview')) {
+        fetchTalent('all', 'talent-grid-preview', 3);
     }
 });
 
@@ -20,9 +24,10 @@ function generateSlug(name) {
 }
 
 // 1. Fetch & Render Accepted Talent from Supabase
-async function fetchTalent(initialFilter = 'all') {
-    const grid = document.getElementById('talent-grid');
-    const loading = document.getElementById('loading-state');
+async function fetchTalent(initialFilter = 'all', targetGridId = 'talent-grid', limit = null) {
+    const grid = document.getElementById(targetGridId);
+    const loadingId = targetGridId === 'talent-grid-preview' ? 'loading-state-home' : 'loading-state';
+    const loading = document.getElementById(loadingId);
 
     try {
         // Fetch from both main profiles and accepted onboarding entries
@@ -47,7 +52,7 @@ async function fetchTalent(initialFilter = 'all') {
             projects_count: 1, // Default for new accepted members
             is_from_onboarding: true,
             primary_color: app.primary_color || '#6250FF',
-            photo_url: `https://api.dicebear.com/7.x/avataaars/svg?seed=${app.full_name}`
+            photo_url: `https://api.dicebear.com/7.x/avataaars/svg?seed=${encodeURIComponent(app.full_name)}&top=shortHair,fro,frizzle,shaggy,shaggyMullet&hairColor=2c1b18,4a312c`
         }));
 
         const onboardingSlugs = new Set(acceptedOnboarding.map(p => p.slug));
@@ -59,11 +64,16 @@ async function fetchTalent(initialFilter = 'all') {
         const combinedData = [...acceptedOnboarding, ...uniqueProfiles];
 
         // Explicitly exclude Rahul and any legacy 'Sayak' record that clutters the list
-        const data = combinedData.filter(member => {
+        let data = combinedData.filter(member => {
             const isRahul = member.slug === 'rahul';
             const isDuplicateSayak = (member.full_name.toLowerCase().includes('sayak')) && !member.is_from_onboarding;
             return !isRahul && !isDuplicateSayak;
         });
+
+        // Limit data if needed
+        if (limit) {
+            data = data.slice(0, limit);
+        }
 
         loading.style.display = 'none';
 
@@ -76,48 +86,60 @@ async function fetchTalent(initialFilter = 'all') {
             const specialties = (member.skills || member.role || '').toLowerCase().split(',').map(s => s.trim());
             const initials = member.full_name.split(' ').map(n => n[0]).join('').toUpperCase();
 
-            // Result-based tagline logic
-            let tagline = member.bio_tagline || member.bio || `Scaled products to ${member.delivered_projects || 'global'} benchmarks.`;
+            let tagline = member.bio_tagline || member.bio || `Vetted specialist delivering precision ${member.role || 'technical'} execution.`;
             if (tagline === 'null' || !tagline) {
-                tagline = `IIT KGP Specialist delivering high-precision ${member.role || 'technical'} solutions.`;
+                tagline = `IIT KGP Specialist scaling global products through technical excellence.`;
             }
 
             const activeFilter = initialFilter || 'all';
             const isVisible = activeFilter === 'all' || specialties.includes(activeFilter.toLowerCase());
-            const displayStyle = isVisible ? 'block' : 'none';
+            const displayStyle = isVisible ? 'flex' : 'none';
 
             return `
-            <a href="/talent/${member.slug}" class="talent-card-link" style="display: ${displayStyle}; text-decoration: none; color: inherit;">
+            <div class="talent-card-container fade-in" style="display: ${displayStyle}; width: 100%;">
                 <div class="talent-card" data-expertise="${specialties.join(',')}" data-filter="${specialties.join(',')}">
-                    <div class="card-header-visual" style="position: relative; margin-bottom: 1.5rem;">
-                        <img src="${member.photo_url || `https://api.dicebear.com/7.x/avataaars/svg?seed=${member.full_name}`}" alt="${member.full_name}" class="avatar-img" style="width: 70px; height: 70px; border-radius: 20px; border: 1px solid rgba(255,255,255,0.1); background: rgba(255,255,255,0.03);">
-                        <div class="availability-status" style="position: absolute; top: 0; right: 0; background: rgba(34, 197, 94, 0.1); color: #22c55e; padding: 4px 12px; border-radius: 100px; font-size: 0.65rem; font-weight: 800; display: flex; align-items: center; gap: 6px; letter-spacing: 1px;">
-                            <span class="pulse-dot" style="width: 6px; height: 6px; background: #22c55e; border-radius: 50%;"></span>
-                            AVAILABLE
+                    <div class="card-left">
+                        <div class="avatar-wrapper">
+                            ${member.photo_url ? `
+                                <img src="${member.photo_url}" class="avatar-initials" style="object-fit: cover;" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                                <div class="avatar-initials" style="display: none;">${initials}</div>
+                            ` : `<div class="avatar-initials">${initials}</div>`}
+                            <div class="availability-pill">AVAILABLE</div>
                         </div>
                     </div>
                     
-                    <div class="talent-info">
-                        <div class="talent-role-tag" style="font-size: 0.65rem; color: var(--primary); font-weight: 800; letter-spacing: 2px; margin-bottom: 0.5rem; text-transform: uppercase;">
-                            IIT KHARAGPUR · VETTED
+                    <div class="card-center">
+                        <div class="talent-header-row">
+                            <h3>${member.full_name}</h3>
+                            <span class="talent-role-badge">IIT KGP · ${member.role}</span>
                         </div>
-                        <h3 style="font-size: 1.5rem; font-weight: 800; margin-bottom: 0.75rem; letter-spacing: -0.5px;">${member.full_name}</h3>
-                        <p class="talent-tagline" style="font-size: 0.9rem; opacity: 0.6; line-height: 1.5; margin-bottom: 1.5rem; min-height: 2.8rem;">
-                            ${tagline.length > 100 ? tagline.substring(0, 97) + '...' : tagline}
+                        <p class="talent-one-liner">
+                            ${tagline.length > 120 ? tagline.substring(0, 117) + '...' : tagline}
                         </p>
-                        
-                        <div class="skill-tags" style="display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 2rem;">
-                            ${specialties.slice(0, 3).map(s => `<span class="mini-tag" style="font-size: 0.6rem; padding: 4px 10px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 4px; font-family: 'JetBrains Mono', monospace; opacity: 0.8; color: var(--text-secondary);">${s.toUpperCase()}</span>`).join('')}
-                        </div>
-
-                        <div class="card-cta-v2" style="display: flex; align-items: center; justify-content: space-between; padding-top: 1.25rem; border-top: 1px solid rgba(255,255,255,0.05);">
-                            <span class="cta-arrow" style="font-size: 0.85rem; font-weight: 700; color: var(--primary); transition: transform 0.3s ease;">View Profile →</span>
+                        <div class="skill-pills">
+                            ${specialties.slice(0, 4).map(s => `<span class="skill-pill">${s}</span>`).join('')}
                         </div>
                     </div>
+
+                    <div class="card-right">
+                        <a href="/talent/${member.slug}" class="view-profile-btn-v3">View Proof </a>
+                    </div>
                 </div>
-            </a>
+            </div>
             `;
         }).join('');
+
+        // 4. Global Mouse Tracking for Spotlights (Cards & Hero)
+        document.addEventListener('mousemove', (e) => {
+            const spotlightElements = document.querySelectorAll('.talent-card, .premium-hero');
+            spotlightElements.forEach(el => {
+                const rect = el.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                el.style.setProperty('--mouse-x', `${x}px`);
+                el.style.setProperty('--mouse-y', `${y}px`);
+            });
+        });
 
         // Highlight active filter pill
         if (initialFilter !== 'all') {
@@ -126,7 +148,7 @@ async function fetchTalent(initialFilter = 'all') {
             });
         }
 
-    } catch (err) { 
+    } catch (err) {
         console.error('Fetch Talent error:', err);
         loading.innerHTML = '<span>Failed to assemble the elite. System interference detected.</span>';
     }
@@ -216,14 +238,46 @@ async function initContactForm() {
 }
 
 
-// 4. Cursor Glow
+// 4. Advanced Cursor & Spotlight System
+let mouseX = 0, mouseY = 0;
+let glowX = 0, glowY = 0;
+
 document.addEventListener('mousemove', (e) => {
+    mouseX = e.clientX;
+    mouseY = e.clientY;
+
+    // Track spotlights immediately for responsiveness
+    const spotlightElements = document.querySelectorAll('.talent-card, .premium-hero');
+    spotlightElements.forEach(el => {
+        const rect = el.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        el.style.setProperty('--mouse-x', `${x}px`);
+        el.style.setProperty('--mouse-y', `${y}px`);
+    });
+});
+
+function animateGlow() {
+    // Smoother following (Lerp)
+    glowX += (mouseX - glowX) * 0.1;
+    glowY += (mouseY - glowY) * 0.1;
+
     const glow = document.querySelector('.cursor-glow');
     if (glow) {
-        glow.style.left = e.clientX + 'px';
-        glow.style.top = e.clientY + 'px';
+        glow.style.left = glowX + 'px';
+        glow.style.top = glowY + 'px';
+
+        // Add a subtle "pulse" or scale based on velocity
+        const dx = mouseX - glowX;
+        const dy = mouseY - glowY;
+        const speed = Math.sqrt(dx * dx + dy * dy);
+        const scale = 1 + Math.min(speed / 1000, 0.2);
+        glow.style.transform = `translate(-50%, -50%) scale(${scale})`;
     }
-});
+
+    requestAnimationFrame(animateGlow);
+}
+animateGlow();
 
 // 4. Search Filter
 function initSearch() {

@@ -19,16 +19,11 @@
 </head>
 
 <body class="dark-theme">
-    <!-- Premium Background System -->
     <div class="bg-mesh-container">
         <div class="noise"></div>
-        <div class="blur-blobs">
-            <div class="blob blob-1"></div>
-            <div class="blob blob-2"></div>
-            <div class="blob blob-3"></div>
-        </div>
-        <div class="grid-overlay"></div>
-        <div class="glow-nodes"></div>
+        <div class="ambient-glow-1"></div>
+        <div class="ambient-glow-2"></div>
+        <div class="light-sweep"></div>
     </div>
     <div class="spotlight"></div>
 
@@ -38,19 +33,46 @@
     <main class="marketplace-main">
         <section class="section">
             <div class="container">
-                <div class="section-header" style="text-align: center; margin-bottom: 6rem;">
+                <div class="section-header"
+                    style="text-align: center; margin-bottom: 8rem; position: relative; z-index: 2;">
                     <div class="badge fade-in"
-                        style="background: rgba(98, 80, 255, 0.08); color: var(--primary); border: 1px solid rgba(98, 80, 255, 0.2); padding: 0.6rem 1.5rem; border-radius: 100px; display: inline-block; font-weight: 800; font-size: 0.75rem; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 2rem; backdrop-filter: blur(10px);">
+                        style="background: rgba(98, 80, 255, 0.08); color: var(--primary); border: 1px solid rgba(98, 80, 255, 0.2); padding: 0.6rem 1.5rem; border-radius: 100px; display: inline-block; font-weight: 800; font-size: 0.75rem; letter-spacing: 4px; text-transform: uppercase; margin-bottom: 2rem; backdrop-filter: blur(10px);">
                         // THE NETWORK
                     </div>
-                    <h1 class="section-title"
-                        style="font-size: clamp(3rem, 10vw, 5.5rem); font-weight: 900; margin-bottom: 1.5rem; letter-spacing: -3px; line-height: 0.9;">
+                    <h1 class="section-title fade-in" style="margin-bottom: 2rem;">
                         Elite <span class="gradient-text">Specialists.</span>
                     </h1>
-                    <p class="section-subtitle"
-                        style="font-size: clamp(1rem, 4vw, 1.25rem); max-width: 700px; margin: 0 auto; opacity: 0.6; line-height: 1.6;">
-                        Direct access to vetted technical talent from <strong>IIT Kharagpur</strong>. <br>Built for founders who demand precision execution.
+                    <p class="section-subtitle fade-in"
+                        style="font-size: clamp(1.1rem, 4vw, 1.5rem); max-width: 800px; margin: 0 auto 4rem; opacity: 0.6; line-height: 1.4; font-weight: 500;">
+                        Direct access to vetted technical talent from <strong>IIT Kharagpur</strong>. <br>Built for
+                        founders who demand precision execution, not just participation.
                     </p>
+
+                    <!-- Social Proof Above Fold -->
+                    <div class="social-proof-strip fade-in"
+                        style="display: flex; justify-content: center; gap: 3rem; opacity: 0.4; flex-wrap: wrap; margin-bottom: 4rem;">
+                        <div style="display: flex; align-items: center; gap: 0.5rem;">
+                            <span
+                                style="font-family: 'JetBrains Mono', monospace; font-weight: 800; font-size: 1.2rem; color: white;">10</span>
+                            <span
+                                style="font-size: 0.7rem; text-transform: uppercase; letter-spacing: 2px; font-weight: 700;">Vetted
+                                Specialists</span>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 0.5rem;">
+                            <span
+                                style="font-family: 'JetBrains Mono', monospace; font-weight: 800; font-size: 1.2rem; color: white;">7</span>
+                            <span
+                                style="font-size: 0.7rem; text-transform: uppercase; letter-spacing: 2px; font-weight: 700;">Core
+                                Domains</span>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 0.5rem;">
+                            <span
+                                style="font-family: 'JetBrains Mono', monospace; font-weight: 800; font-size: 1.2rem; color: white;">100%</span>
+                            <span
+                                style="font-size: 0.7rem; text-transform: uppercase; letter-spacing: 2px; font-weight: 700;">IIT
+                                KGP Network</span>
+                        </div>
+                    </div>
                 </div>
 
                 <!-- Search Bar -->
@@ -98,17 +120,13 @@
                 </div>
 
                 <!-- Special Request Section -->
-                <div class="special-request-banner glass-premium"
-                    style="margin-top: 8rem; text-align: center; padding: 4rem; border-radius: 40px; border: 1px solid var(--glass-border); position: relative; overflow: hidden; background: rgba(255,255,255,0.02);">
+                <!-- Special Request Section -->
+                <div class="premium-cta-banner glass-premium fade-in" style="margin-top: 12rem;">
                     <div style="position: relative; z-index: 2;">
-                        <h3 style="font-size: 2.5rem; font-weight: 900; margin-bottom: 1rem;">Need a <span
-                                class="gradient-text">Custom Squad?</span></h3>
-                        <p style="max-width: 600px; margin: 0 auto 3rem; opacity: 0.7; font-size: 1.1rem;">
-                            If your project requires a specific stack or a cross-functional team, we'll scout the
-                            internal KGP network for you.
-                        </p>
-                        <a href="https://wa.me/919038315605?text=Hello Sayak! I have a special talent team request for Hustle House."
-                            class="glow-button" style="text-decoration: none;">DM Our Founder</a>
+                        <div class="badge" style="margin-bottom: 1.5rem; background: rgba(98, 80, 255, 0.1); color: var(--primary); font-size: 0.65rem;">SCALING TEAMS</div>
+                        <h3>Need a <span class="gradient-text">Custom Squad?</span></h3>
+                        <p>Need a team that ships fast without endless management overhead? We'll scout the internal KGP network and assemble a high-velocity technical squad for you.</p>
+                        <a href="https://wa.me/919038315605?text=Hello Sayak! I have a special talent team request for Hustle House." class="glow-button">Initiate Discussion</a>
                     </div>
                 </div>
             </div>

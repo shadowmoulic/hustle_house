@@ -67,7 +67,7 @@ const HustleHouseLanding = () => {
 
                     <div className="flex flex-col gap-3 pt-4">
                         <button className="w-full py-4 bg-gradient-to-r from-blue-600 to-blue-500 text-white rounded-2xl font-bold text-lg shadow-2xl shadow-blue-600/30 hover:scale-[1.03] transition-all flex items-center justify-center gap-2">
-                            Find Your Person <span>→</span>
+                            Find Your Person <span></span>
                         </button>
                         <button className={`w-full py-4 border border-white/10 rounded-2xl font-bold text-lg hover:bg-white/5 transition-all`}>
                             How it Works
@@ -75,7 +75,7 @@ const HustleHouseLanding = () => {
                     </div>
 
                     <div className="pt-8 flex items-center justify-center gap-6 text-[10px] uppercase tracking-widest font-bold opacity-40">
-                        <span>12+ Vetted Specialists</span>
+                        <span>9+ Vetted Specialists</span>
                         <span className="w-1 h-1 rounded-full bg-current" />
                         <span>48h Delivery</span>
                         <span className="w-1 h-1 rounded-full bg-current" />
@@ -178,8 +178,8 @@ const HustleHouseLanding = () => {
                                     key={f}
                                     onClick={() => setActiveFilter(f)}
                                     className={`shrink-0 px-6 py-2 rounded-full text-sm font-bold transition-all border ${activeFilter === f
-                                            ? 'bg-blue-600 border-blue-600 text-white shadow-lg shadow-blue-600/20'
-                                            : 'border-white/10 opacity-60 hover:opacity-100 hover:border-white/20'
+                                        ? 'bg-blue-600 border-blue-600 text-white shadow-lg shadow-blue-600/20'
+                                        : 'border-white/10 opacity-60 hover:opacity-100 hover:border-white/20'
                                         }`}
                                 >
                                     {f}
@@ -220,7 +220,7 @@ const HustleHouseLanding = () => {
 
                                 <div className="pt-6 border-t border-white/5 flex justify-between items-center">
                                     <div className="text-xs font-bold opacity-60">From $400/proj</div>
-                                    <div className="text-blue-500 text-sm font-bold group-hover:translate-x-1 transition-transform">Profile →</div>
+                                    <div className="text-blue-500 text-sm font-bold group-hover:translate-x-1 transition-transform">Profile </div>
                                 </div>
                             </div>
                         ))}
