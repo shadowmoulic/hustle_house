@@ -8,7 +8,7 @@ const headerHTML = `
         <div class="logo">
             <a href="/" style="text-decoration: none; display: flex; align-items: center; gap: 10px;">
                 <img src="/logo.png" alt="Hustle House Logo" style="height: 36px; width: auto; object-fit: contain;" />
-                <span class="silver-text" style="font-family: 'Outfit', sans-serif; font-size: 1.4rem; letter-spacing: -0.5px; padding-top: 4px;">HUSTLE HOUSE</span>
+                <span class="silver-text" style="font-family: 'Outfit', sans-serif; font-size: 1.4rem; padding-top: 4px;">HUSTLE HOUSE</span>
             </a>
         </div>
         <div class="nav-links">
@@ -18,7 +18,7 @@ const headerHTML = `
                 <div class="dropdown-menu">
                     <a href="/services/web-development">Web Development</a>
                     <a href="/services/seo">SEO & Growth</a>
-                    <a href="/services/ai-automation">AI Automation</a>
+                    <a href="/services/ai-automation">Ai Automation</a>
                     <a href="/services/design">Design & UI/UX</a>
                     <a href="/services/video-editing">Video Editing</a>
                     <a href="/services/digital-marketing">Digital Marketing</a>
@@ -66,11 +66,13 @@ const footerHTML = `
                 <div class="footer-column">
                     <h4 class="footer-header" style="color: white; font-weight: 800; font-size: 0.75rem; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 2rem; opacity: 0.4;">Capabilities</h4>
                     <ul style="list-style: none; padding: 0; display: flex; flex-direction: column; gap: 1rem;">
-                        <li><a href="/services/web-development" style="color: white; text-decoration: none; opacity: 0.6; font-size: 0.95rem; transition: 0.3s;">Web Platforms</a></li>
-                        <li><a href="/services/ai-automation" style="color: white; text-decoration: none; opacity: 0.6; font-size: 0.95rem; transition: 0.3s;">AI Orchestration</a></li>
-                        <li><a href="/services/seo" style="color: white; text-decoration: none; opacity: 0.6; font-size: 0.95rem; transition: 0.3s;">Growth Engines</a></li>
-                        <li><a href="/services/design" style="color: white; text-decoration: none; opacity: 0.6; font-size: 0.95rem; transition: 0.3s;">UI/UX Design</a></li>
-                        <li><a href="/services/video-editing" style="color: white; text-decoration: none; opacity: 0.6; font-size: 0.95rem; transition: 0.3s;">Cinematic Motion</a></li>
+                        <li><a href="/services/web-development" style="color: white; text-decoration: none; opacity: 0.6; font-size: 0.95rem; transition: 0.3s;">Web Development</a></li>
+                        <li><a href="/services/ai-automation" style="color: white; text-decoration: none; opacity: 0.6; font-size: 0.95rem; transition: 0.3s;">Ai Automation</a></li>
+                        <li><a href="/services/seo" style="color: white; text-decoration: none; opacity: 0.6; font-size: 0.95rem; transition: 0.3s;">SEO & Growth</a></li>
+                        <li><a href="/services/design" style="color: white; text-decoration: none; opacity: 0.6; font-size: 0.95rem; transition: 0.3s;">Design & UI/UX</a></li>
+                        <li><a href="/services/video-editing" style="color: white; text-decoration: none; opacity: 0.6; font-size: 0.95rem; transition: 0.3s;">Video Editing</a></li>
+                        <li><a href="/services/digital-marketing" style="color: white; text-decoration: none; opacity: 0.6; font-size: 0.95rem; transition: 0.3s;">Digital Marketing</a></li>
+                        <li><a href="/services/content-writing" style="color: white; text-decoration: none; opacity: 0.6; font-size: 0.95rem; transition: 0.3s;">Content Writing</a></li>
                     </ul>
                 </div>
                 <div class="footer-column">
@@ -162,7 +164,7 @@ function injectComponents() {
                         <div class="dropdown-menu">
                             <a href="/services/web-development">Web Development</a>
                             <a href="/services/seo">SEO & Growth</a>
-                            <a href="/services/ai-automation">AI Automation</a>
+                            <a href="/services/ai-automation">Ai Automation</a>
                             <a href="/services/design">Design & UI/UX</a>
                             <a href="/services/video-editing">Video Editing</a>
                             <a href="/services/digital-marketing">Digital Marketing</a>

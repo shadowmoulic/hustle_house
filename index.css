@@ -312,18 +312,14 @@ body::before {
     width: 80px;
     height: 80px;
     background: rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(5px);
     border: 1px solid rgba(255, 255, 255, 0.2);
     mix-blend-mode: normal;
 }
 
-.cursor-glow.hover {
-    width: 80px;
-    height: 80px;
-    background: rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(5px);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    mix-blend-mode: normal;
+/* Seamless transition with WhatsApp widget */
+body:has(.wa-bubble:hover) .cursor-glow {
+    opacity: 0 !important;
+    transform: translate(-50%, -50%) scale(0) !important;
 }
 
 /* Cinematic Reveal */
@@ -431,7 +427,6 @@ h3,
 
 .logo {
     font-size: 1.5rem;
-    letter-spacing: -1px;
 }
 
 .logo-hustle {
@@ -1052,7 +1047,6 @@ body.light-mode .moving-border-box {
     font-size: clamp(2rem, 6vw, 4rem);
     line-height: 1;
     font-weight: 900;
-    letter-spacing: -0.05em;
     margin-bottom: 2rem;
     text-shadow: 0 10px 40px rgba(0, 0, 0, 0.8), 0 4px 10px rgba(0, 0, 0, 0.9);
     max-width: 1000px;
@@ -1691,7 +1685,7 @@ body.light-mode .glass:hover {
     font-weight: 900;
     margin-bottom: 0.5rem;
     color: var(--text-primary) !important;
-    letter-spacing: -3px;
+
     font-family: 'Outfit', sans-serif;
 }
 
@@ -1849,7 +1843,6 @@ footer p {
         font-size: clamp(1.8rem, 10vw, 2.5rem);
         line-height: 1;
         margin-bottom: 1.5rem;
-        letter-spacing: -0.03em;
         text-shadow: 0 5px 15px rgba(0, 0, 0, 0.9);
     }
 
@@ -1947,7 +1940,7 @@ footer p {
 
     .stat-card h4 {
         font-size: 2.2rem !important;
-        letter-spacing: -1px;
+
     }
 
     .talent-card-link {
@@ -2299,7 +2292,7 @@ footer p {
 .talent-card h3 {
     font-size: 2.2rem;
     font-weight: 900;
-    letter-spacing: -1px;
+
     margin: 0;
 }
 
@@ -2465,7 +2458,6 @@ footer p {
     font-weight: 800;
     margin-bottom: 1rem;
     color: white;
-    letter-spacing: -0.5px;
 }
 
 .proof-card p {
@@ -2969,7 +2961,7 @@ footer p {
 .profile-name {
     font-size: clamp(2.5rem, 8vw, 4.5rem);
     margin-bottom: 0.5rem;
-    letter-spacing: -3px;
+
     line-height: 1.1;
 }
 
@@ -3225,7 +3217,6 @@ body.light-mode .cta-box::before {
     font-family: 'Outfit', sans-serif;
     font-weight: 900;
     margin-bottom: 1rem;
-    letter-spacing: -1.5px;
     line-height: 1.1;
 }
 
@@ -3251,7 +3242,7 @@ body.light-mode .cta-box::before {
 
     .cta-box h2 {
         font-size: 2.2rem !important;
-        letter-spacing: -1px;
+
     }
 
     .glow-button {
@@ -3494,7 +3485,6 @@ body.light-mode .glass {
     font-weight: 800;
     color: white;
     margin-bottom: 1.25rem;
-    letter-spacing: -0.02em;
 }
 
 .faq-answer {
@@ -3540,52 +3530,127 @@ body.light-mode .glass {
     display: flex;
     align-items: center;
     gap: 12px;
-    background: rgba(255, 255, 255, 0.05);
-    backdrop-filter: blur(15px);
-    -webkit-backdrop-filter: blur(15px);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    padding: 8px 8px 8px 20px;
+    background: rgb(25, 255, 82); /* Neon Green */
+    padding: 10px 10px 10px 24px;
     border-radius: 100px;
     text-decoration: none;
-    color: white;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    color: #000;
+    /* High contrast black text */
+    box-shadow: 0 10px 40px rgba(25, 255, 82, 0.3);
     transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     transform-origin: right center;
+    position: relative;
+    z-index: 1;
+    overflow: hidden;
+    font-weight: 800;
+}
+
+/* The Tharun Glow Effect */
+.wa-bubble::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at var(--x, 50%) var(--y, 50%), rgba(255, 255, 255, 0.8) 0%, transparent 60%);
+    opacity: 0;
+    transition: opacity 0.3s;
+    pointer-events: none;
+    z-index: 0;
+}
+
+/* Static fallback animation for the glow */
+.wa-bubble::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+    transform: translateX(-100%);
+    animation: tharunShine 3s infinite;
+    z-index: 0;
+    pointer-events: none;
+}
+
+@keyframes tharunShine {
+    0% {
+        transform: translateX(-100%);
+    }
+
+    20% {
+        transform: translateX(100%);
+    }
+
+    100% {
+        transform: translateX(100%);
+    }
+}
+
+/* Outer Shadow/Glow Container */
+.whatsapp-widget {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    z-index: 999;
+    filter: drop-shadow(0 0 15px rgba(25, 255, 82, 0.4));
+}
+
+@keyframes rotateBorder {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
 }
 
 .wa-label {
-    font-family: 'Hanken Grotesk', sans-serif;
-    font-size: 0.85rem;
-    font-weight: 600;
+    font-family: 'Outfit', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 800;
     letter-spacing: 0.5px;
-    opacity: 0;
-    transform: translateX(10px);
-    transition: all 0.3s ease;
+    opacity: 1 !important;
+    transform: none !important;
     white-space: nowrap;
+    color: #000 !important;
+    /* Black text on neon green */
+    position: relative;
+    z-index: 2;
 }
 
 .wa-icon {
     width: 44px;
     height: 44px;
-    background: #25D366;
+    background: #000;
+    /* Black icon circle on neon green */
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    color: white;
-    box-shadow: 0 4px 15px rgba(37, 211, 102, 0.4);
+    color: rgb(25, 255, 82);
+    /* Neon green icon on black circle */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
     transition: transform 0.3s ease;
+    position: relative;
+    z-index: 2;
 }
 
 .wa-bubble:hover {
-    background: rgba(255, 255, 255, 0.1);
-    transform: scale(1.05);
-    padding-right: 12px;
+    background: rgb(25, 255, 82);
+    transform: scale(1.08) translateY(-5px);
+    box-shadow: 0 20px 40px rgba(25, 255, 82, 0.5);
+}
+
+.wa-bubble:hover::before {
+    opacity: 1;
+}
+
+body:has(.wa-bubble:hover) .whatsapp-widget::after {
+    inset: -5px;
+    filter: blur(15px);
+    opacity: 1;
 }
 
 .wa-bubble:hover .wa-label {
     opacity: 1;
-    transform: translateX(0);
 }
 
 .wa-bubble:hover .wa-icon {
@@ -3594,7 +3659,7 @@ body.light-mode .glass {
 
 @media (max-width: 768px) {
     .wa-label {
-        display: none;
+        font-size: 0.8rem;
     }
 
     .wa-bubble {
@@ -4015,7 +4080,6 @@ section {
     font-size: clamp(2.5rem, 8vw, 4.5rem);
     line-height: 1.1;
     margin-bottom: var(--space-m);
-    letter-spacing: -0.03em;
 }
 
 .hero-subtitle {
@@ -4394,7 +4458,6 @@ body.light-mode .search-container input {
 .premium-cta-banner h3 {
     font-size: clamp(2.5rem, 8vw, 4.5rem) !important;
     margin-bottom: 1.5rem !important;
-    letter-spacing: -2px !important;
 }
 
 .premium-cta-banner p {

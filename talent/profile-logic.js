@@ -187,7 +187,7 @@ async function initProfile() {
                             </div>
                         </div>
                         <div class="mesh-highlight">
-                            ${item.icon ? `<span style="font-size: 6rem; filter: drop-shadow(0 10px 20px rgba(0,0,0,0.1));">${item.icon}</span>` : `<span style="font-family: 'Outfit', sans-serif; font-weight: 900; font-size: 5rem; opacity: 0.05; letter-spacing: -5px;">PROOF//</span>`}
+${item.icon ? `<span style="font-size: 6rem; filter: drop-shadow(0 10px 20px rgba(0,0,0,0.1));">${item.icon}</span>` : `<span style="font-family: 'Outfit', sans-serif; font-weight: 900; font-size: 5rem; opacity: 0.05;">PROOF//</span>`}
                             <a href="${item.proof_link || '#'}" target="_blank" class="glow-button" style="position: absolute; bottom: 20px; right: 20px; padding: 10px 20px; font-size: 0.7rem; border-radius: 4px;">Verify Proof ↗</a>
                         </div>
                     </div>
