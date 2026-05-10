@@ -2360,6 +2360,38 @@ footer p {
     height: 500px;
 }
 
+/* Automation List Styles */
+.automation-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 0.75rem;
+    margin-top: 1.5rem;
+}
+
+.automation-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    padding: 0.75rem 1rem;
+    background: rgba(255, 255, 255, 0.02);
+    border-radius: 14px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    transition: var(--transition);
+}
+
+.automation-item:hover {
+    background: rgba(255, 255, 255, 0.05);
+    border-color: rgba(255, 255, 255, 0.1);
+    transform: translateX(5px);
+}
+
+.automation-item i {
+    color: var(--member-accent, var(--primary));
+    font-size: 0.8rem;
+}
+
 .section-dark-alt {
     background: linear-gradient(to bottom, #030303, #0a0a0f);
     position: relative;
