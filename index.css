@@ -2360,6 +2360,10 @@ footer p {
     height: 500px;
 }
 
+.proof-card-reel {
+    height: 700px !important;
+}
+
 /* Automation List Styles */
 .automation-grid {
     display: grid;
