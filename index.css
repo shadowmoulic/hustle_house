@@ -96,6 +96,52 @@ body {
 }
 
 /* Background System */
+/* Cinematic Foundation */
+body::before {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: url('https://grainy-gradients.vercel.app/noise.svg');
+    opacity: 0.03;
+    pointer-events: none;
+    z-index: 9999;
+    mix-blend-mode: overlay;
+}
+
+.bg-animation {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -2;
+    overflow: hidden;
+    background: #020202;
+}
+
+.aura-blob {
+    position: absolute;
+    width: 60vw;
+    height: 60vw;
+    border-radius: 50%;
+    filter: blur(120px);
+    opacity: 0.15;
+    mix-blend-mode: screen;
+    animation: auraFloat 25s infinite alternate ease-in-out;
+}
+
+@keyframes auraFloat {
+    0% { transform: translate(-10%, -10%) scale(1) rotate(0deg); }
+    100% { transform: translate(20%, 15%) scale(1.3) rotate(15deg); }
+}
+
+.blob-1 { background: var(--primary); top: -20%; left: -10%; animation-delay: 0s; }
+.blob-2 { background: var(--secondary); bottom: -20%; right: -10%; animation-delay: -5s; }
+.blob-3 { background: var(--accent); top: 30%; right: 20%; opacity: 0.08; animation-delay: -10s; }
+
 .bg-mesh-container {
     display: none;
     position: fixed;
@@ -204,16 +250,34 @@ body {
 }
 
 .cursor-glow {
-    position: fixed;
-    width: 600px;
-    height: 600px;
-    background: radial-gradient(circle, rgba(98, 80, 255, 0.08) 0%, transparent 70%);
+    width: 20px;
+    height: 20px;
+    background: var(--primary);
     border-radius: 50%;
+    position: fixed;
     pointer-events: none;
-    z-index: 9999;
+    z-index: 10000;
+    mix-blend-mode: difference;
+    transition: transform 0.1s ease, width 0.3s ease, height 0.3s ease;
     transform: translate(-50%, -50%);
-    transition: width 0.3s, height 0.3s;
-    mix-blend-mode: plus-lighter;
+}
+
+.cursor-glow.hover {
+    width: 80px;
+    height: 80px;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(5px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    mix-blend-mode: normal;
+}
+
+.cursor-glow.hover {
+    width: 80px;
+    height: 80px;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(5px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    mix-blend-mode: normal;
 }
 
 /* Cinematic Reveal */
@@ -255,66 +319,6 @@ h3,
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 1px;
-}
-
-/* Background Animation */
-.bg-animation {
-    display: none;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: -2;
-    overflow: hidden;
-    pointer-events: none;
-}
-
-.aura-blob {
-    position: absolute;
-    width: 800px;
-    height: 800px;
-    border-radius: 50%;
-    filter: blur(120px);
-    opacity: 0.15;
-    animation: drift 20s infinite alternate ease-in-out;
-}
-
-body.light-mode .aura-blob {
-    opacity: 0.1;
-}
-
-.blob-1 {
-    background: var(--primary);
-    top: -200px;
-    left: -200px;
-}
-
-.blob-2 {
-    background: var(--secondary);
-    bottom: -200px;
-    right: -200px;
-    animation-delay: -5s;
-}
-
-.blob-3 {
-    background: var(--accent);
-    top: 50%;
-    left: 40%;
-    width: 600px;
-    height: 600px;
-    animation-duration: 25s;
-    animation-delay: -10s;
-}
-
-@keyframes drift {
-    from {
-        transform: translate(0, 0) scale(1) rotate(0deg);
-    }
-
-    to {
-        transform: translate(100px, 50px) scale(1.1) rotate(15deg);
-    }
 }
 
 /* Navbar */
@@ -861,13 +865,40 @@ body.light-mode .moving-border-box {
 .hero {
     min-height: 100vh;
     display: flex;
-    flex-direction: column;
-    justify-content: center;
     align-items: center;
-    text-align: center;
-    padding: 180px 10% 100px;
+    justify-content: center;
     position: relative;
+    padding: 120px 0;
     overflow: hidden;
+}
+
+.video-bg-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+}
+
+.hero-video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: brightness(0.6) contrast(1.1) saturate(0.8);
+    transform: scale(1.05); /* Slight zoom to prevent edges */
+}
+
+.video-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to bottom, 
+        rgba(2, 2, 2, 0.4) 0%, 
+        rgba(2, 2, 2, 0.2) 50%, 
+        #020202 100%);
 }
 
 .hero-content {

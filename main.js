@@ -4,6 +4,7 @@ document.addEventListener('DOMContentLoaded', () => {
     initFilters();
     initSearch();
     initContactForm();
+    initCinematicInteractions();
 
     const urlParams = new URL(window.location.href).searchParams;
     const initialFilter = urlParams.get('filter');
@@ -17,6 +18,57 @@ document.addEventListener('DOMContentLoaded', () => {
         fetchTalent('all', 'talent-grid-preview', 3);
     }
 });
+
+function initCinematicInteractions() {
+    const cursor = document.querySelector('.cursor-glow');
+    if (!cursor) return;
+
+    let mouseX = 0, mouseY = 0;
+    let cursorX = 0, cursorY = 0;
+
+    document.addEventListener('mousemove', (e) => {
+        mouseX = e.clientX;
+        mouseY = e.clientY;
+    });
+
+    const animate = () => {
+        const dx = mouseX - cursorX;
+        const dy = mouseY - cursorY;
+        
+        cursorX += dx * 0.15;
+        cursorY += dy * 0.15;
+        
+        cursor.style.left = `${cursorX}px`;
+        cursor.style.top = `${cursorY}px`;
+
+        requestAnimationFrame(animate);
+    };
+    animate();
+
+    // Hover effects
+    const interactiveElements = document.querySelectorAll('a, button, .talent-card, .step-card, .wa-bubble');
+    interactiveElements.forEach(el => {
+        el.addEventListener('mouseenter', () => cursor.classList.add('hover'));
+        el.addEventListener('mouseleave', () => cursor.classList.remove('hover'));
+    });
+
+    // Reveal on scroll
+    const observerOptions = {
+        threshold: 0.1
+    };
+
+    const revealObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('visible');
+            }
+        });
+    }, observerOptions);
+
+    document.querySelectorAll('.section, .talent-card, .process-steps > div').forEach(el => {
+        revealObserver.observe(el);
+    });
+}
 
 // Helper to generate a URL-safe slug from name
 function generateSlug(name) {
