@@ -870,6 +870,7 @@ body.light-mode .moving-border-box {
     position: relative;
     padding: 120px 0;
     overflow: hidden;
+    background: transparent !important;
 }
 
 .video-bg-container {
@@ -3423,6 +3424,75 @@ body.light-mode .glass {
     -webkit-text-fill-color: transparent;
     animation: silver-shine 4s linear infinite;
     font-weight: 900;
+}
+
+/* WhatsApp Widget */
+.whatsapp-widget {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    z-index: 999;
+}
+
+.wa-bubble {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 8px 8px 8px 20px;
+    border-radius: 100px;
+    text-decoration: none;
+    color: white;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    transform-origin: right center;
+}
+
+.wa-label {
+    font-family: 'Hanken Grotesk', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    opacity: 0;
+    transform: translateX(10px);
+    transition: all 0.3s ease;
+    white-space: nowrap;
+}
+
+.wa-icon {
+    width: 44px;
+    height: 44px;
+    background: #25D366;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    box-shadow: 0 4px 15px rgba(37, 211, 102, 0.4);
+    transition: transform 0.3s ease;
+}
+
+.wa-bubble:hover {
+    background: rgba(255, 255, 255, 0.1);
+    transform: scale(1.05);
+    padding-right: 12px;
+}
+
+.wa-bubble:hover .wa-label {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.wa-bubble:hover .wa-icon {
+    transform: rotate(15deg);
+}
+
+@media (max-width: 768px) {
+    .wa-label { display: none; }
+    .wa-bubble { padding: 8px; }
 }
 
 .shining-border {
