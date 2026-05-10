@@ -142,6 +142,29 @@ body::before {
 .blob-2 { background: var(--secondary); bottom: -20%; right: -10%; animation-delay: -5s; }
 .blob-3 { background: var(--accent); top: 30%; right: 20%; opacity: 0.08; animation-delay: -10s; }
 
+.technical-grid {
+    position: absolute;
+    inset: 0;
+    background-image: 
+        linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+    background-size: 60px 60px;
+    background-position: center center;
+    mask-image: radial-gradient(circle at var(--mouse-x, 50%) var(--mouse-y, 50%), black 0%, transparent 40%);
+    -webkit-mask-image: radial-gradient(circle at var(--mouse-x, 50%) var(--mouse-y, 50%), black 0%, transparent 40%);
+    pointer-events: none;
+    z-index: 1;
+}
+
+.grid-nodes {
+    position: absolute;
+    inset: 0;
+    background-image: radial-gradient(circle at 2px 2px, rgba(255, 255, 255, 0.05) 1px, transparent 0);
+    background-size: 60px 60px;
+    background-position: center center;
+    opacity: 0.5;
+}
+
 .bg-mesh-container {
     display: none;
     position: fixed;

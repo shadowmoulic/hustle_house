@@ -29,6 +29,12 @@ function initCinematicInteractions() {
     document.addEventListener('mousemove', (e) => {
         mouseX = e.clientX;
         mouseY = e.clientY;
+
+        // Interactive Background Aura
+        const xPct = (e.clientX / window.innerWidth) * 100;
+        const yPct = (e.clientY / window.innerHeight) * 100;
+        document.body.style.setProperty('--mouse-x', `${xPct}%`);
+        document.body.style.setProperty('--mouse-y', `${yPct}%`);
     });
 
     const animate = () => {
