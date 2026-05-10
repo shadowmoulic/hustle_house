@@ -921,8 +921,8 @@ body.light-mode .moving-border-box {
 .video-overlay {
     position: absolute;
     inset: 0;
-    background: radial-gradient(circle at center, transparent 0%, rgba(2, 2, 2, 0.4) 60%, #020202 100%),
-                linear-gradient(to bottom, transparent 0%, rgba(2, 2, 2, 0.3) 70%, #020202 100%);
+    background: radial-gradient(circle at center, transparent 0%, rgba(0, 0, 0, 0.4) 50%, rgba(0, 0, 0, 0.8) 100%),
+                linear-gradient(to bottom, rgba(0, 0, 0, 0.3) 0%, rgba(0, 0, 0, 0.5) 70%, #000 100%);
     z-index: 1;
 }
 
@@ -1014,13 +1014,13 @@ body.light-mode .moving-border-box {
 }
 
 .hero h1, .premium-hero h1 {
-    font-size: clamp(2.5rem, 7vw, 4.5rem);
-    line-height: 1.1;
+    font-size: clamp(2rem, 6vw, 4rem);
+    line-height: 1;
     font-weight: 900;
-    letter-spacing: -0.04em;
+    letter-spacing: -0.05em;
     margin-bottom: 2rem;
-    text-shadow: 0 10px 40px rgba(0, 0, 0, 0.6);
-    max-width: 1100px;
+    text-shadow: 0 10px 40px rgba(0, 0, 0, 0.8), 0 4px 10px rgba(0, 0, 0, 0.9);
+    max-width: 1000px;
     margin-left: auto;
     margin-right: auto;
 }
@@ -1809,18 +1809,21 @@ footer p {
     }
 
     .hero h1 {
-        font-size: clamp(2rem, 10vw, 3.5rem);
-        line-height: 1.1;
+        font-size: clamp(1.8rem, 10vw, 2.5rem);
+        line-height: 1;
         margin-bottom: 1.5rem;
         letter-spacing: -0.03em;
+        text-shadow: 0 5px 15px rgba(0, 0, 0, 0.9);
     }
 
     .hero p {
-        font-size: 1.1rem;
-        line-height: 1.5;
+        font-size: 1rem;
+        line-height: 1.6;
         margin-bottom: 2.5rem;
-        padding: 0 1rem;
-        opacity: 0.9;
+        padding: 0 1.5rem;
+        opacity: 1;
+        text-shadow: 0 2px 8px rgba(0, 0, 0, 0.9);
+        color: #fff !important;
     }
 
     .hero-ctas {
