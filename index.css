@@ -4740,3 +4740,10 @@ body.light-mode .search-container input {
     animation: silver-shine 4s linear infinite;
     font-weight: 900;
 }
+
+/* Marketplace Layout Stacking */
+.marketplace-main {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+}
