@@ -99,7 +99,18 @@ function getProfilePic(fullName, slug) {
         'Skanda K M': '/profile-pics/skanda hustle house dp.png',
         'Somsubhra Mukherjee': '/profile-pics/somsubhro hustle house.png',
         'Sourasish Mukherjee': '/profile-pics/sourashish hustle house.png',
-        'Suvam Ghosh': '/profile-pics/suvam-dev hustle house.png'
+        'Suvam Ghosh': '/profile-pics/suvam-dev hustle house.png',
+        // Slug-based fallback
+        'arnavshukla': '/profile-pics/arnav hustle house.png',
+        'arpitchakladar': '/profile-pics/arpit hustle house.png',
+        'bishal': '/profile-pics/bishal hustle house.png',
+        'nihar': '/profile-pics/nihar hustle house.png',
+        'prayas': '/profile-pics/prayas hustle house.png',
+        'sayak': '/profile-pics/sayak hustle house.png',
+        'skandakm': '/profile-pics/skanda hustle house dp.png',
+        'moon': '/profile-pics/somsubhro hustle house.png',
+        'sun': '/profile-pics/sourashish hustle house.png',
+        'suvam-dev': '/profile-pics/suvam-dev hustle house.png'
     };
     
     // Check by full name or slug
