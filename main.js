@@ -44,8 +44,17 @@ function initScrollFrameAnimation() {
         frame: 0
     };
 
+    console.log('Preloading 75 frames for scroll animation...');
+
+    let loadedCount = 0;
     for (let i = 1; i <= frameCount; i++) {
         const img = new Image();
+        img.onload = () => {
+            loadedCount++;
+            if (loadedCount === 1) render(); // Render first frame as soon as it's ready
+            if (loadedCount === frameCount) console.log('All 75 frames loaded successfully.');
+        };
+        img.onerror = () => console.error(`Failed to load frame: ${currentFrame(i)}`);
         img.src = currentFrame(i);
         images.push(img);
     }
@@ -82,9 +91,6 @@ function initScrollFrameAnimation() {
         }
     });
 
-    if (images[0]) {
-        images[0].onload = render;
-    }
     window.addEventListener('resize', render);
 }
 
