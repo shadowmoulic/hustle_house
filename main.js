@@ -23,7 +23,70 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Initialize Neutron Star background if present
     initNeutronStar();
+    // Initialize scroll frame animation if on homepage
+    if (document.getElementById('scroll-frame-canvas')) {
+        initScrollFrameAnimation();
+    }
 });
+
+function initScrollFrameAnimation() {
+    const canvas = document.getElementById('scroll-frame-canvas');
+    if (!canvas) return;
+    const context = canvas.getContext('2d');
+
+    const frameCount = 75;
+    const currentFrame = index => (
+        `ezgif-7fcd830f4f8a6892-jpg/ezgif-frame-${index.toString().padStart(3, '0')}.jpg`
+    );
+
+    const images = [];
+    const airship = {
+        frame: 0
+    };
+
+    for (let i = 1; i <= frameCount; i++) {
+        const img = new Image();
+        img.src = currentFrame(i);
+        images.push(img);
+    }
+
+    const render = () => {
+        const img = images[airship.frame];
+        if (!img || !img.complete) return;
+        
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        const scale = Math.max(canvas.width / img.width, canvas.height / img.height);
+        const x = (canvas.width / 2) - (img.width / 2) * scale;
+        const y = (canvas.height / 2) - (img.height / 2) * scale;
+        
+        context.clearRect(0, 0, canvas.width, canvas.height);
+        context.drawImage(img, x, y, img.width * scale, img.height * scale);
+    };
+
+    window.addEventListener('scroll', () => {
+        const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+        const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+        
+        const scrollFraction = Math.max(0, Math.min(1, scrollTop / maxScroll));
+        
+        const frameIndex = Math.min(
+            frameCount - 1,
+            Math.floor(scrollFraction * frameCount)
+        );
+
+        if (airship.frame !== frameIndex) {
+            airship.frame = frameIndex;
+            requestAnimationFrame(render);
+        }
+    });
+
+    if (images[0]) {
+        images[0].onload = render;
+    }
+    window.addEventListener('resize', render);
+}
 
 function initCinematicInteractions() {
     const cursor = document.querySelector('.cursor-glow');
@@ -171,14 +234,30 @@ function initNeutronStar() {
     // Scroll-driven animation logic
     window.addEventListener('scroll', () => {
         const scrolled = window.pageYOffset;
-        const rate = scrolled * 0.1;
+        const rate = scrolled * 0.05;
         
-        // Rotate and scale the whole container based on scroll
-        // Keep the translate(-50%, -50%) as it's needed for centering
-        magneticLines.style.transform = `translate(-50%, -50%) rotateX(${rate * 0.15}deg) rotateY(${rate * 0.1}deg) rotateZ(${rate * 0.05}deg) scale(${1 + scrolled * 0.0003})`;
+        // Multi-layered parallax: Scroll + Mouse
+        const mouseXOffset = (mouseX / window.innerWidth - 0.5) * 20;
+        const mouseYOffset = (mouseY / window.innerHeight - 0.5) * 20;
+
+        magneticLines.style.transform = `translate(calc(-50% + ${mouseXOffset}px), calc(-50% + ${mouseYOffset}px)) rotateX(${rate * 0.1}deg) rotateY(${rate * 0.08}deg) rotateZ(${rate * 0.05}deg) scale(${1 + scrolled * 0.0001})`;
         
-        // Move the core slightly for parallax
-        core.style.transform = `translate(-50%, calc(-50% + ${scrolled * 0.1}px)) scale(${1 + scrolled * 0.0002})`;
+        core.style.transform = `translate(calc(-50% + ${mouseXOffset * 1.5}px), calc(-50% + ${scrolled * 0.05 + mouseYOffset * 1.5}px)) scale(${1 + scrolled * 0.0001})`;
+    });
+
+    // Also update on mouse move for real-time response even without scrolling
+    document.addEventListener('mousemove', () => {
+        const scrolled = window.pageYOffset;
+        const rate = scrolled * 0.05;
+        const mouseXOffset = (mouseX / window.innerWidth - 0.5) * 20;
+        const mouseYOffset = (mouseY / window.innerHeight - 0.5) * 20;
+        
+        if (magneticLines) {
+            magneticLines.style.transform = `translate(calc(-50% + ${mouseXOffset}px), calc(-50% + ${mouseYOffset}px)) rotateX(${rate * 0.1}deg) rotateY(${rate * 0.08}deg) rotateZ(${rate * 0.05}deg) scale(${1 + scrolled * 0.0001})`;
+        }
+        if (core) {
+            core.style.transform = `translate(calc(-50% + ${mouseXOffset * 1.5}px), calc(-50% + ${scrolled * 0.05 + mouseYOffset * 1.5}px)) scale(${1 + scrolled * 0.0001})`;
+        }
     });
 
     // Initial trigger
