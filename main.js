@@ -17,6 +17,12 @@ document.addEventListener('DOMContentLoaded', () => {
     if (document.getElementById('talent-grid-preview')) {
         fetchTalent('all', 'talent-grid-preview', 3);
     }
+
+    // Initialize profile avatar if on a profile page
+    initProfileAvatar();
+
+    // Initialize Neutron Star background if present
+    initNeutronStar();
 });
 
 function initCinematicInteractions() {
@@ -81,6 +87,93 @@ function generateSlug(name) {
     return name.toLowerCase().replace(/ /g, '-').replace(/[^\w-]+/g, '');
 }
 
+// Helper to get local profile picture
+function getProfilePic(fullName, slug) {
+    const mapping = {
+        'Arnav Shukla': '/profile-pics/arnav hustle house.png',
+        'Arpit Chakladar': '/profile-pics/arpit hustle house.png',
+        'Bishal Das': '/profile-pics/bishal hustle house.png',
+        'Nihar Nayak': '/profile-pics/nihar hustle house.png',
+        'Prayas Dey': '/profile-pics/prayas hustle house.png',
+        'Sayak Moulic': '/profile-pics/sayak hustle house.png',
+        'Skanda K M': '/profile-pics/skanda hustle house dp.png',
+        'Somsubhra Mukherjee': '/profile-pics/somsubhro hustle house.png',
+        'Sourasish Mukherjee': '/profile-pics/sourashish hustle house.png',
+        'Suvam Ghosh': '/profile-pics/suvam-dev hustle house.png'
+    };
+    
+    // Check by full name or slug
+    return mapping[fullName] || mapping[slug] || `https://api.dicebear.com/7.x/avataaars/svg?seed=${encodeURIComponent(fullName)}&top=shortHair,fro,frizzle,shaggy,shaggyMullet&hairColor=2c1b18,4a312c`;
+}
+
+// Helper to initialize profile avatar on individual profile pages
+function initProfileAvatar() {
+    const header = document.querySelector('.profile-header');
+    if (!header) return;
+
+    const nameEl = document.querySelector('.profile-name');
+    const avatarCircle = header.querySelector('.avatar-circle');
+    
+    if (nameEl && avatarCircle) {
+        const name = nameEl.innerText.trim();
+        // Get slug from URL path (last part)
+        const pathParts = window.location.pathname.split('/').filter(p => p !== "");
+        const slug = pathParts[pathParts.length - 1];
+        
+        const picUrl = getProfilePic(name, slug);
+        
+        // Only replace if it's a local picture (not Dicebear)
+        if (picUrl && !picUrl.includes('dicebear')) {
+            avatarCircle.innerHTML = `<img src="${picUrl}" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;">`;
+            avatarCircle.style.background = 'transparent';
+            avatarCircle.style.border = '2px solid var(--member-accent)';
+        }
+    }
+}
+
+// Cinematic Neutron Star Logic
+function initNeutronStar() {
+    const bg = document.querySelector('.neutron-star-bg');
+    if (!bg) return;
+
+    const group = bg.querySelector('.lines-group');
+    const magneticLines = bg.querySelector('.magnetic-lines');
+    const core = bg.querySelector('.star-core');
+    if (!group || !magneticLines || !core) return;
+
+    // Generate 40 elliptical lines with varying rotations
+    let linesHtml = '';
+    for (let i = 0; i < 40; i++) {
+        const rx = 200 + Math.random() * 300;
+        const ry = 100 + Math.random() * 400;
+        const rotate = (i / 40) * 180 + Math.random() * 20;
+        
+        linesHtml += `
+            <ellipse class="magnetic-line-path" 
+                     cx="500" cy="500" 
+                     rx="${rx}" ry="${ry}" 
+                     transform="rotate(${rotate} 500 500)" />
+        `;
+    }
+    group.innerHTML = linesHtml;
+
+    // Scroll-driven animation logic
+    window.addEventListener('scroll', () => {
+        const scrolled = window.pageYOffset;
+        const rate = scrolled * 0.1;
+        
+        // Rotate and scale the whole container based on scroll
+        // Keep the translate(-50%, -50%) as it's needed for centering
+        magneticLines.style.transform = `translate(-50%, -50%) rotateX(${rate * 0.15}deg) rotateY(${rate * 0.1}deg) rotateZ(${rate * 0.05}deg) scale(${1 + scrolled * 0.0003})`;
+        
+        // Move the core slightly for parallax
+        core.style.transform = `translate(-50%, calc(-50% + ${scrolled * 0.1}px)) scale(${1 + scrolled * 0.0002})`;
+    });
+
+    // Initial trigger
+    bg.style.opacity = '1';
+}
+
 // 1. Fetch & Render Accepted Talent from Supabase
 async function fetchTalent(initialFilter = 'all', targetGridId = 'talent-grid', limit = null) {
     const grid = document.getElementById(targetGridId);
@@ -110,13 +203,18 @@ async function fetchTalent(initialFilter = 'all', targetGridId = 'talent-grid', 
             projects_count: 1, // Default for new accepted members
             is_from_onboarding: true,
             primary_color: app.primary_color || '#6250FF',
-            photo_url: `https://api.dicebear.com/7.x/avataaars/svg?seed=${encodeURIComponent(app.full_name)}&top=shortHair,fro,frizzle,shaggy,shaggyMullet&hairColor=2c1b18,4a312c`
+            photo_url: getProfilePic(app.full_name, (app.custom_subdomain || generateSlug(app.full_name)).trim())
         }));
 
         const onboardingSlugs = new Set(acceptedOnboarding.map(p => p.slug));
 
-        // Filter profiles from HH_profiles that are NOT already in onboarding
-        const uniqueProfiles = profiles.filter(p => !onboardingSlugs.has(p.slug));
+        // Filter profiles from HH_profiles that are NOT already in onboarding and assign photos
+        const uniqueProfiles = (profiles || [])
+            .filter(p => !onboardingSlugs.has(p.slug))
+            .map(p => ({
+                ...p,
+                photo_url: p.photo_url || getProfilePic(p.full_name, p.slug)
+            }));
 
         // Combine them, preferring onboarding
         const combinedData = [...acceptedOnboarding, ...uniqueProfiles];
@@ -174,7 +272,18 @@ async function fetchTalent(initialFilter = 'all', targetGridId = 'talent-grid', 
                         <p class="talent-one-liner">
                             ${tagline.length > 120 ? tagline.substring(0, 117) + '...' : tagline}
                         </p>
-                        <div class="skill-pills">
+                        
+                        <div class="demo-work-preview" style="margin-top: 1rem; padding: 0.75rem; background: rgba(255,255,255,0.03); border-radius: 12px; border: 1px solid rgba(255,255,255,0.05);">
+                            <span style="font-family: 'JetBrains Mono', monospace; font-size: 0.6rem; color: var(--primary); text-transform: uppercase; letter-spacing: 1px; display: block; margin-bottom: 0.4rem;">// Demo Work / POC</span>
+                            <div style="font-size: 0.85rem; font-weight: 600; color: white;">
+                                ${member.full_name === 'Sayak Moulic' ? '10.2M+ Impressions Organic Scaling' : 
+                                  member.full_name === 'Somsubhra Mukherjee' ? 'High-Performance Learning Systems' :
+                                  member.full_name === 'Arnav Shukla' ? 'Viral Narrative Architecture' :
+                                  'Industrial Grade Project Execution'}
+                            </div>
+                        </div>
+
+                        <div class="skill-pills" style="margin-top: 1rem;">
                             ${specialties.slice(0, 4).map(s => `<span class="skill-pill">${s}</span>`).join('')}
                         </div>
                     </div>
@@ -184,7 +293,7 @@ async function fetchTalent(initialFilter = 'all', targetGridId = 'talent-grid', 
                     </div>
                 </div>
             </a>
-            `;;
+            `;
         }).join('');
 
         // 4. Global Mouse Tracking for Spotlights (Cards & Hero)

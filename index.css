@@ -122,6 +122,79 @@ body::before {
     background: #020202;
 }
 
+/* Neutron Star Cinematic Background */
+.neutron-star-bg {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 0; /* Changed from -1 */
+    pointer-events: none;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    perspective: 2000px;
+    opacity: 1;
+    background: #020205; /* Solid dark background to ensure visibility */
+}
+
+.star-core {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 150px; /* Larger core */
+    height: 150px;
+    background: radial-gradient(circle, #fff 0%, var(--primary) 30%, transparent 70%);
+    border-radius: 50%;
+    filter: blur(2px);
+    box-shadow: 
+        0 0 100px var(--primary),
+        0 0 200px var(--primary-glow),
+        0 0 400px rgba(98, 80, 255, 0.2);
+    z-index: 2;
+    animation: corePulse 4s ease-in-out infinite alternate;
+    transform: translate(-50%, -50%);
+}
+
+.magnetic-lines {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 250%; /* Larger field */
+    height: 250%;
+    transform-style: preserve-3d;
+    opacity: 0.9;
+    transform: translate(-50%, -50%);
+}
+
+.magnetic-line-path {
+    fill: none;
+    stroke: var(--primary);
+    stroke-width: 2; /* Thicker lines */
+    stroke-opacity: 0.7;
+    stroke-dasharray: 1000;
+    stroke-dashoffset: 1000;
+    animation: lineFlow 12s linear infinite;
+}
+
+@keyframes corePulse {
+    0% { transform: translate(-50%, -50%) scale(1); opacity: 0.9; }
+    100% { transform: translate(-50%, -50%) scale(1.2); opacity: 1; }
+}
+
+@keyframes lineFlow {
+    to { stroke-dashoffset: -1000; }
+}
+
+.lines-group {
+    transform-origin: center;
+}
+
+
+
+
 .aura-blob {
     position: absolute;
     width: 60vw;
@@ -2925,6 +2998,7 @@ footer p {
     font-weight: 700;
     color: white;
     border: 1px solid var(--glass-border);
+    overflow: hidden;
 }
 
 .status-indicator {
