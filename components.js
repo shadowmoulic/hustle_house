@@ -8,7 +8,7 @@ const headerHTML = `
         <div class="logo">
             <a href="/" style="text-decoration: none; display: flex; align-items: center; gap: 10px;">
                 <img src="/logo.png" alt="Hustle House Logo" style="height: 36px; width: auto; object-fit: contain;" />
-                <span class="silver-text" style="font-family: 'Outfit', sans-serif; font-size: 1.4rem; padding-top: 4px;">HUSTLE HOUSE</span>
+                <span class="silver-text" style="font-family: 'Outfit', sans-serif; font-size: 1.4rem; padding-top: 4px;">KGP HUSTLE HOUSE</span>
             </a>
         </div>
         <div class="nav-links">
@@ -26,6 +26,7 @@ const headerHTML = `
                 </div>
             </div>
             <a href="/how-it-works">How It Works</a>
+            <a href="/about">About</a>
             <a href="/scoper" style="font-weight: 700; color: var(--primary);">Get Estimate</a>
             <a href="/contact" class="join-btn">Hire Us</a>
         </div>
@@ -39,6 +40,7 @@ const headerHTML = `
         <a href="/talent">Talent</a>
         <a href="/services">Services</a>
         <a href="/how-it-works">How It Works</a>
+        <a href="/about">About</a>
         <a href="/scoper">Get Estimate</a>
         <a href="/contact">Contact Us</a>
         <a href="/contact" class="join-btn">Hire Us</a>
@@ -52,7 +54,7 @@ const footerHTML = `
                 <div class="footer-brand">
                     <div class="logo" style="display: flex; align-items: center; gap: 10px; margin-bottom: 2rem;">
                         <img src="/logo.png" alt="Hustle House Logo" style="height: 40px; width: auto; object-fit: contain;" />
-                        <span class="silver-text" style="font-family: 'Squada One', cursive; font-size: 2rem; letter-spacing: 1px; white-space: nowrap;">HUSTLE HOUSE</span>
+                        <span class="silver-text" style="font-family: 'Squada One', cursive; font-size: 2rem; letter-spacing: 1px; white-space: nowrap;">KGP HUSTLE HOUSE</span>
                     </div>
                     <p class="footer-desc" style="max-width: 320px; opacity: 0.6; line-height: 1.7; font-size: 0.95rem;">
                         The elite student talent network from IIT Kharagpur. We ship precision-engineered digital products for global innovators.
@@ -79,6 +81,7 @@ const footerHTML = `
                     <h4 class="footer-header" style="color: white; font-weight: 800; font-size: 0.75rem; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 2rem; opacity: 0.4;">Network</h4>
                     <ul style="list-style: none; padding: 0; display: flex; flex-direction: column; gap: 1rem;">
                         <li><a href="/talent" style="color: white; text-decoration: none; opacity: 0.6; font-size: 0.95rem; transition: 0.3s;">Specialists</a></li>
+                        <li><a href="/about" style="color: white; text-decoration: none; opacity: 0.6; font-size: 0.95rem; transition: 0.3s;">About Us</a></li>
                         <li><a href="/scoper" style="color: white; text-decoration: none; opacity: 0.6; font-size: 0.95rem; transition: 0.3s;">Project Scoper</a></li>
                         <li><a href="/how-it-works" style="color: white; text-decoration: none; opacity: 0.6; font-size: 0.95rem; transition: 0.3s;">The Process</a></li>
                         <li><a href="/contact" style="color: white; text-decoration: none; opacity: 0.6; font-size: 0.95rem; transition: 0.3s;">Join Network</a></li>
@@ -94,7 +97,7 @@ const footerHTML = `
                 </div>
             </div>
             <div class="footer-bottom" style="margin-top: 6rem; padding-top: 2rem; border-top: 1px solid rgba(255,255,255,0.05); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 2rem;">
-                <p class="copyright" style="opacity: 0.4; font-size: 0.85rem;">&copy; 2026 Hustle House · Vetted IIT KGP Network</p>
+                <p class="copyright" style="opacity: 0.4; font-size: 0.85rem;">&copy; 2026 KGP Hustle House (kgphustlehouse.com) · Vetted IIT KGP Network</p>
                 <div class="footer-legal" style="display: flex; gap: 2rem; font-size: 0.85rem; opacity: 0.4;">
                     <a href="/privacy" style="color: white; text-decoration: none;">Privacy</a>
                     <a href="/terms" style="color: white; text-decoration: none;">Terms</a>
@@ -154,7 +157,7 @@ function injectComponents() {
                 <div class="logo">
                     <a href="/" class="logo-container" style="text-decoration: none; display: flex; align-items: center; gap: 8px; flex-shrink: 0;">
                         <img src="/logo.png" alt="Hustle House Logo" class="nav-logo-img" style="height: 36px; width: auto; object-fit: contain;" />
-                        <span class="silver-text nav-logo-text" style="font-family: 'Squada One', cursive; font-size: 1.8rem; letter-spacing: 1px; padding-top: 4px; white-space: nowrap;">HUSTLE HOUSE</span>
+                        <span class="silver-text nav-logo-text" style="font-family: 'Squada One', cursive; font-size: 1.8rem; letter-spacing: 1px; padding-top: 4px; white-space: nowrap;">KGP HUSTLE HOUSE</span>
                     </a>
                 </div>
                 <div class="nav-links">
@@ -172,6 +175,7 @@ function injectComponents() {
                         </div>
                     </div>
                     <a href="/how-it-works">How It Works</a>
+                    <a href="/about">About</a>
                     <a href="/scoper" class="scoper-pill-btn">Get Estimate</a>
                     <a href="/contact" class="join-btn" style="margin-left: 1rem;">Hire Us</a>
                 </div>
@@ -191,8 +195,9 @@ function injectComponents() {
             <div class="mobile-menu" id="mobile-menu">
                 <a href="/talent">Talent</a>
                 <a href="/services">Services</a>
-                <a href="/scoper">Get Estimate</a>
                 <a href="/how-it-works">How It Works</a>
+                <a href="/about">About</a>
+                <a href="/scoper">Get Estimate</a>
                 <a href="/contact">Contact Us</a>
                 <a href="/contact" class="join-btn">Hire Us</a>
             </div>
