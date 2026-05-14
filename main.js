@@ -23,76 +23,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Initialize Neutron Star background if present
     initNeutronStar();
-    // Initialize scroll frame animation if on homepage
-    if (document.getElementById('scroll-frame-canvas')) {
-        initScrollFrameAnimation();
-    }
 });
-
-function initScrollFrameAnimation() {
-    const canvas = document.getElementById('scroll-frame-canvas');
-    if (!canvas) return;
-    const context = canvas.getContext('2d');
-
-    const frameCount = 75;
-    const currentFrame = index => (
-        `ezgif-7fcd830f4f8a6892-jpg/ezgif-frame-${index.toString().padStart(3, '0')}.jpg`
-    );
-
-    const images = [];
-    const airship = {
-        frame: 0
-    };
-
-    console.log('Preloading 75 frames for scroll animation...');
-
-    let loadedCount = 0;
-    for (let i = 1; i <= frameCount; i++) {
-        const img = new Image();
-        img.onload = () => {
-            loadedCount++;
-            if (loadedCount === 1) render(); // Render first frame as soon as it's ready
-            if (loadedCount === frameCount) console.log('All 75 frames loaded successfully.');
-        };
-        img.onerror = () => console.error(`Failed to load frame: ${currentFrame(i)}`);
-        img.src = currentFrame(i);
-        images.push(img);
-    }
-
-    const render = () => {
-        const img = images[airship.frame];
-        if (!img || !img.complete) return;
-        
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
-
-        const scale = Math.max(canvas.width / img.width, canvas.height / img.height);
-        const x = (canvas.width / 2) - (img.width / 2) * scale;
-        const y = (canvas.height / 2) - (img.height / 2) * scale;
-        
-        context.clearRect(0, 0, canvas.width, canvas.height);
-        context.drawImage(img, x, y, img.width * scale, img.height * scale);
-    };
-
-    window.addEventListener('scroll', () => {
-        const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-        const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
-        
-        const scrollFraction = Math.max(0, Math.min(1, scrollTop / maxScroll));
-        
-        const frameIndex = Math.min(
-            frameCount - 1,
-            Math.floor(scrollFraction * frameCount)
-        );
-
-        if (airship.frame !== frameIndex) {
-            airship.frame = frameIndex;
-            requestAnimationFrame(render);
-        }
-    });
-
-    window.addEventListener('resize', render);
-}
 
 function initCinematicInteractions() {
     const cursor = document.querySelector('.cursor-glow');
@@ -243,8 +174,8 @@ function initNeutronStar() {
         const rate = scrolled * 0.05;
         
         // Multi-layered parallax: Scroll + Mouse
-        const mouseXOffset = (mouseX / window.innerWidth - 0.5) * 20;
-        const mouseYOffset = (mouseY / window.innerHeight - 0.5) * 20;
+        const mouseXOffset = (typeof mouseX !== 'undefined' ? (mouseX / window.innerWidth - 0.5) * 20 : 0);
+        const mouseYOffset = (typeof mouseY !== 'undefined' ? (mouseY / window.innerHeight - 0.5) * 20 : 0);
 
         magneticLines.style.transform = `translate(calc(-50% + ${mouseXOffset}px), calc(-50% + ${mouseYOffset}px)) rotateX(${rate * 0.1}deg) rotateY(${rate * 0.08}deg) rotateZ(${rate * 0.05}deg) scale(${1 + scrolled * 0.0001})`;
         
@@ -252,11 +183,11 @@ function initNeutronStar() {
     });
 
     // Also update on mouse move for real-time response even without scrolling
-    document.addEventListener('mousemove', () => {
+    document.addEventListener('mousemove', (e) => {
         const scrolled = window.pageYOffset;
         const rate = scrolled * 0.05;
-        const mouseXOffset = (mouseX / window.innerWidth - 0.5) * 20;
-        const mouseYOffset = (mouseY / window.innerHeight - 0.5) * 20;
+        const mouseXOffset = (e.clientX / window.innerWidth - 0.5) * 20;
+        const mouseYOffset = (e.clientY / window.innerHeight - 0.5) * 20;
         
         if (magneticLines) {
             magneticLines.style.transform = `translate(calc(-50% + ${mouseXOffset}px), calc(-50% + ${mouseYOffset}px)) rotateX(${rate * 0.1}deg) rotateY(${rate * 0.08}deg) rotateZ(${rate * 0.05}deg) scale(${1 + scrolled * 0.0001})`;
@@ -327,7 +258,7 @@ async function fetchTalent(initialFilter = 'all', targetGridId = 'talent-grid', 
             data = data.slice(0, limit);
         }
 
-        loading.style.display = 'none';
+        if (loading) loading.style.display = 'none';
 
         if (data.length === 0) {
             grid.innerHTML = '<div style="grid-column: 1/-1; text-align: center; padding: 4rem;"><h3>The network is in stealth mode.</h3></div>';
@@ -392,9 +323,9 @@ async function fetchTalent(initialFilter = 'all', targetGridId = 'talent-grid', 
             `;
         }).join('');
 
-        // 4. Global Mouse Tracking for Spotlights (Cards & Hero)
+        // Global Mouse Tracking for Spotlights (Cards)
         document.addEventListener('mousemove', (e) => {
-            const spotlightElements = document.querySelectorAll('.talent-card, .premium-hero');
+            const spotlightElements = document.querySelectorAll('.talent-card');
             spotlightElements.forEach(el => {
                 const rect = el.getBoundingClientRect();
                 const x = e.clientX - rect.left;
@@ -413,7 +344,7 @@ async function fetchTalent(initialFilter = 'all', targetGridId = 'talent-grid', 
 
     } catch (err) {
         console.error('Fetch Talent error:', err);
-        loading.innerHTML = '<span>Failed to assemble the elite. System interference detected.</span>';
+        if (loading) loading.innerHTML = '<span>Failed to assemble the elite. System interference detected.</span>';
     }
 }
 
@@ -508,16 +439,6 @@ let glowX = 0, glowY = 0;
 document.addEventListener('mousemove', (e) => {
     mouseX = e.clientX;
     mouseY = e.clientY;
-
-    // Track spotlights immediately for responsiveness
-    const spotlightElements = document.querySelectorAll('.talent-card, .premium-hero');
-    spotlightElements.forEach(el => {
-        const rect = el.getBoundingClientRect();
-        const x = e.clientX - rect.left;
-        const y = e.clientY - rect.top;
-        el.style.setProperty('--mouse-x', `${x}px`);
-        el.style.setProperty('--mouse-y', `${y}px`);
-    });
 });
 
 function animateGlow() {
