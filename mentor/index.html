@@ -1,0 +1,842 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>1-on-1 Mentorship & Clarity Calls | Hustle House</title>
+    <link rel="icon" type="image/png" href="/logo.png">
+    <link rel="shortcut icon" type="image/png" href="/logo.png">
+    <link rel="apple-touch-icon" href="/logo.png">
+    <meta name="description"
+        content="Book a 1-on-1 clarity call directly with the IIT Kharagpur core team. Precision guidance on growth, engineering, AI automation, and cinematic video.">
+    <link rel="canonical" href="https://kgphustlehouse.com/mentor" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Dosis:wght@400;600;700;800&family=Hanken+Grotesk:wght@300;400;500;600;700&family=Squada+One&family=JetBrains+Mono:wght@400;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../index.css">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <style>
+        /* Modal specific styling */
+        .booking-modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(10, 10, 12, 0.85);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            z-index: 9999;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 1.5rem;
+            animation: fadeIn 0.3s ease-out forwards;
+        }
+
+        .booking-modal {
+            background: rgba(20, 20, 25, 0.9);
+            border: 1px solid var(--glass-border);
+            border-radius: 28px;
+            width: 100%;
+            max-width: 550px;
+            padding: 2.5rem;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7), 0 0 40px rgba(98, 80, 255, 0.2);
+            position: relative;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 1.5rem;
+            right: 1.5rem;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: white;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .modal-close:hover {
+            background: var(--primary);
+            color: white;
+            transform: scale(1.05);
+            border-color: var(--primary);
+        }
+
+        .price-tag {
+            font-size: 2rem;
+            font-weight: 900;
+            color: white;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .price-strikethrough {
+            text-decoration: line-through;
+            color: var(--text-secondary);
+            font-size: 1.4rem;
+            font-weight: 600;
+        }
+
+        .coupon-box {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+
+        .coupon-input {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 12px;
+            padding: 0.8rem 1.2rem;
+            color: white;
+            font-family: 'JetBrains Mono', monospace;
+            text-transform: uppercase;
+            flex: 1;
+            font-size: 0.95rem;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        .coupon-input:focus {
+            border-color: var(--primary);
+        }
+
+        .coupon-btn {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: white;
+            font-weight: 800;
+            padding: 0 1.5rem;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .coupon-btn:hover {
+            background: var(--primary);
+            border-color: var(--primary);
+        }
+
+        .upi-box {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 1.5rem;
+            text-align: center;
+            margin-top: 1.5rem;
+        }
+
+        .upi-qr-img {
+            max-width: 220px;
+            height: auto;
+            border-radius: 16px;
+            border: 4px solid white;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+            margin: 1rem auto;
+            display: block;
+        }
+
+        .step-progress {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 2rem;
+            position: relative;
+        }
+
+        .step-progress::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateY(-50%);
+            z-index: 1;
+        }
+
+        .step-dot {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: rgba(20, 20, 25, 1);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            color: var(--text-secondary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 0.9rem;
+            position: relative;
+            z-index: 2;
+            transition: all 0.3s;
+        }
+
+        .step-dot.active {
+            border-color: var(--primary);
+            background: var(--primary);
+            color: white;
+            box-shadow: 0 0 20px rgba(98, 80, 255, 0.5);
+        }
+
+        .step-dot.completed {
+            border-color: #22c55e;
+            background: #22c55e;
+            color: white;
+        }
+
+        .copy-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            padding: 6px 14px;
+            border-radius: 100px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            color: white;
+            margin-top: 0.5rem;
+        }
+
+        .copy-pill:hover {
+            background: rgba(255, 255, 255, 0.15);
+            border-color: var(--primary);
+        }
+    </style>
+</head>
+
+<body class="dark-theme">
+    <div class="bg-mesh-container">
+        <div class="noise"></div>
+        <div class="ambient-glow-1"></div>
+        <div class="ambient-glow-2"></div>
+        <div class="light-sweep"></div>
+    </div>
+    
+    <div class="spotlight"></div>
+    <div class="cursor-glow"></div>
+    <div id="header-container"></div>
+
+    <main style="padding-top: 120px; padding-bottom: 120px;">
+        <section class="section">
+            <div class="container">
+                <div class="section-header" style="text-align: center; margin-bottom: 6rem; position: relative; z-index: 2;">
+                    <div class="badge fade-in"
+                        style="background: rgba(98, 80, 255, 0.08); color: var(--primary); border: 1px solid rgba(98, 80, 255, 0.2); padding: 0.6rem 1.5rem; border-radius: 100px; display: inline-block; font-weight: 800; font-size: 0.75rem; letter-spacing: 4px; text-transform: uppercase; margin-bottom: 2rem; backdrop-filter: blur(10px);">
+                        // EXPERT ACCELERATION
+                    </div>
+                    <h1 class="section-title fade-in" style="margin-bottom: 1.5rem; font-size: clamp(2.5rem, 6vw, 4.5rem);">
+                        Book a <span class="gradient-text">Clarity Call.</span>
+                    </h1>
+                    <p class="section-subtitle fade-in"
+                        style="font-size: clamp(1.1rem, 3vw, 1.35rem); max-width: 800px; margin: 0 auto 3rem; opacity: 0.8; line-height: 1.6;">
+                        Schedule a 30-minute 1-on-1 strategy call with the IIT Kharagpur core team. Get actionable architecture, growth blueprints, and technical problem solving.
+                    </p>
+                    <div class="fade-in" style="display: flex; gap: 2rem; justify-content: center; align-items: center; flex-wrap: wrap;">
+                        <div style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); padding: 1rem 2rem; border-radius: 16px; backdrop-filter: blur(10px);">
+                            <span style="font-size: 0.8rem; text-transform: uppercase; letter-spacing: 2px; opacity: 0.6; display: block;">Session Length</span>
+                            <span style="font-size: 1.5rem; font-weight: 900; color: white;">30 Minutes</span>
+                        </div>
+                        <div style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); padding: 1rem 2rem; border-radius: 16px; backdrop-filter: blur(10px);">
+                            <span style="font-size: 0.8rem; text-transform: uppercase; letter-spacing: 2px; opacity: 0.6; display: block;">Standard Rate</span>
+                            <span style="font-size: 1.5rem; font-weight: 900; color: var(--primary);">₹1,000 <span style="font-size: 0.9rem; font-weight: 400; opacity: 0.7;">(₹500 w/ coupon)</span></span>
+                        </div>
+                        <div style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); padding: 1rem 2rem; border-radius: 16px; backdrop-filter: blur(10px);">
+                            <span style="font-size: 0.8rem; text-transform: uppercase; letter-spacing: 2px; opacity: 0.6; display: block;">Platform</span>
+                            <span style="font-size: 1.5rem; font-weight: 900; color: #22c55e;">Google Meet / Audio</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Mentors Grid -->
+                <div class="talent-grid" style="margin-top: 4rem;">
+                    <!-- Sayak Moulic -->
+                    <div class="talent-card" style="display: flex; flex-direction: column; justify-content: space-between;">
+                        <div>
+                            <div style="display: flex; align-items: center; gap: 1.5rem; margin-bottom: 1.5rem;">
+                                <div style="width: 80px; height: 80px; border-radius: 50%; overflow: hidden; border: 2px solid var(--primary); flex-shrink: 0;">
+                                    <img src="/profile-pics/sayak hustle house.png" alt="Sayak Moulic" style="width: 100%; height: 100%; object-fit: cover;" onerror="this.src='https://api.dicebear.com/7.x/avataaars/svg?seed=Sayak'">
+                                </div>
+                                <div>
+                                    <h3 style="font-size: 1.5rem; font-weight: 900; margin-bottom: 0.25rem;">Sayak Moulic</h3>
+                                    <span class="talent-role-badge" style="background: rgba(98,80,255,0.15); color: #a59cff; border-color: rgba(98,80,255,0.3);">Physics · IIT KGP</span>
+                                </div>
+                            </div>
+                            <p style="color: var(--text-secondary); font-size: 0.95rem; line-height: 1.6; margin-bottom: 1.5rem;">
+                                Founder & SEO Growth Architect. Scaling digital ventures through advanced search engine optimization, entity positioning, and organic customer acquisition strategies.
+                            </p>
+                            <div class="skill-pills" style="margin-bottom: 1.5rem;">
+                                <span class="skill-pill">SEO Strategy</span>
+                                <span class="skill-pill">Growth</span>
+                                <span class="skill-pill">Venture Scaling</span>
+                            </div>
+                        </div>
+                        <button onclick="openBookingModal('Sayak Moulic')" class="glow-button" style="width: 100%; justify-content: center; padding: 1.1rem; font-size: 1rem;">Book 30-Min Call ⚡</button>
+                    </div>
+
+                    <!-- Skanda K M -->
+                    <div class="talent-card" style="display: flex; flex-direction: column; justify-content: space-between;">
+                        <div>
+                            <div style="display: flex; align-items: center; gap: 1.5rem; margin-bottom: 1.5rem;">
+                                <div style="width: 80px; height: 80px; border-radius: 50%; overflow: hidden; border: 2px solid #3b82f6; flex-shrink: 0;">
+                                    <img src="/profile-pics/skanda hustle house dp.png" alt="Skanda K M" style="width: 100%; height: 100%; object-fit: cover;" onerror="this.src='https://api.dicebear.com/7.x/avataaars/svg?seed=Skanda'">
+                                </div>
+                                <div>
+                                    <h3 style="font-size: 1.5rem; font-weight: 900; margin-bottom: 0.25rem;">Skanda K M</h3>
+                                    <span class="talent-role-badge" style="background: rgba(59,130,246,0.15); color: #93c5fd; border-color: rgba(59,130,246,0.3);">Physics · IIT KGP</span>
+                                </div>
+                            </div>
+                            <p style="color: var(--text-secondary); font-size: 0.95rem; line-height: 1.6; margin-bottom: 1.5rem;">
+                                Co-Founder & UI/UX / Video Strategist. Mastering user engagement architecture, retention psychology, and high-conversion aesthetic interfaces.
+                            </p>
+                            <div class="skill-pills" style="margin-bottom: 1.5rem;">
+                                <span class="skill-pill">UI/UX Design</span>
+                                <span class="skill-pill">Retention</span>
+                                <span class="skill-pill">Video Strategy</span>
+                            </div>
+                        </div>
+                        <button onclick="openBookingModal('Skanda K M')" class="glow-button" style="width: 100%; justify-content: center; padding: 1.1rem; font-size: 1rem;">Book 30-Min Call ⚡</button>
+                    </div>
+
+                    <!-- Arpit Chakladar -->
+                    <div class="talent-card" style="display: flex; flex-direction: column; justify-content: space-between;">
+                        <div>
+                            <div style="display: flex; align-items: center; gap: 1.5rem; margin-bottom: 1.5rem;">
+                                <div style="width: 80px; height: 80px; border-radius: 50%; overflow: hidden; border: 2px solid #10b981; flex-shrink: 0;">
+                                    <img src="/profile-pics/arpit hustle house.png" alt="Arpit Chakladar" style="width: 100%; height: 100%; object-fit: cover;" onerror="this.src='https://api.dicebear.com/7.x/avataaars/svg?seed=Arpit'">
+                                </div>
+                                <div>
+                                    <h3 style="font-size: 1.5rem; font-weight: 900; margin-bottom: 0.25rem;">Arpit Chakladar</h3>
+                                    <span class="talent-role-badge" style="background: rgba(16,185,129,0.15); color: #6ee7b7; border-color: rgba(16,185,129,0.3);">Computer Science · IIT KGP</span>
+                                </div>
+                            </div>
+                            <p style="color: var(--text-secondary); font-size: 0.95rem; line-height: 1.6; margin-bottom: 1.5rem;">
+                                AI Automation Lead. Architecting autonomous multi-agent workflows, custom LLM integrations, and robust backend microservices.
+                            </p>
+                            <div class="skill-pills" style="margin-bottom: 1.5rem;">
+                                <span class="skill-pill">AI Agents</span>
+                                <span class="skill-pill">Backend Eng</span>
+                                <span class="skill-pill">LLM Ops</span>
+                            </div>
+                        </div>
+                        <button onclick="openBookingModal('Arpit Chakladar')" class="glow-button" style="width: 100%; justify-content: center; padding: 1.1rem; font-size: 1rem;">Book 30-Min Call ⚡</button>
+                    </div>
+
+                    <!-- Arnav Shukla -->
+                    <div class="talent-card" style="display: flex; flex-direction: column; justify-content: space-between;">
+                        <div>
+                            <div style="display: flex; align-items: center; gap: 1.5rem; margin-bottom: 1.5rem;">
+                                <div style="width: 80px; height: 80px; border-radius: 50%; overflow: hidden; border: 2px solid #f59e0b; flex-shrink: 0;">
+                                    <img src="/profile-pics/arnav hustle house.png" alt="Arnav Shukla" style="width: 100%; height: 100%; object-fit: cover;" onerror="this.src='https://api.dicebear.com/7.x/avataaars/svg?seed=Arnav'">
+                                </div>
+                                <div>
+                                    <h3 style="font-size: 1.5rem; font-weight: 900; margin-bottom: 0.25rem;">Arnav Shukla</h3>
+                                    <span class="talent-role-badge" style="background: rgba(245,158,11,0.15); color: #fcd34d; border-color: rgba(245,158,11,0.3);">Mining Engineering · IIT KGP</span>
+                                </div>
+                            </div>
+                            <p style="color: var(--text-secondary); font-size: 0.95rem; line-height: 1.6; margin-bottom: 1.5rem;">
+                                Viral Narrative Architect. Crafting high-impact video scripts, hooks, and content funnels that capture and retain massive online audiences.
+                            </p>
+                            <div class="skill-pills" style="margin-bottom: 1.5rem;">
+                                <span class="skill-pill">Viral Scripts</span>
+                                <span class="skill-pill">Storytelling</span>
+                                <span class="skill-pill">Hooks</span>
+                            </div>
+                        </div>
+                        <button onclick="openBookingModal('Arnav Shukla')" class="glow-button" style="width: 100%; justify-content: center; padding: 1.1rem; font-size: 1rem;">Book 30-Min Call ⚡</button>
+                    </div>
+
+                    <!-- Sourasish Mukherjee (Sun) -->
+                    <div class="talent-card" style="display: flex; flex-direction: column; justify-content: space-between;">
+                        <div>
+                            <div style="display: flex; align-items: center; gap: 1.5rem; margin-bottom: 1.5rem;">
+                                <div style="width: 80px; height: 80px; border-radius: 50%; overflow: hidden; border: 2px solid #ec4899; flex-shrink: 0;">
+                                    <img src="/profile-pics/sourashish hustle house.png" alt="Sourasish Mukherjee" style="width: 100%; height: 100%; object-fit: cover;" onerror="this.src='https://api.dicebear.com/7.x/avataaars/svg?seed=Sourasish'">
+                                </div>
+                                <div>
+                                    <h3 style="font-size: 1.5rem; font-weight: 900; margin-bottom: 0.25rem;">Sourasish Mukherjee <span style="opacity:0.6; font-size:1.1rem;">(Sun)</span></h3>
+                                    <span class="talent-role-badge" style="background: rgba(236,72,153,0.15); color: #f9a8d4; border-color: rgba(236,72,153,0.3);">Mechanical Eng · IIT KGP</span>
+                                </div>
+                            </div>
+                            <p style="color: var(--text-secondary); font-size: 0.95rem; line-height: 1.6; margin-bottom: 1.5rem;">
+                                Growth Engineer. Combining robust mechanical rigor with rapid web development frameworks to build scalable customer experiences.
+                            </p>
+                            <div class="skill-pills" style="margin-bottom: 1.5rem;">
+                                <span class="skill-pill">Growth Eng</span>
+                                <span class="skill-pill">Web Systems</span>
+                                <span class="skill-pill">Automation</span>
+                            </div>
+                        </div>
+                        <button onclick="openBookingModal('Sourasish Mukherjee (Sun)')" class="glow-button" style="width: 100%; justify-content: center; padding: 1.1rem; font-size: 1rem;">Book 30-Min Call ⚡</button>
+                    </div>
+
+                    <!-- Somsubhra Mukherjee (Moon) -->
+                    <div class="talent-card" style="display: flex; flex-direction: column; justify-content: space-between;">
+                        <div>
+                            <div style="display: flex; align-items: center; gap: 1.5rem; margin-bottom: 1.5rem;">
+                                <div style="width: 80px; height: 80px; border-radius: 50%; overflow: hidden; border: 2px solid #8b5cf6; flex-shrink: 0;">
+                                    <img src="/profile-pics/somsubhro hustle house.png" alt="Somsubhra Mukherjee" style="width: 100%; height: 100%; object-fit: cover;" onerror="this.src='https://api.dicebear.com/7.x/avataaars/svg?seed=Somsubhra'">
+                                </div>
+                                <div>
+                                    <h3 style="font-size: 1.5rem; font-weight: 900; margin-bottom: 0.25rem;">Somsubhra Mukherjee <span style="opacity:0.6; font-size:1.1rem;">(Moon)</span></h3>
+                                    <span class="talent-role-badge" style="background: rgba(139,92,246,0.15); color: #c4b5fd; border-color: rgba(139,92,246,0.3);">Mechanical Eng · IIT KGP</span>
+                                </div>
+                            </div>
+                            <p style="color: var(--text-secondary); font-size: 0.95rem; line-height: 1.6; margin-bottom: 1.5rem;">
+                                Full Stack Developer. Engineering high-performance web applications, modern responsive interfaces, and interactive learning systems.
+                            </p>
+                            <div class="skill-pills" style="margin-bottom: 1.5rem;">
+                                <span class="skill-pill">Full Stack Dev</span>
+                                <span class="skill-pill">React & Node</span>
+                                <span class="skill-pill">Databases</span>
+                            </div>
+                        </div>
+                        <button onclick="openBookingModal('Somsubhra Mukherjee (Moon)')" class="glow-button" style="width: 100%; justify-content: center; padding: 1.1rem; font-size: 1rem;">Book 30-Min Call ⚡</button>
+                    </div>
+
+                    <!-- Nihar Nayak -->
+                    <div class="talent-card" style="display: flex; flex-direction: column; justify-content: space-between;">
+                        <div>
+                            <div style="display: flex; align-items: center; gap: 1.5rem; margin-bottom: 1.5rem;">
+                                <div style="width: 80px; height: 80px; border-radius: 50%; overflow: hidden; border: 2px solid #06b6d4; flex-shrink: 0;">
+                                    <img src="/profile-pics/nihar hustle house.png" alt="Nihar Nayak" style="width: 100%; height: 100%; object-fit: cover;" onerror="this.src='https://api.dicebear.com/7.x/avataaars/svg?seed=Nihar'">
+                                </div>
+                                <div>
+                                    <h3 style="font-size: 1.5rem; font-weight: 900; margin-bottom: 0.25rem;">Nihar Nayak</h3>
+                                    <span class="talent-role-badge" style="background: rgba(6,182,212,0.15); color: #67e8f9; border-color: rgba(6,182,212,0.3);">Mining Engineering · IIT KGP</span>
+                                </div>
+                            </div>
+                            <p style="color: var(--text-secondary); font-size: 0.95rem; line-height: 1.6; margin-bottom: 1.5rem;">
+                                Video Strategist & Editor. Transforming complex concepts into visually stunning, high-retention video assets for modern tech brands.
+                            </p>
+                            <div class="skill-pills" style="margin-bottom: 1.5rem;">
+                                <span class="skill-pill">Video Editing</span>
+                                <span class="skill-pill">Visual FX</span>
+                                <span class="skill-pill">Pacing</span>
+                            </div>
+                        </div>
+                        <button onclick="openBookingModal('Nihar Nayak')" class="glow-button" style="width: 100%; justify-content: center; padding: 1.1rem; font-size: 1rem;">Book 30-Min Call ⚡</button>
+                    </div>
+
+                    <!-- Prayas Dey -->
+                    <div class="talent-card" style="display: flex; flex-direction: column; justify-content: space-between;">
+                        <div>
+                            <div style="display: flex; align-items: center; gap: 1.5rem; margin-bottom: 1.5rem;">
+                                <div style="width: 80px; height: 80px; border-radius: 50%; overflow: hidden; border: 2px solid #a855f7; flex-shrink: 0;">
+                                    <img src="/profile-pics/prayas hustle house.png" alt="Prayas Dey" style="width: 100%; height: 100%; object-fit: cover;" onerror="this.src='https://api.dicebear.com/7.x/avataaars/svg?seed=Prayas'">
+                                </div>
+                                <div>
+                                    <h3 style="font-size: 1.5rem; font-weight: 900; margin-bottom: 0.25rem;">Prayas Dey</h3>
+                                    <span class="talent-role-badge" style="background: rgba(168,85,247,0.15); color: #d8b4fe; border-color: rgba(168,85,247,0.3);">Mathematics & Computing · IIT KGP</span>
+                                </div>
+                            </div>
+                            <p style="color: var(--text-secondary); font-size: 0.95rem; line-height: 1.6; margin-bottom: 1.5rem;">
+                                Content Growth Lead. Leveraging rigorous mathematical modeling and algorithmic analysis to optimize organic reach and audience scaling.
+                            </p>
+                            <div class="skill-pills" style="margin-bottom: 1.5rem;">
+                                <span class="skill-pill">Math & Algorithms</span>
+                                <span class="skill-pill">Content Ops</span>
+                                <span class="skill-pill">Analytics</span>
+                            </div>
+                        </div>
+                        <button onclick="openBookingModal('Prayas Dey')" class="glow-button" style="width: 100%; justify-content: center; padding: 1.1rem; font-size: 1rem;">Book 30-Min Call ⚡</button>
+                    </div>
+
+                    <!-- Suvam Ghosh -->
+                    <div class="talent-card" style="display: flex; flex-direction: column; justify-content: space-between;">
+                        <div>
+                            <div style="display: flex; align-items: center; gap: 1.5rem; margin-bottom: 1.5rem;">
+                                <div style="width: 80px; height: 80px; border-radius: 50%; overflow: hidden; border: 2px solid #ef4444; flex-shrink: 0;">
+                                    <img src="/profile-pics/suvam-dev hustle house.png" alt="Suvam Ghosh" style="width: 100%; height: 100%; object-fit: cover;" onerror="this.src='https://api.dicebear.com/7.x/avataaars/svg?seed=Suvam'">
+                                </div>
+                                <div>
+                                    <h3 style="font-size: 1.5rem; font-weight: 900; margin-bottom: 0.25rem;">Suvam Ghosh</h3>
+                                    <span class="talent-role-badge" style="background: rgba(239,68,68,0.15); color: #fca5a5; border-color: rgba(239,68,68,0.3);">Mechanical Eng · IIT KGP</span>
+                                </div>
+                            </div>
+                            <p style="color: var(--text-secondary); font-size: 0.95rem; line-height: 1.6; margin-bottom: 1.5rem;">
+                                Product Engineer. Focusing on flawless execution, robust architecture, and delivering enterprise-grade web applications.
+                            </p>
+                            <div class="skill-pills" style="margin-bottom: 1.5rem;">
+                                <span class="skill-pill">Product Eng</span>
+                                <span class="skill-pill">Architecture</span>
+                                <span class="skill-pill">Execution</span>
+                            </div>
+                        </div>
+                        <button onclick="openBookingModal('Suvam Ghosh')" class="glow-button" style="width: 100%; justify-content: center; padding: 1.1rem; font-size: 1rem;">Book 30-Min Call ⚡</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Interactive Multi-Step Booking Modal -->
+    <div id="booking-modal" class="booking-modal-overlay">
+        <div class="booking-modal glass-premium">
+            <button onclick="closeBookingModal()" class="modal-close"><i class="fas fa-times"></i></button>
+
+            <!-- Step Progress Indicator -->
+            <div class="step-progress">
+                <div id="dot-1" class="step-dot active">1</div>
+                <div id="dot-2" class="step-dot">2</div>
+                <div id="dot-3" class="step-dot">3</div>
+            </div>
+
+            <!-- STEP 1: UPI Payment & Coupon Validation -->
+            <div id="step-1-content">
+                <h2 style="font-size: 1.8rem; font-weight: 900; margin-bottom: 0.5rem; text-align: center;">Secure UPI Checkout</h2>
+                <p style="color: var(--text-secondary); margin-bottom: 1.5rem; font-size: 0.95rem; text-align: center;">
+                    First secure your session rate, then select your specialist.
+                </p>
+
+                <!-- Pricing & Dynamic Coupon -->
+                <div style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); padding: 1.25rem; border-radius: 16px; margin-bottom: 1.5rem;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+                        <span style="color: var(--text-secondary); font-size: 0.95rem;">Clarity Call Rate (30m):</span>
+                        <span id="display-price" class="price-tag">₹1,000</span>
+                    </div>
+                    <div id="coupon-applied-msg" style="display: none; color: #22c55e; font-size: 0.85rem; font-weight: 700; margin-bottom: 0.5rem; text-align: right;">
+                        🎉 Coupon applied! 50% discount activated.
+                    </div>
+
+                    <label class="query-label" style="font-size: 0.8rem; margin-top: 0.5rem;">Have a Coupon Code?</label>
+                    <div class="coupon-box">
+                        <input type="text" id="coupon-code-input" class="coupon-input" placeholder="Enter coupon (e.g. FAM50)">
+                        <button type="button" onclick="applyCoupon()" class="coupon-btn">APPLY</button>
+                    </div>
+                </div>
+
+                <div class="upi-box" style="margin-top: 0; margin-bottom: 2rem;">
+                    <span style="font-size: 0.85rem; text-transform: uppercase; letter-spacing: 2px; color: var(--text-secondary);">Total Payable</span>
+                    <div id="step-1-amount" style="font-size: 2.5rem; font-weight: 900; color: var(--primary); margin-bottom: 1rem;">₹1,000</div>
+                    
+                    <img src="../sayakhustlehouse.jpeg" alt="UPI QR Code" class="upi-qr-img">
+
+                    <div style="margin-top: 1.25rem;">
+                        <span style="font-size: 0.9rem; color: var(--text-secondary); display: block;">Official UPI ID:</span>
+                        <div class="copy-pill" onclick="copyUPI()">
+                            <span id="upi-id-text" style="font-weight: 800;">sayakhustlehouse@fam</span>
+                            <i class="fas fa-copy" id="copy-icon"></i>
+                        </div>
+                    </div>
+
+                    <div style="margin-top: 1.5rem;">
+                        <a id="upi-deep-link" href="#" onclick="handleUPIClick(event)" class="action-btn" style="display: inline-flex; width: 100%; justify-content: center; padding: 1rem; border-radius: 12px; font-weight: 800; background: rgba(98,80,255,0.2); border-color: var(--primary); color: white; text-decoration: none;">
+                            <i class="fas fa-mobile-alt" style="margin-right: 8px;"></i> Pay via GPay / PhonePe / Paytm
+                        </a>
+                    </div>
+                </div>
+
+                <form id="payment-step-form">
+                    <div style="margin-bottom: 1.5rem;">
+                        <label class="query-label" style="font-weight: 800; color: white;">Enter 12-Digit UPI / UTR Reference ID *</label>
+                        <input type="text" id="booking-utr" class="query-input" placeholder="e.g. 312456789012" required pattern="[0-9]{12}" title="Please enter exact 12 digit numeric UTR number" style="font-family: monospace; font-size: 1.1rem; letter-spacing: 1px; text-align: center;">
+                    </div>
+
+                    <button type="submit" class="glow-button" style="width: 100%; justify-content: center; padding: 1.25rem; font-size: 1.1rem; font-weight: 800;">
+                        Verify Payment & Select Mentor 🚀
+                    </button>
+                </form>
+            </div>
+
+            <!-- STEP 2: Specialist Selection & Intake -->
+            <div id="step-2-content" style="display: none;">
+                <h2 style="font-size: 1.8rem; font-weight: 900; margin-bottom: 0.5rem;">Select Your Specialist</h2>
+                <p style="color: var(--text-secondary); margin-bottom: 2rem; font-size: 0.95rem;">Payment confirmed! Now select your target specialist and provide session details.</p>
+
+                <form id="intake-step-form">
+                    <div style="margin-bottom: 1.5rem;">
+                        <label class="query-label">Choose Your Specialist</label>
+                        <select id="booking-mentor-select" class="query-input" required style="background-color: #141419; color: white; font-size: 1rem; padding: 1rem;">
+                            <option value="Sayak Moulic">Sayak Moulic (Physics · IIT KGP)</option>
+                            <option value="Skanda K M">Skanda K M (Physics · IIT KGP)</option>
+                            <option value="Arpit Chakladar">Arpit Chakladar (Computer Science · IIT KGP)</option>
+                            <option value="Arnav Shukla">Arnav Shukla (Mining Eng · IIT KGP)</option>
+                            <option value="Sourasish Mukherjee (Sun)">Sourasish Mukherjee [Sun] (Mechanical · IIT KGP)</option>
+                            <option value="Somsubhra Mukherjee (Moon)">Somsubhra Mukherjee [Moon] (Mechanical · IIT KGP)</option>
+                            <option value="Nihar Nayak">Nihar Nayak (Mining Eng · IIT KGP)</option>
+                            <option value="Prayas Dey">Prayas Dey (Math & Computing · IIT KGP)</option>
+                            <option value="Suvam Ghosh">Suvam Ghosh (Mechanical · IIT KGP)</option>
+                        </select>
+                    </div>
+
+                    <div style="margin-bottom: 1.5rem;">
+                        <label class="query-label">Your Full Name</label>
+                        <input type="text" id="booking-name" class="query-input" placeholder="e.g. Rahul Sharma" required>
+                    </div>
+
+                    <div style="margin-bottom: 1.5rem;">
+                        <label class="query-label">WhatsApp Number</label>
+                        <input type="tel" id="booking-phone" class="query-input" placeholder="+91 98765 43210" required>
+                    </div>
+
+                    <div style="margin-bottom: 2rem;">
+                        <label class="query-label">What do you want clarity on?</label>
+                        <textarea id="booking-topic" class="query-input" rows="3" placeholder="Specific questions, product challenges, or career guidance..." required></textarea>
+                    </div>
+
+                    <div style="display: flex; gap: 1rem;">
+                        <button type="button" onclick="goStep1()" class="ghost-btn" style="flex: 1; padding: 1.25rem;">Back</button>
+                        <button type="submit" class="glow-button" style="flex: 2; justify-content: center; padding: 1.25rem; font-size: 1.1rem; font-weight: 800;">
+                            Generate Cal.com Link ⚡
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- STEP 3: Success Screen with Cal.com CTA -->
+            <div id="step-3-content" style="display: none; text-align: center; padding: 2rem 0;">
+                <div style="width: 80px; height: 80px; border-radius: 50%; background: rgba(34, 197, 94, 0.2); border: 2px solid #22c55e; color: #22c55e; font-size: 2.5rem; display: flex; align-items: center; justify-content: center; margin: 0 auto 2rem; animation: scaleIn 0.5s cubic-bezier(0.16, 1, 0.3, 1);">
+                    <i class="fas fa-check"></i>
+                </div>
+
+                <h2 style="font-size: 2.2rem; font-weight: 900; margin-bottom: 1rem;">Booking Secured! 🎉</h2>
+                <p style="color: var(--text-secondary); font-size: 1.05rem; line-height: 1.6; max-width: 440px; margin: 0 auto 2.5rem;">
+                    Your payment & session details are successfully logged! Pick your preferred date & time slot directly on Cal.com below.
+                </p>
+
+                <div style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); padding: 1.5rem; border-radius: 20px; margin-bottom: 2.5rem; text-align: left;">
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+                        <span style="color: var(--text-secondary);">Specialist:</span>
+                        <strong id="summary-mentor" style="color: white;">Sayak Moulic</strong>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+                        <span style="color: var(--text-secondary);">Amount Paid:</span>
+                        <strong id="summary-amount" style="color: #22c55e;">₹1,000</strong>
+                    </div>
+                    <div style="display: flex; justify-content: space-between;">
+                        <span style="color: var(--text-secondary);">UTR Reference:</span>
+                        <strong id="summary-utr" style="color: white; font-family: monospace;">...</strong>
+                    </div>
+                </div>
+
+                <div style="display: flex; flex-direction: column; gap: 1rem;">
+                    <a id="cal-connect-btn" href="https://cal.com/kgphustlehouse/mentors" target="_blank" class="glow-button" style="display: inline-flex; width: 100%; justify-content: center; padding: 1.25rem; font-size: 1.1rem; font-weight: 800; background: var(--primary); border-color: var(--primary); color: white; text-decoration: none; box-shadow: 0 0 25px rgba(98, 80, 255, 0.6);">
+                        <i class="far fa-calendar-check" style="margin-right: 10px; font-size: 1.3rem;"></i> 1. Pick Your Slot on Cal.com ⚡
+                    </a>
+
+                    <a id="whatsapp-connect-btn" href="https://wa.me/919038315605?text=Hello%20Hustle%20House,%20I%20just%20booked%20a%20Clarity%20Call!" target="_blank" class="action-btn" style="display: inline-flex; width: 100%; justify-content: center; padding: 1.25rem; font-size: 1.1rem; font-weight: 800; background: #25D366; border-color: #25D366; color: black; text-decoration: none;">
+                        <i class="fab fa-whatsapp" style="margin-right: 10px; font-size: 1.3rem;"></i> 2. Send UTR on WhatsApp
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="footer-container"></div>
+
+    <script src="../components.js"></script>
+    <script src="../supabase.js"></script>
+    <script>
+        let currentPrice = 1000;
+        let isCouponApplied = false;
+        let appliedCouponCode = "";
+        let pendingMentorSelection = "Sayak Moulic";
+
+        // Built-in valid coupon list (Fallback if Supabase table not created)
+        const validCoupons = {
+            "FAM50": 0.5,
+            "KGP50": 0.5,
+            "DOCTOR50": 0.5,
+            "HUSTLE50": 0.5,
+            "SAYAK50": 0.5,
+            "SKANDA50": 0.5,
+            "ARPIT50": 0.5,
+            "ARNAV50": 0.5,
+            "SUN50": 0.5,
+            "MOON50": 0.5,
+            "NIHAR50": 0.5,
+            "PRAYAS50": 0.5,
+            "SUVAM50": 0.5
+        };
+
+        function openBookingModal(mentorName) {
+            const modal = document.getElementById('booking-modal');
+            modal.style.display = 'flex';
+            document.body.style.overflow = 'hidden'; // prevent bg scrolling
+            
+            if (mentorName) {
+                pendingMentorSelection = mentorName;
+                const selectEl = document.getElementById('booking-mentor-select');
+                for (let i = 0; i < selectEl.options.length; i++) {
+                    if (selectEl.options[i].value.includes(mentorName) || mentorName.includes(selectEl.options[i].value)) {
+                        selectEl.selectedIndex = i;
+                        break;
+                    }
+                }
+            }
+            updatePaymentDetails();
+            goStep1();
+        }
+
+        function closeBookingModal() {
+            document.getElementById('booking-modal').style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+
+        function updatePaymentDetails() {
+            document.getElementById('step-1-amount').innerText = `₹${currentPrice}`;
+            const upiLink = `upi://pay?pa=sayakhustlehouse@fam&pn=Hustle%20House%20Mentorship&cu=INR&am=${currentPrice}&tn=Clarity%20Call`;
+            document.getElementById('upi-deep-link').href = upiLink;
+        }
+
+        async function applyCoupon() {
+            const inputEl = document.getElementById('coupon-code-input');
+            const code = inputEl.value.trim().toUpperCase();
+            
+            if (!code) {
+                alert("Please enter a coupon code.");
+                return;
+            }
+
+            let discountMultiplier = 0;
+
+            // 1. First check Supabase hh_coupons table if available
+            try {
+                const { data, error } = await db.from('hh_coupons').select('*').eq('code', code).eq('is_active', true).maybeSingle();
+                if (data && data.discount_pct) {
+                    discountMultiplier = data.discount_pct / 100;
+                }
+            } catch (err) {
+                console.log("Supabase coupon table check failed, using local repository.");
+            }
+
+            // 2. Fallback to localStorage custom coupons and validCoupons repository
+            let inactiveMap = JSON.parse(localStorage.getItem('hh_inactive_coupons') || '{}');
+            if (inactiveMap[code]) {
+                alert("This coupon code has been deactivated.");
+                return;
+            }
+
+            let localMap = JSON.parse(localStorage.getItem('hh_custom_coupons') || '{}');
+            if (discountMultiplier === 0 && localMap[code] !== undefined) {
+                discountMultiplier = localMap[code];
+            }
+            if (discountMultiplier === 0 && validCoupons[code]) {
+                discountMultiplier = validCoupons[code];
+            }
+
+            if (discountMultiplier > 0) {
+                isCouponApplied = true;
+                appliedCouponCode = code;
+                currentPrice = Math.round(1000 * (1 - discountMultiplier));
+
+                // Update UI
+                const displayEl = document.getElementById('display-price');
+                displayEl.innerHTML = `<span class="price-strikethrough">₹1,000</span> <span style="color:#22c55e;">₹${currentPrice}</span>`;
+                document.getElementById('coupon-applied-msg').style.display = 'block';
+                inputEl.disabled = true;
+                inputEl.style.borderColor = '#22c55e';
+
+                updatePaymentDetails();
+            } else {
+                alert("Invalid or inactive coupon code.");
+            }
+        }
+
+        function copyUPI() {
+            navigator.clipboard.writeText('sayakhustlehouse@fam');
+            const icon = document.getElementById('copy-icon');
+            icon.className = 'fas fa-check';
+            icon.style.color = '#22c55e';
+            setTimeout(() => {
+                icon.className = 'fas fa-copy';
+                icon.style.color = '';
+            }, 2000);
+        }
+
+        function handleUPIClick(e) {
+            const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+            if (!isMobile) {
+                e.preventDefault();
+                copyUPI();
+                alert("💻 Desktop Device Detected!\n\nUPI deep links only open payment apps directly when clicked on mobile devices.\n\nWe have automatically copied our UPI ID ('sayakhustlehouse@fam') to your clipboard! You can use it in GPay, PhonePe, or Paytm on your phone, or scan the QR code above.");
+            }
+        }
+
+        function updateStepDots(step) {
+            document.getElementById('dot-1').className = step >= 1 ? (step > 1 ? 'step-dot completed' : 'step-dot active') : 'step-dot';
+            document.getElementById('dot-2').className = step >= 2 ? (step > 2 ? 'step-dot completed' : 'step-dot active') : 'step-dot';
+            document.getElementById('dot-3').className = step >= 3 ? 'step-dot active completed' : 'step-dot';
+        }
+
+        function goStep1() {
+            document.getElementById('step-1-content').style.display = 'block';
+            document.getElementById('step-2-content').style.display = 'none';
+            document.getElementById('step-3-content').style.display = 'none';
+            updateStepDots(1);
+        }
+
+        document.getElementById('payment-step-form').onsubmit = (e) => {
+            e.preventDefault();
+            // Proceed from Step 1 (Payment + UTR entered) to Step 2 (Select Mentor + Details)
+            document.getElementById('step-1-content').style.display = 'none';
+            document.getElementById('step-2-content').style.display = 'block';
+            updateStepDots(2);
+        };
+
+        document.getElementById('intake-step-form').onsubmit = async (e) => {
+            e.preventDefault();
+            const btn = e.target.querySelector('button[type="submit"]');
+            btn.innerText = "Securing Session Link...";
+            btn.disabled = true;
+
+            const mentor = document.getElementById('booking-mentor-select').value;
+            const name = document.getElementById('booking-name').value;
+            const phone = document.getElementById('booking-phone').value;
+            const topic = document.getElementById('booking-topic').value;
+            const utr = document.getElementById('booking-utr').value;
+
+            const bookingMessage = `[MENTOR CLARITY CALL BOOKING]\nMentor: ${mentor}\nAmount: ₹${currentPrice}\nUTR ID: ${utr}\nCoupon: ${isCouponApplied ? appliedCouponCode : 'None'}\nTopic: ${topic}`;
+
+            try {
+                // Store in Supabase hh_leads
+                const { error } = await db.from('hh_leads').insert([{
+                    name: name,
+                    email: `${phone}@whatsapp.user`,
+                    company: 'IIT KGP Mentorship',
+                    service: 'Clarity Call (' + mentor + ')',
+                    budget: `₹${currentPrice}`,
+                    message: bookingMessage
+                }]);
+
+                if (error) console.error("Lead insert error:", error);
+            } catch (err) {
+                console.error("Supabase transmission error:", err);
+            }
+
+            // Populate summary in Step 3
+            document.getElementById('summary-mentor').innerText = mentor;
+            document.getElementById('summary-amount').innerText = `₹${currentPrice}`;
+            document.getElementById('summary-utr').innerText = utr;
+
+            // Update WhatsApp link with details
+            const waMsg = encodeURIComponent(`Hello Hustle House! I just booked a Clarity Call with ${mentor}.\nMy Name: ${name}\nAmount Paid: ₹${currentPrice}\nUTR: ${utr}\nI am picking my time slot on cal.com/kgphustlehouse/mentors.`);
+            document.getElementById('whatsapp-connect-btn').href = `https://wa.me/919038315605?text=${waMsg}`;
+
+            btn.innerText = "Generate Cal.com Link ⚡";
+            btn.disabled = false;
+
+            document.getElementById('step-2-content').style.display = 'none';
+            document.getElementById('step-3-content').style.display = 'block';
+            updateStepDots(3);
+        };
+    </script>
+</body>
+
+</html>

@@ -443,9 +443,9 @@ h3,
     top: 20px;
     left: 50%;
     transform: translateX(-50%);
-    width: 90%;
-    max-width: 1200px;
-    padding: 0.65rem 2.2rem;
+    width: 95%;
+    max-width: 1350px;
+    padding: 0.65rem 1.75rem;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -486,17 +486,17 @@ h3,
 .nav-links {
     display: flex;
     align-items: center;
-    gap: 1.5rem;
+    gap: 1.25rem;
 }
 
-.nav-links a {
+.nav-links a, .nav-item {
     color: var(--text-secondary);
     text-decoration: none;
     font-weight: 500;
     font-size: 0.9rem;
     transition: var(--transition);
-    margin-left: 0;
-    /* Removing fixed margin to use gap */
+    margin-left: 0 !important;
+    white-space: nowrap;
 }
 
 .logo {
@@ -518,7 +518,7 @@ h3,
 .nav-links a {
     color: var(--text-secondary);
     text-decoration: none;
-    margin-left: 2rem;
+    margin-left: 0 !important;
     font-weight: 500;
     font-size: 0.95rem;
     transition: var(--transition);
@@ -531,7 +531,9 @@ h3,
 .join-btn {
     background: linear-gradient(135deg, var(--primary), var(--secondary));
     color: white !important;
-    padding: 0.6rem 1.5rem;
+    padding: 0.55rem 1.25rem;
+    white-space: nowrap;
+    margin-left: 0 !important;
     border-radius: 50px;
     box-shadow: 0 4px 15px var(--primary-glow);
 }
@@ -542,8 +544,9 @@ h3,
 }
 
 .scoper-pill-btn {
-    margin-left: 1.5rem;
-    padding: 0.6rem 1.4rem;
+    margin-left: 0 !important;
+    padding: 0.55rem 1.25rem;
+    white-space: nowrap;
     border-radius: 50px;
     border: 1px solid rgba(255, 255, 255, 0.2);
     color: #fff !important;

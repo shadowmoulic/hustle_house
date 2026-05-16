@@ -43,13 +43,15 @@
         <div class="container" style="max-width: 900px;">
 
             <!-- Tab Navigation -->
-            <div style="display: flex; gap: 1rem; margin-bottom: 3rem; justify-content: center;">
+            <div style="display: flex; gap: 1rem; margin-bottom: 3rem; justify-content: center; flex-wrap: wrap;">
                 <button id="tab-ingestor" onclick="switchSection('portfolio')" class="action-btn"
                     style="padding: 1rem 2rem; border-radius: 12px; font-weight: 800; background: var(--primary); border: none;">Proof
                     Ingestor</button>
                 <button id="tab-admin" onclick="switchSection('applications')" class="action-btn"
                     style="padding: 1rem 2rem; border-radius: 12px; font-weight: 800; opacity: 0.5;">Staff
                     Portal</button>
+                <button id="tab-coupons" onclick="switchSection('coupons')" class="action-btn"
+                    style="padding: 1rem 2rem; border-radius: 12px; font-weight: 800; opacity: 0.5;">Coupons & Bookings</button>
             </div>
 
             <!-- PUBLIC SECTION: Proof Ingestor -->
@@ -162,6 +164,77 @@
                     </div>
                 </div>
             </div>
+
+            <!-- PROTECTED SECTION: Coupons & Bookings -->
+            <div id="coupons-section" style="display: none;">
+                <!-- Coupon Vault -->
+                <div class="glass" style="padding: 3rem; border-radius: 30px; margin-bottom: 3rem;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+                        <div>
+                            <span class="mono" style="color: var(--primary); font-size: 0.75rem; letter-spacing: 2px; font-weight: 800;">// REVENUE OPS</span>
+                            <h2 style="font-weight: 900; font-size: 2rem; margin-top: 0.5rem;">Discount Coupons</h2>
+                        </div>
+                        <button onclick="fetchCoupons()" class="action-btn">🔄 Refresh</button>
+                    </div>
+
+                    <form id="add-coupon-form" style="display: grid; grid-template-columns: 2fr 1fr auto; gap: 1rem; margin-bottom: 3rem; background: rgba(255,255,255,0.03); padding: 1.5rem; border-radius: 20px; border: 1px solid rgba(255,255,255,0.1);">
+                        <div>
+                            <label class="query-label" style="font-size: 0.8rem;">Coupon Code</label>
+                            <input type="text" id="new-coupon-code" required class="query-input" placeholder="e.g. KGP50" style="text-transform: uppercase; font-family: monospace;">
+                        </div>
+                        <div>
+                            <label class="query-label" style="font-size: 0.8rem;">Discount %</label>
+                            <input type="number" id="new-coupon-pct" required min="1" max="100" value="50" class="query-input">
+                        </div>
+                        <div style="display: flex; align-items: flex-end;">
+                            <button type="submit" class="glow-button" style="padding: 1rem 2rem; height: 52px; font-weight: 800;">Add Code ⚡</button>
+                        </div>
+                    </form>
+
+                    <div style="overflow-x: auto;">
+                        <table class="admin-table">
+                            <thead>
+                                <tr>
+                                    <th>Coupon Code</th>
+                                    <th>Discount</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="coupons-body">
+                                <!-- Dynamic coupons loaded here -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Clarity Call Bookings Vault -->
+                <div class="glass" style="padding: 3rem; border-radius: 30px;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+                        <div>
+                            <span class="mono" style="color: #22c55e; font-size: 0.75rem; letter-spacing: 2px; font-weight: 800;">// SESSIONS</span>
+                            <h2 style="font-weight: 900; font-size: 2rem; margin-top: 0.5rem;">Clarity Call Bookings & UTR Verification</h2>
+                        </div>
+                        <button onclick="fetchBookings()" class="action-btn">🔄 Refresh Bookings</button>
+                    </div>
+                    <div style="overflow-x: auto;">
+                        <table class="admin-table">
+                            <thead>
+                                <tr>
+                                    <th>Student Details</th>
+                                    <th>Mentor / Service</th>
+                                    <th>Amount / UTR ID</th>
+                                    <th>Message / Topic</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="bookings-body">
+                                <!-- Dynamic bookings loaded here -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
         </div>
     </main>
 
@@ -172,6 +245,7 @@
     <script>
         const ADMIN_PWD = "HH@KGP#123";
         let isAdminAuthorized = false;
+        let targetAdminTab = 'applications';
 
         window.onload = () => {
             fetchTalentDropdown();
@@ -183,24 +257,36 @@
             document.getElementById('portfolio-section').style.display = 'none';
             document.getElementById('admin-login-section').style.display = 'none';
             document.getElementById('applications-section').style.display = 'none';
+            if (document.getElementById('coupons-section')) document.getElementById('coupons-section').style.display = 'none';
 
             // Reset tab highlights
             document.getElementById('tab-ingestor').style.opacity = '0.5';
             document.getElementById('tab-admin').style.opacity = '0.5';
+            document.getElementById('tab-coupons').style.opacity = '0.5';
             document.getElementById('tab-ingestor').style.background = 'none';
             document.getElementById('tab-admin').style.background = 'none';
+            document.getElementById('tab-coupons').style.background = 'none';
 
             if (section === 'portfolio') {
                 document.getElementById('portfolio-section').style.display = 'block';
                 document.getElementById('tab-ingestor').style.opacity = '1';
                 document.getElementById('tab-ingestor').style.background = 'var(--primary)';
                 fetchPortfolio();
-            } else if (section === 'applications') {
-                document.getElementById('tab-admin').style.opacity = '1';
-                document.getElementById('tab-admin').style.background = 'var(--primary)';
+            } else if (section === 'applications' || section === 'coupons') {
+                targetAdminTab = section;
+                const tabId = section === 'applications' ? 'tab-admin' : 'tab-coupons';
+                document.getElementById(tabId).style.opacity = '1';
+                document.getElementById(tabId).style.background = 'var(--primary)';
+                
                 if (isAdminAuthorized) {
-                    document.getElementById('applications-section').style.display = 'block';
-                    fetchApplications();
+                    if (section === 'applications') {
+                        document.getElementById('applications-section').style.display = 'block';
+                        fetchApplications();
+                    } else {
+                        document.getElementById('coupons-section').style.display = 'block';
+                        fetchCoupons();
+                        fetchBookings();
+                    }
                 } else {
                     document.getElementById('admin-login-section').style.display = 'block';
                 }
@@ -246,7 +332,7 @@
             const pass = document.getElementById('admin-pass').value;
             if (pass === ADMIN_PWD) {
                 isAdminAuthorized = true;
-                switchSection('applications');
+                switchSection(targetAdminTab);
             } else {
                 alert("Restricted: Orbit Passcode incorrect.");
             }
@@ -356,6 +442,144 @@
         async function updateStatus(id, stat) {
             await db.from('hh_onboarding').update({ status: stat }).eq('id', id);
             fetchApplications();
+        }
+
+        // Built-in fallback coupons
+        let defaultCoupons = [
+            { code: 'FAM50', discount_pct: 50, is_active: true },
+            { code: 'KGP50', discount_pct: 50, is_active: true },
+            { code: 'DOCTOR50', discount_pct: 50, is_active: true },
+            { code: 'HUSTLE50', discount_pct: 50, is_active: true }
+        ];
+
+        function loadLocalCoupons() {
+            let localMap = JSON.parse(localStorage.getItem('hh_custom_coupons') || '{}');
+            let inactiveMap = JSON.parse(localStorage.getItem('hh_inactive_coupons') || '{}');
+            
+            Object.keys(localMap).forEach(code => {
+                if (!defaultCoupons.find(c => c.code === code)) {
+                    defaultCoupons.unshift({ code: code, discount_pct: Math.round(localMap[code] * 100), is_active: true });
+                }
+            });
+
+            defaultCoupons.forEach(c => {
+                if (inactiveMap[c.code]) c.is_active = false;
+                else c.is_active = true;
+            });
+        }
+
+        async function fetchCoupons() {
+            const body = document.getElementById('coupons-body');
+            loadLocalCoupons();
+            let inactiveMap = JSON.parse(localStorage.getItem('hh_inactive_coupons') || '{}');
+
+            try {
+                const { data, error } = await db.from('hh_coupons').select('*').order('created_at', { ascending: false });
+                let couponsList = (data && data.length > 0 && !error) ? data : defaultCoupons;
+                
+                couponsList.forEach(c => {
+                    if (inactiveMap[c.code]) c.is_active = false;
+                });
+
+                body.innerHTML = couponsList.map(c => `
+                    <tr>
+                        <td><div style="font-family: monospace; font-weight: 800; font-size: 1.2rem; color: white;">${c.code}</div></td>
+                        <td><div style="color: #22c55e; font-weight: 800; font-size: 1.1rem;">${c.discount_pct}% OFF</div></td>
+                        <td><span class="status-badge ${c.is_active ? 'status-accepted' : 'status-rejected'}">${c.is_active ? 'ACTIVE' : 'INACTIVE'}</span></td>
+                        <td>
+                            <button onclick="toggleCoupon('${c.code}', ${!c.is_active})" class="action-btn" style="border-color: var(--primary);">${c.is_active ? 'Deactivate ❌' : 'Activate ✅'}</button>
+                        </td>
+                    </tr>
+                `).join('');
+            } catch (err) {
+                body.innerHTML = defaultCoupons.map(c => `
+                    <tr>
+                        <td><div style="font-family: monospace; font-weight: 800; font-size: 1.2rem; color: white;">${c.code}</div></td>
+                        <td><div style="color: #22c55e; font-weight: 800; font-size: 1.1rem;">${c.discount_pct}% OFF</div></td>
+                        <td><span class="status-badge ${c.is_active ? 'status-accepted' : 'status-rejected'}">${c.is_active ? 'ACTIVE' : 'INACTIVE'}</span></td>
+                        <td>
+                            <button onclick="toggleCoupon('${c.code}', ${!c.is_active})" class="action-btn" style="border-color: var(--primary);">${c.is_active ? 'Deactivate ❌' : 'Activate ✅'}</button>
+                        </td>
+                    </tr>
+                `).join('');
+            }
+        }
+
+        document.getElementById('add-coupon-form').onsubmit = async (e) => {
+            e.preventDefault();
+            const code = document.getElementById('new-coupon-code').value.trim().toUpperCase();
+            const pct = parseInt(document.getElementById('new-coupon-pct').value);
+
+            // Sync with local fallback repository instantly
+            let localMap = JSON.parse(localStorage.getItem('hh_custom_coupons') || '{}');
+            localMap[code] = pct / 100;
+            localStorage.setItem('hh_custom_coupons', JSON.stringify(localMap));
+            loadLocalCoupons();
+
+            try {
+                await db.from('hh_coupons').insert([{ code, discount_pct: pct, is_active: true }]);
+            } catch (err) {
+                console.log('Using local coupon storage fallback.');
+            }
+            alert("Success: Coupon " + code + " (" + pct + "% OFF) activated!");
+            e.target.reset();
+            fetchCoupons();
+        };
+
+        async function toggleCoupon(code, activeState) {
+            let inactiveMap = JSON.parse(localStorage.getItem('hh_inactive_coupons') || '{}');
+            if (!activeState) {
+                inactiveMap[code] = true;
+            } else {
+                delete inactiveMap[code];
+            }
+            localStorage.setItem('hh_inactive_coupons', JSON.stringify(inactiveMap));
+
+            const item = defaultCoupons.find(c => c.code === code);
+            if (item) item.is_active = activeState;
+
+            try {
+                await db.from('hh_coupons').update({ is_active: activeState }).eq('code', code);
+            } catch (err) { console.log('Supabase update failed, using local sync.'); }
+            
+            fetchCoupons();
+        }
+
+        async function fetchBookings() {
+            const body = document.getElementById('bookings-body');
+            try {
+                const { data, error } = await db.from('hh_leads').select('*').eq('company', 'IIT KGP Mentorship').order('created_at', { ascending: false });
+                if (data && data.length > 0) {
+                    body.innerHTML = data.map(b => {
+                        const dateStr = new Date(b.created_at).toLocaleDateString() + ' ' + new Date(b.created_at).toLocaleTimeString();
+                        let phoneNum = (b.email || '').replace('@whatsapp.user', '');
+                        let utrMatch = b.message ? b.message.match(/UTR ID:\s*(\d+)/) : null;
+                        let utr = utrMatch ? utrMatch[1] : 'Pending Verify';
+
+                        return `
+                            <tr>
+                                <td>
+                                    <div style="font-weight: 800; font-size: 1.1rem; color: white;">${b.name}</div>
+                                    <div style="font-size: 0.8rem; color: var(--text-secondary);">${phoneNum}</div>
+                                </td>
+                                <td><div style="font-weight: 600; color: #a59cff;">${b.service}</div></td>
+                                <td>
+                                    <div style="color: #22c55e; font-weight: 800; font-size: 1.1rem;">${b.budget}</div>
+                                    <div style="font-family: monospace; font-size: 0.8rem; background: rgba(255,255,255,0.05); padding: 2px 6px; border-radius: 4px; display: inline-block; margin-top: 4px;">UTR: ${utr}</div>
+                                </td>
+                                <td><div style="max-width: 250px; font-size: 0.85rem; opacity: 0.8; white-space: pre-wrap;">${b.message}</div></td>
+                                <td>
+                                    <a href="https://wa.me/${phoneNum}?text=Hello%20${encodeURIComponent(b.name)},%20we%20have%20verified%20your%20UTR%20(${utr})%20for%20the%20Hustle%20House%20Clarity%20Call.%20Here%20is%20your%20Google%20Meet%20link:" target="_blank" class="action-btn" style="border-color: #22c55e; color: #22c55e; text-decoration: none; display: inline-block;">Message Invite ↗</a>
+                                </td>
+                            </tr>
+                        `;
+                    }).join('');
+                } else {
+                    body.innerHTML = '<tr><td colspan="5" style="text-align: center; padding: 3rem; color: var(--text-secondary);">No clarity call bookings logged yet.</td></tr>';
+                }
+            } catch (err) {
+                body.innerHTML = '<tr><td colspan="5" style="text-align: center; padding: 3rem; color: var(--text-secondary);">System connection error or no bookings found.</td></tr>';
+            }
         }
     </script>
 </body>

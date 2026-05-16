@@ -13,6 +13,7 @@ const headerHTML = `
         </div>
         <div class="nav-links">
             <a href="/talent">Talent</a>
+            <a href="/mentor">Mentors</a>
             <div class="nav-item">
                 <a href="/services">Services ▾</a>
                 <div class="dropdown-menu">
@@ -27,7 +28,7 @@ const headerHTML = `
             </div>
             <a href="/how-it-works">How It Works</a>
             <a href="/about">About</a>
-            <a href="/scoper" style="font-weight: 700; color: var(--primary);">Get Estimate</a>
+            <a href="/scoper" class="scoper-pill-btn">Get Estimate</a>
             <a href="/contact" class="join-btn">Hire Us</a>
         </div>
         <button class="hamburger" id="hamburger-btn">
@@ -38,6 +39,7 @@ const headerHTML = `
     </nav>
     <div class="mobile-menu" id="mobile-menu">
         <a href="/talent">Talent</a>
+        <a href="/mentor">Mentors</a>
         <a href="/services">Services</a>
         <a href="/how-it-works">How It Works</a>
         <a href="/about">About</a>
@@ -169,6 +171,7 @@ function injectComponents() {
                 </div>
                 <div class="nav-links">
                     <a href="/talent">Talent</a>
+                    <a href="/mentor">Mentors</a>
                     <div class="nav-item">
                         <a href="/services">Services ▾</a>
                         <div class="dropdown-menu">
@@ -184,7 +187,7 @@ function injectComponents() {
                     <a href="/how-it-works">How It Works</a>
                     <a href="/about">About</a>
                     <a href="/scoper" class="scoper-pill-btn">Get Estimate</a>
-                    <a href="/contact" class="join-btn" style="margin-left: 1rem;">Hire Us</a>
+                    <a href="/contact" class="join-btn">Hire Us</a>
                 </div>
 
                 <div class="nav-actions" style="display: flex; align-items: center; gap: 15px;">
@@ -201,6 +204,7 @@ function injectComponents() {
             </nav>
             <div class="mobile-menu" id="mobile-menu">
                 <a href="/talent">Talent</a>
+                <a href="/mentor">Mentors</a>
                 <a href="/services">Services</a>
                 <a href="/how-it-works">How It Works</a>
                 <a href="/about">About</a>
