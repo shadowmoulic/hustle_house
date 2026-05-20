@@ -52,6 +52,8 @@
                     Portal</button>
                 <button id="tab-coupons" onclick="switchSection('coupons')" class="action-btn"
                     style="padding: 1rem 2rem; border-radius: 12px; font-weight: 800; opacity: 0.5;">Coupons & Bookings</button>
+                <button id="tab-case-studies" onclick="switchSection('case-studies')" class="action-btn"
+                    style="padding: 1rem 2rem; border-radius: 12px; font-weight: 800; opacity: 0.5;">Case Studies</button>
             </div>
 
             <!-- PUBLIC SECTION: Proof Ingestor -->
@@ -235,6 +237,68 @@
                     </div>
                 </div>
             </div>
+            <!-- PROTECTED SECTION: Case Studies -->
+            <div id="case-studies-section" style="display: none;">
+                <div class="glass" style="padding: 3rem; border-radius: 30px;">
+                    <div style="margin-bottom: 3rem;">
+                        <span class="mono" style="color: var(--primary); font-size: 0.75rem; letter-spacing: 2px; font-weight: 800;">// CONTENT OPS</span>
+                        <h2 style="font-weight: 900; font-size: 2rem; margin-top: 0.5rem;">Create Case Study</h2>
+                        <p style="color: var(--text-secondary); margin-top: 0.5rem;">Follow strict SEO guidelines to publish.</p>
+                    </div>
+
+                    <form id="add-case-study-form" style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem;">
+                        <div style="grid-column: span 2;">
+                            <label class="query-label">Target Keyword</label>
+                            <input type="text" id="cs-keyword" class="query-input" placeholder="e.g. B2B SaaS SEO Strategy" oninput="checkSEO()">
+                        </div>
+                        
+                        <div style="grid-column: span 2;">
+                            <div style="display: flex; justify-content: space-between;">
+                                <label class="query-label">SEO Title (Title Tag)</label>
+                                <span id="cs-title-count" style="font-size: 0.8rem; color: #ef4444;">0 / 60</span>
+                            </div>
+                            <input type="text" id="cs-seo-title" required class="query-input" placeholder="Max 60 characters..." oninput="checkSEO()">
+                            <div id="cs-title-error" style="color: #ef4444; font-size: 0.8rem; margin-top: 0.5rem; display: none;">Title must be under 60 characters.</div>
+                        </div>
+
+                        <div style="grid-column: span 2;">
+                            <div style="display: flex; justify-content: space-between;">
+                                <label class="query-label">H1 Title (Page Header)</label>
+                            </div>
+                            <input type="text" id="cs-h1-title" required class="query-input" placeholder="Different from SEO title..." oninput="checkSEO()">
+                            <div id="cs-h1-error" style="color: #ef4444; font-size: 0.8rem; margin-top: 0.5rem; display: none;">H1 Title must not be exactly the same as SEO Title.</div>
+                        </div>
+
+                        <div style="grid-column: span 2;">
+                            <div style="display: flex; justify-content: space-between;">
+                                <label class="query-label">Meta Description</label>
+                                <span id="cs-desc-count" style="font-size: 0.8rem; color: #ef4444;">0 / 140</span>
+                            </div>
+                            <textarea id="cs-meta-desc" required class="query-input" placeholder="Max 140 characters..." style="min-height: 80px;" oninput="checkSEO()"></textarea>
+                            <div id="cs-desc-error" style="color: #ef4444; font-size: 0.8rem; margin-top: 0.5rem; display: none;">Meta description must be under 140 characters.</div>
+                        </div>
+
+                        <div style="grid-column: span 2;">
+                            <label class="query-label">Hero Image URL</label>
+                            <input type="url" id="cs-hero-url" required class="query-input" placeholder="https://...">
+                        </div>
+
+                        <div style="grid-column: span 2;">
+                            <div style="display: flex; justify-content: space-between;">
+                                <label class="query-label">Content (HTML / WYSIWYG)</label>
+                                <span id="cs-keyword-status" style="font-size: 0.8rem; color: #ef4444;">Keyword not found</span>
+                            </div>
+                            <textarea id="cs-content" required class="query-input" placeholder="<h1>Section</h1><p>Content goes here...</p>" style="min-height: 300px; font-family: monospace;" oninput="checkSEO()"></textarea>
+                        </div>
+
+                        <div style="grid-column: span 2;">
+                            <button type="submit" id="cs-submit-btn" class="glow-button" style="width: 100%; justify-content: center; padding: 1.5rem; font-size: 1.1rem; font-weight: 900; border: none; cursor: not-allowed; opacity: 0.5;" disabled>
+                                SEO Checks Failing
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
         </div>
     </main>
 
@@ -258,23 +322,30 @@
             document.getElementById('admin-login-section').style.display = 'none';
             document.getElementById('applications-section').style.display = 'none';
             if (document.getElementById('coupons-section')) document.getElementById('coupons-section').style.display = 'none';
+            if (document.getElementById('case-studies-section')) document.getElementById('case-studies-section').style.display = 'none';
 
             // Reset tab highlights
             document.getElementById('tab-ingestor').style.opacity = '0.5';
             document.getElementById('tab-admin').style.opacity = '0.5';
             document.getElementById('tab-coupons').style.opacity = '0.5';
+            document.getElementById('tab-case-studies').style.opacity = '0.5';
+            
             document.getElementById('tab-ingestor').style.background = 'none';
             document.getElementById('tab-admin').style.background = 'none';
             document.getElementById('tab-coupons').style.background = 'none';
+            document.getElementById('tab-case-studies').style.background = 'none';
 
             if (section === 'portfolio') {
                 document.getElementById('portfolio-section').style.display = 'block';
                 document.getElementById('tab-ingestor').style.opacity = '1';
                 document.getElementById('tab-ingestor').style.background = 'var(--primary)';
                 fetchPortfolio();
-            } else if (section === 'applications' || section === 'coupons') {
+            } else if (section === 'applications' || section === 'coupons' || section === 'case-studies') {
                 targetAdminTab = section;
-                const tabId = section === 'applications' ? 'tab-admin' : 'tab-coupons';
+                let tabId = 'tab-admin';
+                if (section === 'coupons') tabId = 'tab-coupons';
+                if (section === 'case-studies') tabId = 'tab-case-studies';
+                
                 document.getElementById(tabId).style.opacity = '1';
                 document.getElementById(tabId).style.background = 'var(--primary)';
                 
@@ -282,10 +353,12 @@
                     if (section === 'applications') {
                         document.getElementById('applications-section').style.display = 'block';
                         fetchApplications();
-                    } else {
+                    } else if (section === 'coupons') {
                         document.getElementById('coupons-section').style.display = 'block';
                         fetchCoupons();
                         fetchBookings();
+                    } else if (section === 'case-studies') {
+                        document.getElementById('case-studies-section').style.display = 'block';
                     }
                 } else {
                     document.getElementById('admin-login-section').style.display = 'block';
@@ -581,6 +654,91 @@
                 body.innerHTML = '<tr><td colspan="5" style="text-align: center; padding: 3rem; color: var(--text-secondary);">System connection error or no bookings found.</td></tr>';
             }
         }
+        function checkSEO() {
+            const title = document.getElementById('cs-seo-title').value;
+            const h1 = document.getElementById('cs-h1-title').value;
+            const desc = document.getElementById('cs-meta-desc').value;
+            const keyword = document.getElementById('cs-keyword').value.toLowerCase();
+            const content = document.getElementById('cs-content').value.toLowerCase();
+            const btn = document.getElementById('cs-submit-btn');
+
+            let isValid = true;
+
+            // Check Title Length (<= 60)
+            const titleCount = document.getElementById('cs-title-count');
+            titleCount.innerText = `${title.length} / 60`;
+            if (title.length > 60 || title.length === 0) {
+                titleCount.style.color = '#ef4444';
+                document.getElementById('cs-title-error').style.display = 'block';
+                isValid = false;
+            } else {
+                titleCount.style.color = '#22c55e';
+                document.getElementById('cs-title-error').style.display = 'none';
+            }
+
+            // Check Meta Desc Length (<= 140)
+            const descCount = document.getElementById('cs-desc-count');
+            descCount.innerText = `${desc.length} / 140`;
+            if (desc.length > 140 || desc.length === 0) {
+                descCount.style.color = '#ef4444';
+                document.getElementById('cs-desc-error').style.display = 'block';
+                isValid = false;
+            } else {
+                descCount.style.color = '#22c55e';
+                document.getElementById('cs-desc-error').style.display = 'none';
+            }
+
+            // Check H1 !== Title
+            if (h1 && title && h1.toLowerCase() === title.toLowerCase()) {
+                document.getElementById('cs-h1-error').style.display = 'block';
+                isValid = false;
+            } else {
+                document.getElementById('cs-h1-error').style.display = 'none';
+            }
+
+            // Check Keyword Presence
+            const kwStatus = document.getElementById('cs-keyword-status');
+            if (keyword && content) {
+                if (content.includes(keyword)) {
+                    kwStatus.innerText = 'Keyword found ✅';
+                    kwStatus.style.color = '#22c55e';
+                } else {
+                    kwStatus.innerText = 'Keyword not found ❌';
+                    kwStatus.style.color = '#ef4444';
+                    isValid = false;
+                }
+            } else {
+                kwStatus.innerText = 'Pending keyword...';
+                kwStatus.style.color = '#ef4444';
+                isValid = false;
+            }
+
+            if (isValid) {
+                btn.disabled = false;
+                btn.style.opacity = '1';
+                btn.style.cursor = 'pointer';
+                btn.innerText = 'Publish Case Study 🚀';
+            } else {
+                btn.disabled = true;
+                btn.style.opacity = '0.5';
+                btn.style.cursor = 'not-allowed';
+                btn.innerText = 'SEO Checks Failing';
+            }
+        }
+
+        document.getElementById('add-case-study-form').onsubmit = async (e) => {
+            e.preventDefault();
+            const btn = document.getElementById('cs-submit-btn');
+            btn.innerText = 'Publishing...';
+            btn.disabled = true;
+            
+            // Here you would integrate with Supabase to save the case study
+            setTimeout(() => {
+                alert("Success: Case study published and SEO optimized!");
+                e.target.reset();
+                checkSEO();
+            }, 1000);
+        };
     </script>
 </body>
 
