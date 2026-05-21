@@ -3,5 +3,6 @@ Allow: /
 Disallow: /admin/
 Disallow: /onboarding/
 Disallow: /private/
+Disallow: /scoper/
 
 Sitemap: https://kgphustlehouse.com/sitemap.xml
