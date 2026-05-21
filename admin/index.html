@@ -291,12 +291,26 @@
                             <textarea id="cs-content" required class="query-input" placeholder="<h1>Section</h1><p>Content goes here...</p>" style="min-height: 300px; font-family: monospace;" oninput="checkSEO()"></textarea>
                         </div>
 
-                        <div style="grid-column: span 2;">
-                            <button type="submit" id="cs-submit-btn" class="glow-button" style="width: 100%; justify-content: center; padding: 1.5rem; font-size: 1.1rem; font-weight: 900; border: none; cursor: not-allowed; opacity: 0.5;" disabled>
+                        <div style="grid-column: span 2; display: flex; gap: 1rem;">
+                            <button type="button" id="cs-preview-btn" class="action-btn" style="flex: 1; justify-content: center; padding: 1.5rem; font-size: 1.1rem; font-weight: 800; border-color: var(--primary);" onclick="previewCaseStudy()">
+                                Live Preview 👁️
+                            </button>
+                            <button type="submit" id="cs-submit-btn" class="glow-button" style="flex: 2; justify-content: center; padding: 1.5rem; font-size: 1.1rem; font-weight: 900; border: none; cursor: not-allowed; opacity: 0.5;" disabled>
                                 SEO Checks Failing
                             </button>
                         </div>
                     </form>
+
+                    <!-- Preview Container -->
+                    <div id="cs-preview-container" class="glass" style="display: none; margin-top: 3rem; padding: 3rem; border-radius: 30px; border: 1px solid var(--primary);">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 1rem;">
+                            <span class="mono" style="color: #a59cff; font-size: 0.8rem; letter-spacing: 2px;">PREVIEW RENDER (INLINE HTML TAKES PRIORITY)</span>
+                            <button type="button" onclick="document.getElementById('cs-preview-container').style.display = 'none'" class="action-btn" style="border-color: #ef4444; color: #ef4444;">Close Preview ✕</button>
+                        </div>
+                        <h1 id="preview-h1" style="font-size: 2.5rem; font-weight: 900; margin-bottom: 1.5rem;"></h1>
+                        <img id="preview-hero" src="" style="width: 100%; max-height: 400px; object-fit: cover; border-radius: 15px; margin-bottom: 2rem; display: none;">
+                        <div id="preview-body" style="font-family: 'Hanken Grotesk', sans-serif; line-height: 1.8;"></div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -654,6 +668,31 @@
                 body.innerHTML = '<tr><td colspan="5" style="text-align: center; padding: 3rem; color: var(--text-secondary);">System connection error or no bookings found.</td></tr>';
             }
         }
+        function previewCaseStudy() {
+            const content = document.getElementById('cs-content').value;
+            const h1 = document.getElementById('cs-h1-title').value;
+            const hero = document.getElementById('cs-hero-url').value;
+            
+            document.getElementById('preview-h1').innerText = h1 || 'Untitled Case Study';
+            
+            const heroImg = document.getElementById('preview-hero');
+            if (hero) {
+                heroImg.src = hero;
+                heroImg.style.display = 'block';
+            } else {
+                heroImg.style.display = 'none';
+            }
+
+            // This sets the innerHTML, automatically parsing any inline HTML tags or styles
+            // injected by the user, giving them priority as standard browser behavior.
+            document.getElementById('preview-body').innerHTML = content || '<p style="color: var(--text-secondary);">No content added yet...</p>';
+            
+            document.getElementById('cs-preview-container').style.display = 'block';
+            
+            // Scroll to preview
+            document.getElementById('cs-preview-container').scrollIntoView({ behavior: 'smooth' });
+        }
+
         function checkSEO() {
             const title = document.getElementById('cs-seo-title').value;
             const h1 = document.getElementById('cs-h1-title').value;
@@ -732,12 +771,29 @@
             btn.innerText = 'Publishing...';
             btn.disabled = true;
             
-            // Here you would integrate with Supabase to save the case study
-            setTimeout(() => {
+            const currentYear = new Date().getFullYear();
+            const expYears = currentYear - 2023;
+
+            const payload = {
+                keyword: document.getElementById('cs-keyword').value,
+                seo_title: document.getElementById('cs-seo-title').value,
+                h1_title: document.getElementById('cs-h1-title').value,
+                meta_description: document.getElementById('cs-meta-desc').value,
+                hero_image_url: document.getElementById('cs-hero-url').value,
+                content: document.getElementById('cs-content').value,
+                author_experience_years: expYears
+            };
+
+            const { data, error } = await db.from('hh_case_studies').insert([payload]);
+
+            if (error) {
+                alert("Error publishing: " + error.message);
+                btn.innerText = 'SEO Checks Failing';
+            } else {
                 alert("Success: Case study published and SEO optimized!");
                 e.target.reset();
                 checkSEO();
-            }, 1000);
+            }
         };
     </script>
 </body>
