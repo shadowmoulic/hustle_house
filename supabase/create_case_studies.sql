@@ -4,6 +4,7 @@ CREATE TABLE IF NOT EXISTS public.hh_case_studies (
     id UUID DEFAULT extensions.uuid_generate_v4() PRIMARY KEY,
     created_at TIMESTAMP WITH TIME ZONE DEFAULT timezone('utc'::text, now()) NOT NULL,
     keyword TEXT NOT NULL,
+    url_slug TEXT NOT NULL UNIQUE,
     seo_title TEXT NOT NULL,
     h1_title TEXT NOT NULL,
     meta_description TEXT NOT NULL,

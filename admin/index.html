@@ -265,8 +265,14 @@
                             <div style="display: flex; justify-content: space-between;">
                                 <label class="query-label">H1 Title (Page Header)</label>
                             </div>
-                            <input type="text" id="cs-h1-title" required class="query-input" placeholder="Different from SEO title..." oninput="checkSEO()">
+                            <input type="text" id="cs-h1-title" required class="query-input" placeholder="Different from SEO title..." oninput="generateSlug(); checkSEO()">
                             <div id="cs-h1-error" style="color: #ef4444; font-size: 0.8rem; margin-top: 0.5rem; display: none;">H1 Title must not be exactly the same as SEO Title.</div>
+                        </div>
+
+                        <div style="grid-column: span 2;">
+                            <label class="query-label">URL Slug</label>
+                            <input type="text" id="cs-url-slug" required class="query-input" placeholder="e.g. b2b-saas-seo-strategy" oninput="checkSEO()">
+                            <div style="font-size: 0.8rem; color: var(--text-secondary); margin-top: 0.5rem;">Auto-generated from H1, but you can edit it manually. Keep it lowercase with hyphens.</div>
                         </div>
 
                         <div style="grid-column: span 2;">
@@ -284,11 +290,23 @@
                         </div>
 
                         <div style="grid-column: span 2;">
+                            <div style="background: rgba(34, 197, 94, 0.1); border: 1px solid rgba(34, 197, 94, 0.2); padding: 1.5rem; border-radius: 12px; margin-bottom: 1.5rem;">
+                                <h4 style="color: #22c55e; margin-bottom: 0.5rem; display: flex; align-items: center; gap: 0.5rem;">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+                                    Writer Guidelines & Best Practices
+                                </h4>
+                                <ul style="color: var(--text-secondary); font-size: 0.9rem; margin-left: 1.5rem; line-height: 1.6;">
+                                    <li><strong>No H1 needed:</strong> The blog title (H1) is automatically added at the top. Use <code>&lt;h2&gt;</code> and <code>&lt;h3&gt;</code> for sections.</li>
+                                    <li><strong>Keyword Density:</strong> Mention the target keyword naturally in the first 100 words and within at least one <code>&lt;h2&gt;</code>.</li>
+                                    <li><strong>Scannability:</strong> Use short paragraphs (2-3 sentences), bullet points, and bold text for emphasis.</li>
+                                    <li><strong>Inline Styling:</strong> You can use standard HTML inline styles (e.g., <code>&lt;span style="color: red;"&gt;</code>) which will take priority over site defaults.</li>
+                                </ul>
+                            </div>
                             <div style="display: flex; justify-content: space-between;">
                                 <label class="query-label">Content (HTML / WYSIWYG)</label>
                                 <span id="cs-keyword-status" style="font-size: 0.8rem; color: #ef4444;">Keyword not found</span>
                             </div>
-                            <textarea id="cs-content" required class="query-input" placeholder="<h1>Section</h1><p>Content goes here...</p>" style="min-height: 300px; font-family: monospace;" oninput="checkSEO()"></textarea>
+                            <textarea id="cs-content" required class="query-input" placeholder="<h2>Introduction</h2><p>Content goes here...</p>" style="min-height: 300px; font-family: monospace;" oninput="checkSEO()"></textarea>
                         </div>
 
                         <div style="grid-column: span 2; display: flex; gap: 1rem;">
@@ -693,6 +711,12 @@
             document.getElementById('cs-preview-container').scrollIntoView({ behavior: 'smooth' });
         }
 
+        function generateSlug() {
+            const h1 = document.getElementById('cs-h1-title').value;
+            const slugInput = document.getElementById('cs-url-slug');
+            slugInput.value = h1.toLowerCase().trim().replace(/[\s\W-]+/g, '-').replace(/^-+|-+$/g, '');
+        }
+
         function checkSEO() {
             const title = document.getElementById('cs-seo-title').value;
             const h1 = document.getElementById('cs-h1-title').value;
@@ -776,6 +800,7 @@
 
             const payload = {
                 keyword: document.getElementById('cs-keyword').value,
+                url_slug: document.getElementById('cs-url-slug').value,
                 seo_title: document.getElementById('cs-seo-title').value,
                 h1_title: document.getElementById('cs-h1-title').value,
                 meta_description: document.getElementById('cs-meta-desc').value,
